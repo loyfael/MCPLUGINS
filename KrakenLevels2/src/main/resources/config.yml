@@ -1,0 +1,255 @@
+# ================================
+# KrakenLevels Configuration
+# ================================
+#
+# Please leave a rating on our spigot resource page!
+#
+# If you found any bugs or have any question feel free to ask us
+# on our discord support server.
+# Discord: https://discord.gg/vHqQfsF
+#
+# Commands & Permissions:
+# - /levels - open up the GUI. (No permission)
+# - /levels notification - toggle notification progress (krakenlevels.notification)
+# - /levels admin - shows the help messages. (krakenlevels.admin)
+# - /levels set <player> <level> - set players level (krakenlevels.admin)
+# - /levels stopmission - stop any missions. (krakenlevels.stopmission)
+#
+# Placeholders:
+# - %krakenlevels_level% - return players level
+# - %krakenlevels_nextlevel% - return players next level
+# - %krakenlevels_cost% - return current players level cost
+# - %krakenlevels_nextcost% - return next players level cost
+# - %krakenlevels_cost_formatted% - return current players level cost with decimal
+# - %krakenlevels_nextcost_formatted% - return next players level cost with decimal.
+# - %krakenlevels_isonmaxlevel% - return "yes" if player is on max level.
+# - %krakenlevels_tasktype% - return the nextlevel task type.
+# - %krakenlevels_progress% - show progress amount on missions.
+# - %krakenlevels_currentprogress% - show current progress of player have
+# - %krakenlevels_isonmission% - return "yes" if player is on mission.
+# - %krakenlevels_displaylevel% - return the placeholder that are on the config.
+# - %krakenlevels_displaynextlevel% - return the next level placeholder that are on the config.
+
+# ================================
+# Database configuration
+# ================================
+database:
+  # Use MongoDB instead of YAML storage
+  use-mongodb: true
+  # Enable caching for performance
+  enable-cache: true
+
+# ================================
+# Cross-server synchronization
+# ================================
+synchronization:
+  # Enable cross-server synchronization
+  enabled: true
+  
+  # Automatic synchronization
+  auto-sync:
+    on-join: true
+    on-quit: true
+  
+  # Synchronization intervals
+  intervals:
+    # Periodic sync interval (milliseconds)
+    periodic-sync: 300000  # 5 minutes
+    # Change Streams check interval (milliseconds)
+    change-stream-check: 1000  # 1 second
+  
+  # Conflict resolution
+  conflict-resolution:
+    strategy: "latest-wins"
+
+# ================================
+# Server configuration
+# ================================
+server:
+  # Unique name of this server (CHANGE THIS on each server!)
+  # Examples: "survival-1", "creative-1", "prison-1", "lobby-1"
+  name: "lobby"
+
+# ================================
+# MongoDB configuration (local defaults)
+# ================================
+mongodb:
+  # MongoDB server address
+  host: localhost
+  
+  # Connection port (default: 27017)
+  port: 27017
+  
+  # Database name
+  database: krakenlevels
+  
+  # Authentication (leave empty if not used)
+  username: ""
+  password: ""
+  
+  # Connection options
+  connection:
+    # Connection timeout in milliseconds
+    timeout: 5000
+    
+    # Automatic cleanup of old sessions (hours)
+    cleanup-interval: 24
+
+# ================================
+# GUI configuration
+# ================================
+gui:
+  title: "&8&lLevels - KrakenLevels"
+  rows: 6
+  # Navigation buttons
+  navigation:
+    next-page:
+      material: arrow
+      amount: 1
+      name: "&a&lNext Page -->"
+    previous-page:
+      material: arrow
+      amount: 1
+      name: "&c&l<-- Previous Page"
+    current-page:
+      material: head;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzAyODlkNWQxMzAxYjRlMTk2N2FmZWYzMWNjZjkyNmQ4MTk1MWE2YTY1OGU5YTYyYzU0Yzk5MmYxYjlhOTg5NCJ9fX0=
+      amount: 1
+      name: "&e&lPage {currentPage} of {maxPages}"
+    close:
+      material: barrier
+      amount: 1
+      name: "&c&lClose"
+
+  # Level up button (economy)
+  levelup-button:
+    material: head;%player_name%
+    amount: 1
+    name: "&e&lLevel Up!"
+    lore:
+    - "&fYour Balance: &a{economy_balance}"
+    - "&fYour XP: &a{player_exp}"
+    - ""
+    - "&eCost: &a{level_cost}"
+    - "&eLevel: &c{current_level} &a-> &a{next_level}"
+    - ""
+    - "&e&lLEFT CLICK &fto level up"
+
+  # Missions button
+  missions-button:
+    material: head;%player_name%
+    amount: 1
+    name: "&e&lMissions"
+    lore:
+    - "&fType: &a{mission_type}"
+    - "&fProgress: &a{current_progress} / {required_progress}"
+    - ""
+    - "&eLevel: &c{current_level} &a-> &a{next_level}"
+    - ""
+    - "&e&lLEFT CLICK &fto start the mission!"
+
+  # Level completed button
+  level-completed:
+    material: head;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==
+    amount: 1
+    name: "&a&lLevel Completed!"
+    lore:
+    - "&fYou have completed this level."
+    - "&aCongratulations!"
+
+# Sounds configuration
+sounds:
+  level-up:
+    enabled: true
+    name: ENTITY_PLAYER_LEVELUP
+    volume: 1.0
+    pitch: 1.0
+  mission-completed:
+    enabled: true
+    name: ENTITY_EXPERIENCE_ORB_PICKUP
+    volume: 1.0
+    pitch: 1.2
+  mission-progress:
+    enabled: true
+    name: BLOCK_NOTE_BLOCK_PLING
+    volume: 0.5
+    pitch: 1.0
+
+# Titles and subtitles
+titles:
+  level-up:
+    enabled: true
+    title: "&a&lCongratulations!"
+    subtitle: "&7Level {level} reached!"
+    fade-in: 10
+    stay: 40
+    fade-out: 10
+  mission-completed:
+    enabled: true
+    title: "&e&lMission Completed!"
+    subtitle: "&7Next level unlocked"
+    fade-in: 10
+    stay: 30
+    fade-out: 10
+
+# Notifications
+notifications:
+  # Show mission progress notifications
+  show-progress: true
+  # Show level up notifications
+  show-levelup: true
+  # Use action bar for notifications
+  use-actionbar: true
+
+# Permissions
+permissions:
+  # Default player permissions
+  default-permissions:
+    - krakenlevels.use
+    - krakenlevels.gui
+  # Admin permissions
+  admin-permissions:
+    - krakenlevels.admin
+    - krakenlevels.reload
+    - krakenlevels.set
+
+# Placeholders configuration
+placeholders:
+  # Format for cost display
+  cost-format: "{cost} coins"
+  # Format for level display
+  level-format: "Level {level}"
+  # Format for progress display
+  progress-format: "{current}/{required}"
+
+# Debug configuration
+debug:
+  enabled: false
+  log-level: INFO
+
+# ================================
+# System configuration
+# ================================
+system:
+  # Use MongoDB instead of YAML files
+  use-mongodb: true
+
+  # Auto save (minutes)
+  auto-save: 5
+  
+  # Optimized save strategy
+  save-strategy:
+    # Save mode: "immediate" or "delayed"
+    mode: "delayed"
+    # Delayed save interval in seconds (0 = only on logout)
+    interval: 0
+    # Force save after X actions to avoid data loss
+    max-actions-before-save: 50
+
+  # In-memory data cache
+  cache:
+    enabled: true
+    # Cache lifetime in milliseconds
+    lifetime: 300000  # 5 minutes
+
+  # Debug mode
+  debug: false

@@ -1,0 +1,6 @@
+name: LoyFlightImproved
+version: 1.0
+main: loyfael.Main
+api-version: 1.19
+description: Plugin pour booster les elytres avec clic droit
+author: Loyfael

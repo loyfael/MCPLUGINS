@@ -1,0 +1,84 @@
+name: KrakenLevels
+version: 1.0-SNAPSHOT
+main: loyfael.Main
+api-version: 1.21.8
+author: Loyfael
+description: Advanced level system plugin for Minecraft
+website: https://github.com/loyfael/KrakenLevels
+
+# Optional dependencies
+softdepend:
+  - PlaceholderAPI
+  - Vault
+  - LuckPerms
+
+# Plugin commands
+commands:
+  mission:
+    description: Main command for KrakenLevels
+    usage: /mission [info|reset|set|testsync|player] [arguments...]
+    aliases: [missions]
+    permission: krakenlevels.use
+
+# Plugin permissions
+permissions:
+  # User permissions
+  krakenlevels.use:
+    description: Basic permission to use the plugin
+    default: true
+
+  krakenlevels.gui:
+    description: Permission to open the GUI
+    default: true
+
+  krakenlevels.notification:
+    description: Permission to toggle notifications
+    default: true
+
+  # Admin permissions
+  krakenlevels.admin:
+    description: Full admin permission
+    default: op
+    children:
+      krakenlevels.set: true
+      krakenlevels.reload: true
+      krakenlevels.stopmission: true
+      krakenlevels.test: true
+      krakenlevels.testsync: true
+
+  krakenlevels.test:
+    description: Permission to use test commands
+    default: op
+
+  krakenlevels.testsync:
+    description: Permission to use synchronization test commands
+    default: op
+
+  krakenlevels.set:
+    description: Permission to set players' levels
+    default: op
+
+  krakenlevels.reset:
+    description: Permission to reset players
+    default: op
+
+  krakenlevels.admin.player:
+    description: Permission to view player levels per server
+    default: op
+
+  krakenlevels.reload:
+    description: Permission to reload the plugin
+    default: op
+
+  krakenlevels.stopmission:
+    description: Permission to stop missions
+    default: op
+
+  # Special permissions
+  krakenlevels.legend:
+    description: Permission granted to legendary players (max level)
+    default: false
+
+  krakenlevels.bypass:
+    description: Bypass all plugin restrictions
+    default: false

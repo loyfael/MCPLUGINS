@@ -1,0 +1,21 @@
+name: SkySyncro
+main: loyfael.Main
+version: '${project.version}'
+api-version: '1.21'
+author: loyfael
+description: A modern Paper plugin template for Minecraft 1.21+
+website: https://github.com/loyfael/SkySyncro
+
+commands:
+  skysyncro:
+    description: Main command for SkySyncro plugin
+    usage: /skysyncro [reload|info]
+    permission: skysyncro.use
+
+permissions:
+  skysyncro.use:
+    description: Basic permission to use SkySyncro commands
+    default: true
+  skysyncro.admin:
+    description: Administrative permission for SkySyncro
+    default: op

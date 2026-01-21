@@ -1,0 +1,18 @@
+name: LoyChatFillCommand
+version: 1.0.0
+main: loyfael.Main
+api-version: 1.21
+description: Plugin pour pré-remplir la barre de chat d'un joueur
+author: loyfael
+
+commands:
+  chatfill:
+    description: Remplit la barre de chat d'un joueur avec du texte
+    usage: /<command> <joueur> <message d'entrée> <commande/message> [lore]
+    permission: chatfill.use
+    permission-message: Vous n'avez pas la permission d'utiliser cette commande.
+
+permissions:
+  chatfill.use:
+    description: Permet d'utiliser la commande chatfill
+    default: op

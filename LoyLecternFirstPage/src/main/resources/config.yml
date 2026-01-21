@@ -1,0 +1,4 @@
+# Configuration for LoyLecternFirstPage plugin
+# World name where the lectern functionality will be active
+# Leave empty ("") to activate for ALL worlds
+world-name: "tuto"

@@ -1,0 +1,6 @@
+name: LoyCompassMenu
+version: 1.0
+main: loyfael.Main
+api-version: 1.21
+description: Plugin qui exécute /menu au clic droit avec une boussole
+author: Loyfael

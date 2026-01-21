@@ -1,0 +1,64 @@
+# ===========================================
+# Fichier de Configuration LiteFish
+# ===========================================
+
+# Configuration Base de Données
+database:
+  enabled: false
+  type: SQLITE  # SQLITE ou MYSQL
+  host: localhost
+  port: 3306
+  database: litefish
+  username: root
+  password: ""
+
+# Paramètres Généraux
+general:
+  check-updates: true
+  auto-sell: false
+  sound-effects: true
+  particle-effects: true
+
+# Mécaniques de Pêche
+fishing:
+  # Si true, seuls les drops personnalisés seront donnés (pas de poissons vanilla)
+  custom-drops-only: false
+  # Donner l'expérience vanilla lors de l'attrapé de poissons
+  vanilla-exp: true
+  # Plages de temps pour la pêche (en secondes)
+  min-fishing-time: 5
+  max-fishing-time: 30
+  # Enable fishing difficulty system
+  difficulty-enabled: true
+  # Enable mini-game during fishing
+  mini-game-enabled: true
+  # Chance for mini-game to trigger in normal water fishing
+  # 0.0 = never (100% vanilla), 0.30 = 30% mini-game/70% vanilla, 1.0 = always mini-game
+  mini-game-chance: 0.30
+  # Allow fishing in lava
+  lava-fishing-enabled: true
+  # Allow fishing in the void
+  void-fishing-enabled: true
+
+# Economy Settings
+economy:
+  enabled: true
+  sell-multiplier: 1.0
+  auto-sell-inventory-full: false
+
+# Tournament Settings
+tournaments:
+  enabled: true
+  auto-start: false
+  broadcast-interval: 300  # seconds
+
+# WorldGuard Integration
+worldguard:
+  enabled: true
+  respect-fishing-flag: true
+
+# Nexo Integration
+nexo:
+  enabled: true
+  custom-baits: true
+  custom-rods: true

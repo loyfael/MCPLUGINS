@@ -1,0 +1,75 @@
+# Configuration pour MyPlugin
+# Ne modifiez cette section que si vous savez ce que vous faites
+config-version: 1
+
+# === PARAMÈTRES GÉNÉRAUX ===
+general:
+  # Langue du plugin (fr, en)
+  language: "fr"
+  
+  # Préfixe des messages du plugin
+  prefix: "&8[&bMyPlugin&8] &r"
+  
+  # Activer les messages de debug dans la console
+  debug: false
+  
+  # Vérifier les mises à jour au démarrage
+  check-updates: true
+
+# === BASE DE DONNÉES ===
+database:
+  # Type de base de données : sqlite ou mysql
+  type: "sqlite"
+  
+  # Paramètres SQLite (utilisés si type = sqlite)
+  sqlite:
+    file: "data.db"
+  
+  # Paramètres MySQL (utilisés si type = mysql)
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "myplugin"
+    username: "root"
+    password: "password"
+    
+    # Paramètres de connexion
+    connection:
+      # Pool de connexions
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+# === MESSAGES ===
+messages:
+  # Messages généraux
+  no-permission: "&cVous n'avez pas la permission d'utiliser cette commande !"
+  player-only: "&cCette commande ne peut être utilisée que par un joueur !"
+  reload-success: "&aConfiguration rechargée avec succès !"
+  
+  # Messages d'erreur
+  error:
+    unknown-command: "&cCommande inconnue ! Utilisez &e/myplugin help &cpour voir les commandes disponibles."
+    database-error: "&cUne erreur est survenue lors de l'accès à la base de données !"
+  
+  # Messages d'aide
+  help:
+    header: "&8&m-----------&r &bAide MyPlugin &8&m-----------"
+    footer: "&8&m-----------------------------------------"
+    commands:
+      - "&e/myplugin help &8- &7Affiche cette aide"
+      - "&e/myplugin reload &8- &7Recharge la configuration"
+      - "&e/myplugin info &8- &7Informations sur le plugin"
+
+# === PARAMÈTRES AVANCÉS ===
+advanced:
+  # Intervalle de sauvegarde automatique (en minutes)
+  auto-save-interval: 5
+  
+  # Taille maximale du cache
+  cache-size: 1000
+  
+  # Activer les métriques bStats
+  enable-metrics: true

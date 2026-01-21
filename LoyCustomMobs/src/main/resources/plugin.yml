@@ -1,0 +1,24 @@
+name: LoyCustomMobs
+main: loyfael.LoyCustomMobs
+version: '${project.version}'
+api-version: '1.21'
+author: loyfael
+description: A modern Paper plugin for custom mobs with unique abilities and behaviors.
+website: https://github.com/loyfael/LoyCustomMobs
+
+commands:
+  loycustommobs:
+    description: Main command for LoyCustomMobs plugin
+    usage: /loycustommobs [help|reload|spawn|remove|list|stats]
+    permission: loycustommobs.admin
+    aliases: [lcm, custommobs]
+
+permissions:
+  loycustommobs.admin:
+    description: Administrative permission for LoyCustomMobs
+    default: op
+    children:
+      - loycustommobs.use
+  loycustommobs.use:
+    description: Basic permission to use LoyCustomMobs commands
+    default: true

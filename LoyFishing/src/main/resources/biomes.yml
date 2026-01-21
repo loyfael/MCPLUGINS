@@ -1,0 +1,83 @@
+# ===========================================
+# LiteFish Biomes Configuration
+# ===========================================
+
+biomes:
+  # Ocean Biomes
+  OCEAN:
+    name: "Ocean"
+    color: "#3F76E4"
+    monster-chance: 15
+
+  DEEP_OCEAN:
+    name: "Deep Ocean"
+    color: "#1A4A8A"
+    monster-chance: 25
+
+  FROZEN_OCEAN:
+    name: "Frozen Ocean"
+    color: "#7DC5FF"
+    monster-chance: 20
+
+  WARM_OCEAN:
+    name: "Warm Ocean"
+    color: "#5FB3FF"
+    monster-chance: 10
+
+  LUKEWARM_OCEAN:
+    name: "Lukewarm Ocean"
+    color: "#4A9FFF"
+    monster-chance: 12
+
+  COLD_OCEAN:
+    name: "Cold Ocean"
+    color: "#2A6FFF"
+    monster-chance: 18
+
+  # River Biomes
+  RIVER:
+    name: "River"
+    color: "#0084FF"
+    monster-chance: 5
+
+  FROZEN_RIVER:
+    name: "Frozen River"
+    color: "#B8E6FF"
+    monster-chance: 8
+
+  # Swamp Biomes
+  SWAMP:
+    name: "Swamp"
+    color: "#4A7C59"
+    monster-chance: 30
+
+  MANGROVE_SWAMP:
+    name: "Mangrove Swamp"
+    color: "#6B8E5A"
+    monster-chance: 25
+
+  # Nether Biomes (Lava Fishing)
+  NETHER_WASTES:
+    name: "Nether Wastes"
+    color: "#8B0000"
+    monster-chance: 40
+
+  CRIMSON_FOREST:
+    name: "Crimson Forest"
+    color: "#DC143C"
+    monster-chance: 35
+
+  WARPED_FOREST:
+    name: "Warped Forest"
+    color: "#148B8B"
+    monster-chance: 30
+
+  SOUL_SAND_VALLEY:
+    name: "Soul Sand Valley"
+    color: "#4A4A4A"
+    monster-chance: 50
+
+  BASALT_DELTAS:
+    name: "Basalt Deltas"
+    color: "#2F2F2F"
+    monster-chance: 45

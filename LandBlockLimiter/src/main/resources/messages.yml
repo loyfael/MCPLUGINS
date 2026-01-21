@@ -1,0 +1,34 @@
+# LandsBlockLimiter Messages
+# Use & for Minecraft color codes
+
+# Error and limit messages
+limit_reached: "&cYou cannot place more than &e{limit} &c{block} &cin this land."
+limit_reached_total: "&cThis land already has &e{current}/{limit} &c{block}. Cannot place more!"
+limit_reached_physical: "&c&lLimite atteinte ! &cVous avez atteint la limite de &e{block}&c dans cette parcelle (limite: &e{limit}&c)."
+no_permission: "&cYou don't have permission to use this command."
+
+# Command messages
+plugin_info_header: "&6=== LandsBlockLimiter v{version} ==="
+plugin_info_author: "&7By {author}"
+plugin_info_reload: "&e/lbl reload &7- Reload configuration"
+plugin_info_scan: "&e/lbl scan [landId] &7- Rescan blocks in land"
+config_reloaded: "&aConfiguration reloaded successfully!"
+reload_error: "&cError while reloading configuration: {error}"
+unknown_command: "&cUnknown command. Use &e/lbl &cto see help."
+scan_started: "&aStarting block scan for land &e{landName}&a..."
+scan_completed: "&aBlock scan completed for land &e{landName}&a. Found &e{totalBlocks} &alimited blocks."
+scan_error: "&cError during block scan: {error}"
+land_not_found: "&cLand with ID &e{landId} &cnot found."
+
+# Startup/shutdown messages
+plugin_enabled: "&aLandsBlockLimiter v{version} enabled successfully!"
+block_limits_loaded: "&aBlock limits loaded: {count}"
+plugin_disabled: "&cLandsBlockLimiter disabled."
+lands_not_found: "&cLands is not installed. Disabling LandsBlockLimiter."
+
+# Debug messages (console only)
+debug_block_added: "Block added: {material} for {player} in land {landId}. Total: {count}"
+debug_block_removed: "Block removed: {material} for {player} in land {landId}. Total: {count}"
+debug_placement_blocked: "Placement blocked: {player} tried to place {material} in {landName} (limit: {limit})"
+debug_cache_initialized: "Cache initialized for land {landId} ({landName})"
+debug_config_reloaded: "Configuration reloaded by {player}"

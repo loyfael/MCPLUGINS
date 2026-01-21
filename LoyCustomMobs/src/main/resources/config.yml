@@ -1,0 +1,269 @@
+# ===============================================
+# LoyCustomMobs - Configuration Optimisée
+# Version 2.0.0 - Production Ready
+# ===============================================
+
+# Plugin global settings
+plugin:
+  debug: false
+  metrics: false
+  auto-update-check: false
+  language: "en"
+
+# Performance settings
+performance:
+  # Cache settings
+  cache:
+    enabled: true
+    max-size: 500
+    expire-time: 180000 # 3 minutes in ms
+    cleanup-interval: 120 # seconds
+
+  # Thread pool settings
+  async:
+    core-threads: 1
+    max-threads: 2
+    queue-size: 50
+
+  # Performance limits
+  limits:
+    max-mobs-per-world: 20
+    max-mobs-per-chunk: 2
+    max-abilities-per-mob: 4
+    ability-cooldown-reduction: 1.0
+
+# Custom mob settings
+mobs:
+  enabled: true
+  spawn-chance: 0.1 # 8% chance (légère hausse pour dynamiser les rencontres)
+
+  # Entity types that can become custom mobs
+  allowed-entities:
+    - ZOMBIE
+    - SKELETON
+    - CREEPER
+    - SPIDER
+    - ENDERMAN
+    - WITCH
+
+  # Worlds where custom mobs are disabled
+  disabled-worlds:
+    - "lobby"
+    - "spawn"
+
+  # Health scaling
+  health:
+    enabled: true
+    multiplier-by-rarity:
+      COMMON: 1.2
+      UNCOMMON: 1.5
+      RARE: 2.0
+      EPIC: 2.5
+      LEGENDARY: 3.0
+      MYTHIC: 4.0
+
+  # Rarity chances (réduit pour moins de spawn)
+  rarity-weights:
+    COMMON: 50      # 50%
+    UNCOMMON: 25    # 25%
+    RARE: 15        # 15%
+    EPIC: 7         # 7%
+    LEGENDARY: 2.5  # 2.5%
+    MYTHIC: 0.5     # 0.5%
+
+# Ability system
+abilities:
+  enabled: true
+
+  # Global ability settings
+  cooldown-multiplier: 0.8
+  damage-multiplier: 1.0
+  range-multiplier: 1.0
+
+  # Individual ability settings
+  settings:
+    arrow_homing:
+      enabled: true
+      cooldown: 30
+      max-range: 15
+    explosive:
+      enabled: true
+      cooldown: 45
+      damage: 4
+      radius: 3
+    electric:
+      enabled: true
+      cooldown: 60
+      chain-range: 4
+      damage: 3
+    freezing:
+      enabled: true
+      cooldown: 50
+      duration: 60
+    teleport:
+      enabled: true
+      cooldown: 80
+      max-distance: 10
+    withering:
+      enabled: true
+      cooldown: 30
+      duration: 100
+      level: 1
+    blinding:
+      enabled: true
+      cooldown: 45
+      duration: 80
+    necromancer:
+      enabled: true
+      cooldown: 150
+      max-minions: 2
+      minion-health-multiplier: 0.4
+    sapper:
+      enabled: true
+      cooldown: 60
+      drain-amount: 2
+      heal-percentage: 50
+    confusing:
+      enabled: true
+      cooldown: 80
+      nausea-duration: 100
+      slowness-duration: 60
+    ghastly:
+      enabled: true
+      cooldown: 90
+      fireball-yield: 1.2
+    tosser:
+      enabled: true
+      cooldown: 45
+      knockback-strength: 1.5
+    gravity:
+      enabled: true
+      cooldown: 90
+      levitation-duration: 100
+      levitation-level: 1
+    ender:
+      enabled: true
+      cooldown: 80
+      max-distance: 25
+      min-distance: 5
+    vampiric:
+      enabled: true
+      cooldown: 80
+      heal-percentage: 8.0
+      wither-duration: 60
+      hunger-duration: 100
+    storm_caller:
+      enabled: true
+      cooldown: 140
+      damage: 2.0
+      slowness-duration: 60
+      glowing-duration: 120
+    bulwark:
+      enabled: true
+      cooldown: 120
+      absorption-cap: 18.0
+      resistance-duration: 100
+      slowness-duration: 40
+    toxic_cloud:
+      enabled: true
+      cooldown: 20
+      radius: 3.5
+      poison-duration: 100
+      nausea-duration: 120
+    shadowstep:
+      enabled: true
+      cooldown: 80
+      slow-duration: 60
+    seismic_slam:
+      enabled: true
+      cooldown: 140
+      radius: 6
+    sandstorm:
+      enabled: true
+      cooldown: 180
+      radius: 10
+    frenzy:
+      enabled: true
+      cooldown: 160
+      strength-level: 2
+    thorn_burst:
+      enabled: true
+      cooldown: 20
+      radius: 5
+    starlight_veil:
+      enabled: true
+      absorption-level: 2
+      duration: 1200
+    abyssal_chain:
+      enabled: true
+      cooldown: 100
+      pull-strength: 1.4
+    umbral_shroud:
+      enabled: true
+      cooldown: 120
+      darkness-duration: 80
+
+# Loot system
+loot:
+  enhanced-drops: true
+  bonus-drop-chance: 0.4 # 40% chance
+  max-bonus-drops: 4
+
+  # Experience multipliers by rarity
+  experience-multipliers:
+    COMMON: 2
+    UNCOMMON: 3
+    RARE: 5
+    EPIC: 8
+    LEGENDARY: 12
+    MYTHIC: 20
+
+  # Rare drop chances
+  rare-drops:
+    enabled: true
+    chances:
+      COMMON: 0.05    # 5%
+      UNCOMMON: 0.10  # 10%
+      RARE: 0.20      # 20%
+      EPIC: 0.35      # 35%
+      LEGENDARY: 0.50 # 50%
+      MYTHIC: 0.75    # 75%
+
+# GUI system
+gui:
+  boss-bar:
+    enabled: false
+    title: "&c{rarity} {type}"
+    update-interval: 20 # ticks
+    hide-distance: 30
+
+  proximity-distance: 25.0
+
+# Database settings (for future persistence)
+database:
+  enabled: false
+  type: "sqlite" # sqlite, mysql
+  auto-save-interval: 300 # seconds
+
+  # MySQL settings (if type is mysql)
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "loycustommobs"
+    username: "user"
+    password: "password"
+
+# Advanced settings
+advanced:
+  # Compatibility settings
+  compatibility:
+    citizens: false
+    mythicmobs: false
+    worldguard: false
+
+  # Debug settings
+  debug:
+    log-spawns: false
+    log-abilities: false
+    log-performance: false
+    verbose-errors: false

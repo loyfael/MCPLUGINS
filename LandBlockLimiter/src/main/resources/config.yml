@@ -1,0 +1,45 @@
+# LandsBlockLimiter Plugin Configuration
+# Defines block limits per land
+
+# Format: "blockName:limit"
+# Use Minecraft Material names (e.g., HOPPER, CHEST, BEACON)
+blocks:
+  - "HOPPER:40"
+  - "CHEST:100"
+  - "BEACON:5"
+  - "SPAWNER:10"
+  - "FURNACE:70"
+  - "BLAST_FURNACE:25"
+  - "SMOKER:25"
+
+# Translation of block names for messages
+# If a block is not translated here, the English name will be used
+block_translations:
+  HOPPER: "hopper"
+  CHEST: "chest"
+  BEACON: "beacon"
+  SPAWNER: "monster_spawner"
+  FURNACE: "furnace"
+  BLAST_FURNACE: "blast_furnace"
+  SMOKER: "smoker"
+  SHULKER_BOX: "shulker_box"
+  BARREL: "barrel"
+  BREWING_STAND: "brewing_stand"
+
+# Advanced settings
+settings:
+  # Display debug messages in console
+  debug: true
+  # Check build permissions before applying limits
+  check_build_permissions: true
+
+# Performance settings - Adjust based on your server capacity
+performance:
+  # Cache expiry time in minutes (how long to keep scan results)
+  cache_expiry_minutes: 5
+  # Maximum chunks to scan per server tick (lower = less lag, slower scanning)
+  max_chunks_per_tick: 2
+  # Scan worker interval in server ticks (10 = every 0.5 seconds)
+  scan_interval_ticks: 10
+  # Enable async scanning (recommended: true)
+  async_scanning: true

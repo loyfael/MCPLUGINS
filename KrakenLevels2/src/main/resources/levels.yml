@@ -1,0 +1,90 @@
+# ================================
+# KrakenLevels - Minimal Levels Examples (English)
+# One example for each supported action: kills, blockbreak, blockplace, fish, currency
+# ================================
+levels:
+  1:
+    name: "&a&lLevel 1 - Zombie Hunter"
+    material: "iron_sword"
+    enchanted: false
+    description: "Defeat zombies to secure the area."
+    type:
+      name: "kills"
+      amount: 5
+      mob: "zombie"
+    rewards:
+      commands:
+        - "xp add %player% 1 levels"
+      rewards-message:
+        - "tellraw %player% \"§a✓ §fYou completed Level 1 - Zombie Hunter!\""
+      broadcast: true
+      broadcast-message:
+        - "&a&l[Adventurer] &e%player% &fjust completed &a&lLevel 1 - Zombie Hunter"
+
+  2:
+    name: "&a&lLevel 2 - Coal Miner"
+    material: "stone_pickaxe"
+    enchanted: false
+    description: "Mine coal ore to refill the stock."
+    type:
+      name: "blockbreak"
+      amount: 10
+      material: "coal_ore"
+    rewards:
+      commands:
+        - "give %player% coal 8"
+      rewards-message:
+        - "tellraw %player% \"§a✓ §fYou completed Level 2 - Coal Miner!\""
+      broadcast: false
+      broadcast-message: []
+
+  3:
+    name: "&a&lLevel 3 - Builder"
+    material: "oak_planks"
+    enchanted: false
+    description: "Place oak planks to fortify defenses."
+    type:
+      name: "blockplace"
+      amount: 10
+      material: "oak_planks"
+    rewards:
+      commands:
+        - "give %player% oak_log 8"
+      rewards-message:
+        - "tellraw %player% \"§a✓ §fYou completed Level 3 - Builder!\""
+      broadcast: true
+      broadcast-message:
+        - "&a&l[Adventurer] &e%player% &fjust completed &a&lLevel 3 - Builder"
+
+  4:
+    name: "&a&lLevel 4 - Fisher"
+    material: "fishing_rod"
+    enchanted: false
+    description: "Catch fresh fish for supplies."
+    type:
+      name: "fish"
+      amount: 5
+    rewards:
+      commands:
+        - "give %player% cooked_cod 4"
+      rewards-message:
+        - "tellraw %player% \"§a✓ §fYou completed Level 4 - Fisher!\""
+      broadcast: false
+      broadcast-message: []
+
+  5:
+    name: "&a&lLevel 5 - Investor"
+    material: "emerald"
+    enchanted: false
+    description: "Invest to support local artisans."
+    type:
+      name: "currency"
+      cost: 100
+    rewards:
+      commands:
+        - "money %player% vault give 50"
+      rewards-message:
+        - "tellraw %player% \"§a✓ §fYou completed Level 5 - Investor!\""
+      broadcast: true
+      broadcast-message:
+        - "&a&l[Adventurer] &e%player% &fjust completed &a&lLevel 5 - Investor"

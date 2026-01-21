@@ -1,0 +1,1379 @@
+# ===========================================
+# LiteFish Drops Configuration
+# ===========================================
+
+drops:
+  # Common Fish - Améliorés
+  cod:
+    display-name: ""
+    material: COD
+    chance: 30.0
+    experience: 8
+    price: 15.0
+    biomes:
+      - "OCEAN"
+      - "COLD_OCEAN"
+      - "DEEP_OCEAN"
+
+  salmon:
+    display-name: ""
+    material: SALMON
+    chance: 25.0
+    experience: 10
+    price: 20.0
+    biomes:
+      - "RIVER"
+      - "FROZEN_RIVER"
+
+  tropical_fish:
+    display-name: ""
+    material: TROPICAL_FISH
+    chance: 20.0
+    experience: 15
+    price: 35.0
+    biomes:
+      - "WARM_OCEAN"
+      - "LUKEWARM_OCEAN"
+
+  pufferfish:
+    display-name: ""
+    material: PUFFERFISH
+    chance: 15.0
+    experience: 20
+    price: 60.0
+    biomes:
+      - "WARM_OCEAN"
+
+  # Rare Ocean Items
+  nautilus_shell:
+    display-name: ""
+    material: NAUTILUS_SHELL
+    chance: 8.0
+    experience: 40
+    price: 200.0
+    biomes:
+      - "OCEAN"
+      - "DEEP_OCEAN"
+
+  heart_of_the_sea:
+    display-name: ""
+    material: HEART_OF_THE_SEA
+    chance: 1.0
+    experience: 100
+    price: 1000.0
+    biomes:
+      - "DEEP_OCEAN"
+
+  slimeball_fishing:
+    display-name: ""
+    material: SLIME_BALL
+    chance: 12.0
+    experience: 25
+    price: 80.0
+    biomes:
+      - "SWAMP"
+
+  prismarine_crystal:
+    display-name: ""
+    material: PRISMARINE_CRYSTALS
+    chance: 5.0
+    experience: 60
+    price: 300.0
+    biomes:
+      - "DEEP_OCEAN"
+
+  # Frozen Waters
+  ice_shard:
+    display-name: ""
+    material: ICE
+    chance: 25.0
+    experience: 15
+    price: 30.0
+    biomes:
+      - "FROZEN_OCEAN"
+      - "FROZEN_RIVER"
+
+  packed_ice_rare:
+    display-name: ""
+    material: PACKED_ICE
+    chance: 10.0
+    experience: 35
+    price: 150.0
+    biomes:
+      - "FROZEN_OCEAN"
+
+  # =====================================
+  # DROPS TERRESTRES (Biomes terrestres)
+  # =====================================
+  
+  forest_apple:
+    display-name: ""
+    material: APPLE
+    chance: 25.0
+    experience: 10
+    price: 15.0
+    biomes:
+      - "FOREST"
+      - "FLOWER_FOREST"
+      - "BIRCH_FOREST"
+      - "DARK_FOREST"
+
+  mountain_iron:
+    display-name: ""
+    material: IRON_INGOT
+    chance: 15.0
+    experience: 25
+    price: 45.0
+    biomes:
+      - "MOUNTAINS"
+      - "MOUNTAIN_EDGE"
+      - "STONE_SHORE"
+
+  # Treasure Items (Ultra Rare - All Biomes)
+  diamond_fishing:
+    display-name: ""
+    material: DIAMOND
+    chance: 0.5
+    experience: 80
+    price: 800.0
+    biomes: []  # Available in all biomes
+
+  emerald_fishing:
+    display-name: ""
+    material: EMERALD
+    chance: 1.0
+    experience: 60
+    price: 600.0
+    biomes: []  # Available in all biomes
+
+  enchanted_book:
+    display-name: ""
+    material: ENCHANTED_BOOK
+    chance: 1.0
+    experience: 50
+    price: 200.0
+    enchantments:
+      RANDOM: true
+    biomes: []
+
+  name_tag:
+    display-name: ""
+    material: NAME_TAG
+    chance: 0.5
+    experience: 30
+    price: 150.0
+    biomes: []
+
+  # Swamp Specific
+
+  # Example Nexo Item (remove if you don't have Nexo)
+  # magical_fish:
+  #   display-name: ""
+  #   material: COD  # Fallback material
+  #   nexo-item: "magical_fish"  # Nexo item ID
+  #   chance: 0.5
+  #   experience: 75
+  #   price: 500.0
+
+  # Lava Fishing Drops - Nether Wastes
+  lava_fish:
+    display-name: ""
+    material: TROPICAL_FISH
+    chance: 35.0
+    experience: 25
+    price: 75.0
+    biomes:
+      - "NETHER_WASTES"
+
+  obsidian_shard:
+    display-name: ""
+    material: OBSIDIAN
+    chance: 20.0
+    experience: 40
+    price: 150.0
+    biomes:
+      - "NETHER_WASTES"
+
+  fire_crystal:
+    display-name: ""
+    material: FIRE_CHARGE
+    chance: 15.0
+    experience: 60
+    price: 300.0
+    biomes:
+      - "NETHER_WASTES"
+
+  molten_gold:
+    display-name: ""
+    material: GOLD_INGOT
+    chance: 10.0
+    experience: 50
+    price: 250.0
+    biomes:
+      - "NETHER_WASTES"
+
+  # Crimson Forest Drops
+  crimson_mushroom_fish:
+    display-name: ""
+    material: CRIMSON_FUNGUS
+    chance: 40.0
+    experience: 30
+    price: 100.0
+    biomes:
+      - "CRIMSON_FOREST"
+
+  crimson_stem_log:
+    display-name: ""
+    material: CRIMSON_STEM
+    chance: 25.0
+    experience: 35
+    price: 120.0
+    biomes:
+      - "CRIMSON_FOREST"
+
+  weeping_vine_rare:
+    display-name: ""
+    material: WEEPING_VINES
+    chance: 15.0
+    experience: 45
+    price: 200.0
+    biomes:
+      - "CRIMSON_FOREST"
+
+  # Warped Forest Drops
+  warped_mushroom_fish:
+    display-name: ""
+    material: WARPED_FUNGUS
+    chance: 40.0
+    experience: 30
+    price: 100.0
+    biomes:
+      - "WARPED_FOREST"
+
+  warped_stem_log:
+    display-name: ""
+    material: WARPED_STEM
+    chance: 25.0
+    experience: 35
+    price: 120.0
+    biomes:
+      - "WARPED_FOREST"
+
+  twisting_vine_rare:
+    display-name: ""
+    material: TWISTING_VINES
+    chance: 15.0
+    experience: 45
+    price: 200.0
+    biomes:
+      - "WARPED_FOREST"
+
+  # Soul Sand Valley Drops
+  soul_fish:
+    display-name: ""
+    material: SOUL_SAND
+    chance: 30.0
+    experience: 40
+    price: 150.0
+    biomes:
+      - "SOUL_SAND_VALLEY"
+
+  soul_fire_torch:
+    display-name: ""
+    material: SOUL_TORCH
+    chance: 25.0
+    experience: 50
+    price: 200.0
+    biomes:
+      - "SOUL_SAND_VALLEY"
+
+  soul_soil_rare:
+    display-name: ""
+    material: SOUL_SOIL
+    chance: 20.0
+    experience: 35
+    price: 100.0
+    biomes:
+      - "SOUL_SAND_VALLEY"
+
+  ghast_tear_fishing:
+    display-name: ""
+    material: GHAST_TEAR
+    chance: 5.0
+    experience: 100
+    price: 500.0
+    biomes:
+      - "SOUL_SAND_VALLEY"
+
+  # Basalt Deltas Drops
+  basalt_fish:
+    display-name: ""
+    material: BASALT
+    chance: 35.0
+    experience: 35
+    price: 125.0
+    biomes:
+      - "BASALT_DELTAS"
+
+  blackstone_rare:
+    display-name: ""
+    material: BLACKSTONE
+    chance: 25.0
+    experience: 40
+    price: 150.0
+    biomes:
+      - "BASALT_DELTAS"
+
+  magma_cream_fishing:
+    display-name: ""
+    material: MAGMA_CREAM
+    chance: 15.0
+    experience: 60
+    price: 300.0
+    biomes:
+      - "BASALT_DELTAS"
+
+  # Ultra Rare Nether Drops (All Nether Biomes)
+  ancient_debris_fishing:
+    display-name: ""
+    material: ANCIENT_DEBRIS
+    chance: 0.5
+    experience: 200
+    price: 2000.0
+    biomes:
+      - "NETHER_WASTES"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+      - "BASALT_DELTAS"
+
+  netherite_scrap_fishing:
+    display-name: ""
+    material: NETHERITE_SCRAP
+    chance: 1.0
+    experience: 150
+    price: 1500.0
+    biomes:
+      - "NETHER_WASTES"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+      - "BASALT_DELTAS"
+
+  # =============================
+  # VOID FISHING DROPS - COLLECTION FRANÇAISE ÉTENDUE
+  # =============================
+  
+  # === ITEMS COMMUNS (40-60% chance) ===
+  void_entity:
+    display-name: ""
+    material: PHANTOM_MEMBRANE
+    chance: 45.0
+    experience: 40
+    price: 150.0
+    biomes:
+      - "THE_VOID"
+      
+  void_essence:
+    display-name: ""
+    material: ECHO_SHARD
+    chance: 35.0
+    experience: 50
+    price: 200.0
+    biomes:
+      - "THE_VOID"
+      
+  void_fish_soul:
+    display-name: ""
+    material: SOUL_SAND
+    chance: 30.0
+    experience: 30
+    price: 100.0
+    biomes:
+      - "THE_VOID"
+      
+  void_seaweed:
+    display-name: ""
+    material: KELP
+    chance: 40.0
+    experience: 25
+    price: 80.0
+    biomes:
+      - "THE_VOID"
+  
+  # === ITEMS RARES (15-25% chance) ===
+  void_crystal:
+    display-name: ""
+    material: AMETHYST_SHARD
+    chance: 9.0
+    experience: 80
+    price: 400.0
+    biomes:
+      - "THE_VOID"
+      
+  void_pearl:
+    display-name: ""
+    material: ENDER_PEARL
+    chance: 7.0
+    experience: 100
+    price: 600.0
+    biomes:
+      - "THE_VOID"
+      
+  void_prismarine:
+    display-name: ""
+    material: PRISMARINE_SHARD
+    chance: 8.0
+    experience: 70
+    price: 350.0
+    biomes:
+      - "THE_VOID"
+      
+  void_leather:
+    display-name: ""
+    material: LEATHER
+    chance: 10.0
+    experience: 60
+    price: 250.0
+    biomes:
+      - "THE_VOID"
+      
+  void_bone:
+    display-name: ""
+    material: BONE
+    chance: 12.0
+    experience: 55
+    price: 200.0
+    biomes:
+      - "THE_VOID"
+  
+  # === ITEMS ÉPIQUES (5-10% chance) ===
+  void_star:
+    display-name: ""
+    material: NETHER_STAR
+    chance: 2.0
+    experience: 200
+    price: 1500.0
+    biomes:
+      - "THE_VOID"
+      
+  void_totem:
+    display-name: ""
+    material: TOTEM_OF_UNDYING
+    chance: 1.5
+    experience: 250
+    price: 2000.0
+    biomes:
+      - "THE_VOID"
+      
+  void_head:
+    display-name: ""
+    material: WITHER_SKELETON_SKULL
+    chance: 1.8
+    experience: 180
+    price: 1200.0
+    biomes:
+      - "THE_VOID"
+      
+  void_heart:
+    display-name: ""
+    material: HEART_OF_THE_SEA
+    chance: 1.2
+    experience: 300
+    price: 2500.0
+    biomes:
+      - "THE_VOID"
+  
+  # === LIVRES ENCHANTÉS (3-8% chance) ===
+  void_book_mending:
+    display-name: ""
+    material: ENCHANTED_BOOK
+    chance: 2.0
+    experience: 150
+    price: 1000.0
+    enchantments:
+      RANDOM: true
+    biomes:
+      - "THE_VOID"
+  
+  # === ITEMS LÉGENDAIRES (1-3% chance) ===
+  void_elytra:
+    display-name: ""
+    material: ELYTRA
+    chance: 0.3
+    experience: 400
+    price: 5000.0
+    biomes:
+      - "THE_VOID"
+      
+  void_conduit:
+    display-name: ""
+    material: CONDUIT
+    chance: 0.4
+    experience: 350
+    price: 4000.0
+    biomes:
+      - "THE_VOID"
+      
+  void_beacon:
+    display-name: ""
+    material: BEACON
+    chance: 0.2
+    experience: 500
+    price: 8000.0
+    biomes:
+      - "THE_VOID"
+      
+  # =====================================
+  # EXEMPLES ENCHANTEMENTS ALÉATOIRES
+  # =====================================
+  
+  random_sword:
+    display-name: ""
+    material: DIAMOND_SWORD
+    chance: 1.0
+    experience: 100
+    price: 500.0
+    biomes:
+      - "THE_VOID"
+    enchantments:
+      RANDOM: true
+      
+  random_bow:
+    display-name: ""
+    material: BOW
+    chance: 1.2
+    experience: 80
+    price: 300.0
+    biomes:
+      - "THE_VOID"
+    enchantments:
+      RANDOM: true
+      
+  # =====================================
+  # EXEMPLES NOMS VANILLA (display-name vide)
+  # =====================================
+      
+  vanilla_diamond:
+    display-name: ""
+    material: DIAMOND
+    chance: 0.3
+    experience: 50
+    price: 100.0
+    biomes:
+      - "THE_VOID"
+
+  # ===========================================
+  # EXTENDED VOID DROPS - Items supplémentaires
+  # ===========================================
+  
+  void_scales:
+    display-name: ""
+    material: TURTLE_SCUTE
+    chance: 28.0
+    experience: 20
+    price: 45.0
+    biomes:
+      - "THE_VOID"
+      
+  shadow_shard:
+    display-name: ""
+    material: PRISMARINE_CRYSTALS
+    chance: 24.0
+    experience: 25
+    price: 55.0
+    biomes:
+      - "THE_VOID"
+      
+  ethereal_membrane:
+    display-name: ""
+    material: RABBIT_HIDE
+    chance: 32.0
+    experience: 18
+    price: 35.0
+    biomes:
+      - "THE_VOID"
+      
+  void_dust:
+    display-name: ""
+    material: GUNPOWDER
+    chance: 26.0
+    experience: 15
+    price: 30.0
+    biomes:
+      - "THE_VOID"
+      
+  # === UNCOMMON VOID ADDITIONS ===
+  
+  void_salmon:
+    display-name: ""
+    material: SALMON
+    chance: 12.0
+    experience: 35
+    price: 120.0
+    biomes:
+      - "THE_VOID"
+    enchantments:
+      RANDOM: true
+      
+  shadow_bow:
+    display-name: ""
+    material: BOW
+    chance: 8.0
+    experience: 45
+    price: 300.0
+    biomes:
+      - "THE_VOID"
+    enchantments:
+      RANDOM: true
+      
+  void_shield:
+    display-name: ""
+    material: SHIELD
+    chance: 6.5
+    experience: 55
+    price: 400.0
+    biomes:
+      - "THE_VOID"
+    enchantments:
+      RANDOM: true
+      
+  ethereal_armor:
+    display-name: ""
+    material: CHAINMAIL_CHESTPLATE
+    chance: 7.0
+    experience: 60
+    price: 350.0
+    biomes:
+      - "THE_VOID"
+    enchantments:
+      RANDOM: true
+      
+  # === RARE VOID ADDITIONS ===
+  
+  void_crown:
+    display-name: ""
+    material: GOLDEN_HELMET
+    chance: 4.5
+    experience: 85
+    price: 750.0
+    biomes:
+      - "THE_VOID"
+    enchantments:
+      RANDOM: true
+      
+  shadow_leggings:
+    display-name: ""
+    material: NETHERITE_LEGGINGS
+    chance: 3.8
+    experience: 95
+    price: 900.0
+    biomes:
+      - "THE_VOID"
+    enchantments:
+      RANDOM: true
+      
+  dimensional_pickaxe:
+    display-name: ""
+    material: DIAMOND_PICKAXE
+    chance: 3.2
+    experience: 110
+    price: 800.0
+    biomes:
+      - "THE_VOID"
+    enchantments:
+      RANDOM: true
+      
+  void_axe:
+    display-name: ""
+    material: NETHERITE_AXE
+    chance: 1.2
+    experience: 125
+    price: 1100.0
+    biomes:
+      - "THE_VOID"
+    enchantments:
+      RANDOM: true
+
+  # ===== Additional common/uncommon VOID items =====
+  spectral_thread:
+    display-name: ""
+    material: STRING
+    chance: 22.0
+    experience: 15
+    price: 25.0
+    biomes:
+      - "THE_VOID"
+
+  void_cobweb:
+    display-name: ""
+    material: COBWEB
+    chance: 20.0
+    experience: 18
+    price: 30.0
+    biomes:
+      - "THE_VOID"
+
+  chorus_fragment:
+    display-name: ""
+    material: CHORUS_FRUIT
+    chance: 18.0
+    experience: 22
+    price: 35.0
+    biomes:
+      - "THE_VOID"
+
+  glow_ink_void:
+    display-name: ""
+    material: GLOW_INK_SAC
+    chance: 26.0
+    experience: 20
+    price: 40.0
+    biomes:
+      - "THE_VOID"
+
+  phantom_feather:
+    display-name: ""
+    material: FEATHER
+    chance: 22.0
+    experience: 14
+    price: 20.0
+    biomes:
+      - "THE_VOID"
+
+  end_stone_chip:
+    display-name: ""
+    material: END_STONE
+    chance: 24.0
+    experience: 18
+    price: 28.0
+    biomes:
+      - "THE_VOID"
+
+  purpur_fragment:
+    display-name: ""
+    material: PURPUR_BLOCK
+    chance: 20.0
+    experience: 22
+    price: 32.0
+    biomes:
+      - "THE_VOID"
+
+  chorus_petal:
+    display-name: ""
+    material: CHORUS_FLOWER
+    chance: 16.0
+    experience: 26
+    price: 45.0
+    biomes:
+      - "THE_VOID"
+
+  purple_dye_void:
+    display-name: ""
+    material: PURPLE_DYE
+    chance: 22.0
+    experience: 12
+    price: 18.0
+    biomes:
+      - "THE_VOID"
+
+  amethyst_cluster_void:
+    display-name: ""
+    material: AMETHYST_CLUSTER
+    chance: 12.0
+    experience: 28
+    price: 50.0
+    biomes:
+      - "THE_VOID"
+
+  glow_berries_void:
+    display-name: ""
+    material: GLOW_BERRIES
+    chance: 18.0
+    experience: 16
+    price: 22.0
+    biomes:
+      - "THE_VOID"
+
+  chorus_seedling:
+    display-name: ""
+    material: CHORUS_PLANT
+    chance: 14.0
+    experience: 20
+    price: 30.0
+    biomes:
+      - "THE_VOID"
+
+  shulker_shard:
+    display-name: ""
+    material: SHULKER_SHELL
+    chance: 6.0
+    experience: 40
+    price: 120.0
+    biomes:
+      - "THE_VOID"
+
+  end_rod_piece:
+    display-name: ""
+    material: END_ROD
+    chance: 16.0
+    experience: 22
+    price: 34.0
+    biomes:
+      - "THE_VOID"
+
+  popped_chorus:
+    display-name: ""
+    material: POPPED_CHORUS_FRUIT
+    chance: 18.0
+    experience: 20
+    price: 30.0
+    biomes:
+      - "THE_VOID"
+
+  purpur_pillar_piece:
+    display-name: ""
+    material: PURPUR_PILLAR
+    chance: 14.0
+    experience: 24
+    price: 36.0
+    biomes:
+      - "THE_VOID"
+
+  obsidian_fragment_void:
+    display-name: ""
+    material: OBSIDIAN
+    chance: 12.0
+    experience: 18
+    price: 30.0
+    biomes:
+      - "THE_VOID"
+
+  eye_of_ender_void:
+    display-name: ""
+    material: ENDER_EYE
+    chance: 9.0
+    experience: 30
+    price: 60.0
+    biomes:
+      - "THE_VOID"
+
+  dragon_breath_vial:
+    display-name: ""
+    material: DRAGON_BREATH
+    chance: 7.0
+    experience: 35
+    price: 80.0
+    biomes:
+      - "THE_VOID"
+
+  end_brick_chunk:
+    display-name: ""
+    material: END_STONE_BRICKS
+    chance: 20.0
+    experience: 18
+    price: 26.0
+    biomes:
+      - "THE_VOID"
+
+  purple_glass_shard:
+    display-name: ""
+    material: PURPLE_STAINED_GLASS
+    chance: 22.0
+    experience: 14
+    price: 20.0
+    biomes:
+      - "THE_VOID"
+
+  amethyst_block_void:
+    display-name: ""
+    material: AMETHYST_BLOCK
+    chance: 12.0
+    experience: 24
+    price: 38.0
+    biomes:
+      - "THE_VOID"
+
+  # ===========================================
+  # LAVA DROPS - Créatures ardentes complètes
+  # ===========================================
+  
+  # ===== COMMON LAVA (35-50%) =====
+  
+  molten_essence:
+    display-name: ""
+    material: MAGMA_CREAM
+    chance: 35.0
+    experience: 15
+    price: 25.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+      
+  lava_salmon:
+    display-name: ""
+    material: SALMON
+    chance: 30.0
+    experience: 20
+    price: 40.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+      
+  fire_kelp:
+    display-name: ""
+    material: DRIED_KELP
+    chance: 28.0
+    experience: 12
+    price: 20.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+      
+  blazing_scale:
+    display-name: ""
+    material: TURTLE_SCUTE
+    chance: 25.0
+    experience: 18
+    price: 35.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+      
+  molten_pearl:
+    display-name: ""
+    material: ENDER_PEARL
+    chance: 22.0
+    experience: 25
+    price: 60.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+      
+  # ===== UNCOMMON LAVA (15-25%) =====
+  
+  blazing_rod:
+    display-name: ""
+    material: BLAZE_ROD
+    chance: 18.0
+    experience: 30
+    price: 100.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+      
+  infernal_cod:
+    display-name: ""
+    material: COD
+    chance: 15.0
+    experience: 35
+    price: 120.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  fire_sword:
+    display-name: ""
+    material: GOLDEN_SWORD
+    chance: 12.0
+    experience: 40
+    price: 200.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  lava_boots:
+    display-name: ""
+    material: GOLDEN_BOOTS
+    chance: 10.0
+    experience: 45
+    price: 250.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  molten_bow:
+    display-name: ""
+    material: BOW
+    chance: 8.0
+    experience: 50
+    price: 300.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  # ===== RARE LAVA (8-12%) =====
+  
+  infernal_helmet:
+    display-name: ""
+    material: GOLDEN_HELMET
+    chance: 3.0
+    experience: 70
+    price: 500.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  lava_trident:
+    display-name: ""
+    material: TRIDENT
+    chance: 2.0
+    experience: 80
+    price: 650.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  blazing_axe:
+    display-name: ""
+    material: GOLDEN_AXE
+    chance: 2.5
+    experience: 75
+    price: 450.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  molten_shield:
+    display-name: ""
+    material: SHIELD
+    chance: 1.5
+    experience: 85
+    price: 600.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  # ===== VERY RARE LAVA (3-6%) =====
+  
+  phoenix_wing:
+    display-name: ""
+    material: ELYTRA
+    chance: 0.8
+    experience: 120
+    price: 1200.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  lava_heart:
+    display-name: ""
+    material: HEART_OF_THE_SEA
+    chance: 0.6
+    experience: 150
+    price: 1800.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+      
+  infernal_armor:
+    display-name: ""
+    material: NETHERITE_CHESTPLATE
+    chance: 0.5
+    experience: 180
+    price: 2200.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  # ===== LEGENDARY LAVA (0.5-2%) =====
+  
+  molten_star:
+    display-name: ""
+    material: NETHER_STAR
+    chance: 0.3
+    experience: 250
+    price: 4000.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+      
+  # phoenix_egg removed (was DRAGON_EGG reward)
+      
+  ultimate_lava_pickaxe:
+    display-name: ""
+    material: NETHERITE_PICKAXE
+    chance: 0.15
+    experience: 500
+    price: 8000.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+    enchantments:
+      RANDOM: true
+      
+  infernal_beacon:
+    display-name: ""
+    material: BEACON
+    chance: 0.1
+    experience: 600
+    price: 12000.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  # ===== Additional common/uncommon LAVA items =====
+  ember_fragment:
+    display-name: ""
+    material: GOLD_NUGGET
+    chance: 35.0
+    experience: 10
+    price: 15.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  glow_dust:
+    display-name: ""
+    material: GLOWSTONE_DUST
+    chance: 24.0
+    experience: 12
+    price: 20.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  cinder_chunk:
+    display-name: ""
+    material: COAL
+    chance: 26.0
+    experience: 14
+    price: 22.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  warped_spores:
+    display-name: ""
+    material: NETHER_SPROUTS
+    chance: 22.0
+    experience: 16
+    price: 28.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  quartz_fragment:
+    display-name: ""
+    material: QUARTZ
+    chance: 18.0
+    experience: 18
+    price: 32.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  char_coal:
+    display-name: ""
+    material: CHARCOAL
+    chance: 24.0
+    experience: 12
+    price: 20.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  nether_brick_piece:
+    display-name: ""
+    material: NETHER_BRICK
+    chance: 28.0
+    experience: 14
+    price: 24.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  blaze_powder_small:
+    display-name: ""
+    material: BLAZE_POWDER
+    chance: 20.0
+    experience: 18
+    price: 35.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  nether_wart_clump:
+    display-name: ""
+    material: NETHER_WART
+    chance: 22.0
+    experience: 16
+    price: 30.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  magma_block_chunk:
+    display-name: ""
+    material: MAGMA_BLOCK
+    chance: 24.0
+    experience: 18
+    price: 34.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  blackstone_chip:
+    display-name: ""
+    material: BLACKSTONE
+    chance: 26.0
+    experience: 16
+    price: 28.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  basalt_shard_common:
+    display-name: ""
+    material: BASALT
+    chance: 27.0
+    experience: 16
+    price: 28.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  crimson_roots_bundle:
+    display-name: ""
+    material: CRIMSON_ROOTS
+    chance: 22.0
+    experience: 12
+    price: 20.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  warped_roots_bundle:
+    display-name: ""
+    material: WARPED_ROOTS
+    chance: 22.0
+    experience: 12
+    price: 20.0
+    biomes:
+      - "NETHER_WASTES"
+      - "BASALT_DELTAS"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "SOUL_SAND_VALLEY"
+
+  #   biomes:
+  #     - "DEEP_OCEAN"

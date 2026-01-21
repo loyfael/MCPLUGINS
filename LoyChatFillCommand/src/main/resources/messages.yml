@@ -1,0 +1,16 @@
+# Messages for the LoyChatFillCommand plugin
+# This file contains all the messages used by the plugin, including error messages, default messages,
+
+messages:
+  # Errors messages
+  usage: "Usage: /chatfill <playername> \"<chat-message>\" \"<command/message>\" \"<hover text>\""
+  player-not-found: "Player '{player}' not found."
+
+  # Default messages
+  default-hover: "Click to execute command" # This message is used as a default hover text when no specific hover text is provided
+
+  # Log messages
+  plugin-enabled: "MyPlugin activated !" # This message is used when the plugin is enabled
+  plugin-disabled: "MyPlugin desactivated." # This message is used when the plugin is enabled or disabled
+  command-not-found: "Chatfill command not found." # This message is used when the command is not recognized
+  config-load-error: "Impossible to load messages.yml: {error}"

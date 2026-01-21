@@ -1,0 +1,713 @@
+# Configuration des objets disponibles dans le shop
+# Règles de détection vanilla/custom :
+# - vanilla: true → TOUJOURS vanilla (ignore name/lore)
+# - Pas de 'name' → Automatiquement vanilla
+# - Avec 'name' → Custom avec nom personnalisé
+
+items:
+  # === ITEMS VANILLA (3 façons) ===
+  
+  # 1. Explicitement vanilla avec flag
+  - material: OAK_LOG
+    vanilla: true          # Force vanilla même si 'name' existe
+    price_range:
+      min: 10
+      max: 25
+    amount: 32
+    stock: 5000
+
+  # 2. Automatiquement vanilla (pas de 'name')
+  - material: COBBLESTONE
+    price_range:           # Sera vanilla car pas de 'name'
+      min: 1
+      max: 3
+    amount: 64
+    stock: 10000
+
+  # 3. Automatiquement vanilla (pas de 'name')
+  - material: IRON_INGOT
+    price_range:           # Sera vanilla car pas de 'name'
+      min: 15
+      max: 35
+    amount: 16
+    stock: 2000
+
+  # === ITEMS CUSTOM (avec nom personnalisé) ===
+  
+  # Matériaux précieux (selon rareté Minecraft réelle)
+  - material: DIAMOND
+    name: "Diamant pur"
+    lore:
+      - "Cristal parfait"
+    price_range:
+      min: 100
+      max: 150
+    amount: 1
+    stock: 1000
+
+  - material: EMERALD
+    name: "Émeraude mystique"
+    lore:
+      - "Pierre précieuse rare"
+    price_range:
+      min: 80
+      max: 120
+    amount: 1
+    stock: 800
+
+  - material: GOLD_INGOT
+    name: "Lingot d'or pur"
+    lore:
+      - "Métal précieux"
+      - "Idéal pour l'artisanat"
+    price_range:
+      min: 25
+      max: 40
+    amount: 1
+    stock: 1500
+
+  - material: IRON_INGOT
+    name: "Lingot de fer"
+    lore:
+      - "Métal robuste"
+      - "Base de l'artisanat"
+    price_range:
+      min: 8
+      max: 15
+    amount: 1
+    stock: 2000
+
+  # Items de consommation
+  - material: GOLDEN_APPLE
+    name: "Pomme dorée"
+    lore:
+      - "Restaure la santé"
+      - "Effet de régénération"
+    price_range:
+      min: 100
+      max: 200
+    amount: 1
+    stock: 6000
+
+  - material: ENCHANTED_GOLDEN_APPLE
+    name: "Pomme dorée enchantée"
+    lore:
+      - "Pouvoir divin"
+      - "Très rare"
+    price_range:
+      min: 1000
+      max: 2000
+    amount: 1
+    stock: 7000
+
+  - material: GLISTERING_MELON_SLICE
+    name: "Tranche de pastèque dorée"
+    lore:
+      - "Ingrédient alchimique"
+      - "Saveur divine"
+    price_range:
+      min: 15
+      max: 35
+    amount: 1
+    stock: 7000
+
+  - material: GOLDEN_CARROT
+    name: "Carotte dorée"
+    lore:
+      - "Vision nocturne garantie"
+      - "Riche en vitamines"
+    price_range:
+      min: 25
+      max: 50
+    amount: 1
+    stock: 6000
+
+  - material: SUSPICIOUS_STEW
+    name: "Ragoût mystérieux"
+    lore:
+      - "Effets surprenants"
+      - "À consommer avec précaution"
+    price_range:
+      min: 30
+      max: 70
+    amount: 1
+    stock: 4000
+
+  # Items de transport et exploration
+  - material: ELYTRA
+    name: "Élytres"
+    lore:
+      - "Ailes pour voler"
+      - "Exploration facilitée"
+    price_range:
+      min: 5000
+      max: 8000
+    amount: 1
+    stock: 25
+
+  - material: SADDLE
+    name: "Selle d'équitation"
+    lore:
+      - "Dresse tes montures"
+      - "Voyage en style"
+    price_range:
+      min: 150
+      max: 300
+    amount: 1
+    stock: 6000
+
+  - material: LEAD
+    name: "Laisse"
+    lore:
+      - "Guide tes animaux"
+      - "Indispensable éleveur"
+    price_range:
+      min: 20
+      max: 45
+    amount: 1
+    stock: 1200
+
+  - material: OAK_BOAT
+    name: "Barque en chêne"
+    lore:
+      - "Navigation rapide"
+      - "Traverse les océans"
+    price_range:
+      min: 30
+      max: 60
+    amount: 1
+    stock: 700
+
+  - material: MINECART
+    name: "Wagonnet"
+    lore:
+      - "Transport sur rails"
+      - "Voyage minier"
+    price_range:
+      min: 40
+      max: 80
+    amount: 1
+    stock: 800
+
+  # Items magiques et spéciaux
+  - material: TOTEM_OF_UNDYING
+    name: "Totem d'immortalité"
+    lore:
+      - "Seconde chance"
+      - "Évite la mort"
+    price_range:
+      min: 1500
+      max: 2500
+    amount: 1
+    stock: 500
+
+  - material: BEACON
+    name: "Balise"
+    lore:
+      - "Source de pouvoir"
+      - "Effets de zone"
+    price_range:
+      min: 800
+      max: 1200
+    amount: 1
+    stock: 1200
+
+  - material: CONDUIT
+    name: "Conduit marin"
+    lore:
+      - "Respiration aquatique"
+      - "Maître des océans"
+    price_range:
+      min: 600
+      max: 1000
+    amount: 1
+    stock: 200
+
+  - material: HEART_OF_THE_SEA
+    name: "Cœur de l'océan"
+    lore:
+      - "Pouvoir des profondeurs"
+      - "Mystère des abysses"
+    price_range:
+      min: 400
+      max: 700
+    amount: 1
+    stock: 4000
+
+  - material: NAUTILUS_SHELL
+    name: "Coquille de nautile"
+    lore:
+      - "Trésor marin"
+      - "Beauté des fonds"
+    price_range:
+      min: 80
+      max: 150
+    amount: 1
+    stock: 6000
+
+  # Items de combat et magie
+  - material: ENDER_PEARL
+    name: "Perle de l'Ender"
+    lore:
+      - "Téléportation instantanée"
+    price_range:
+      min: 25
+      max: 60
+    amount: 1
+    stock: 1200
+
+  - material: ENDER_EYE
+    name: "Œil de l'Ender"
+    lore:
+      - "Guide vers le portail"
+      - "Vision interdimensionnelle"
+    price_range:
+      min: 60
+      max: 120
+    amount: 1
+    stock: 900
+
+  - material: BLAZE_ROD
+    name: "Bâton de Blaze"
+    lore:
+      - "Composant magique"
+    price_range:
+      min: 15
+      max: 40
+    amount: 1
+    stock: 900
+
+  - material: BLAZE_POWDER
+    name: "Poudre de Blaze"
+    lore:
+      - "Carburant magique"
+      - "Essence du feu"
+    price_range:
+      min: 8
+      max: 20
+    amount: 1
+    stock: 2000
+
+  - material: GHAST_TEAR
+    name: "Larme de Ghast"
+    lore:
+      - "Ingrédient rare"
+    price_range:
+      min: 40
+      max: 90
+    amount: 1
+    stock: 7000
+
+  - material: MAGMA_CREAM
+    name: "Crème de magma"
+    lore:
+      - "Résistance au feu"
+      - "Chaleur permanente"
+    price_range:
+      min: 20
+      max: 45
+    amount: 1
+    stock: 1000
+
+  - material: SLIME_BALL
+    name: "Balle de slime"
+    lore:
+      - "Élasticité parfaite"
+      - "Composant visqueux"
+    price_range:
+      min: 12
+      max: 30
+    amount: 1
+    stock: 1500
+
+  # Items ultimes et légendaires (ajustés selon rareté réelle)
+  - material: NETHER_STAR
+    name: "Étoile du Nether"
+    lore:
+      - "Pouvoir cosmique"
+      - "Très précieuse"
+    price_range:
+      min: 8000
+      max: 12000
+    amount: 1
+    stock: 50
+
+  - material: DRAGON_HEAD
+    name: "Tête de dragon"
+    lore:
+      - "Trophée légendaire"
+      - "Décoration épique"
+    price_range:
+      min: 15000
+      max: 25000
+    amount: 1
+    stock: 5
+
+  - material: DRAGON_EGG
+    name: "Œuf de dragon"
+    lore:
+      - "Unique au monde"
+      - "Mystère ancestral"
+    price_range:
+      min: 50000
+      max: 75000
+    amount: 1
+    stock: 1
+
+  - material: SHULKER_SHELL
+    name: "Carapace de Shulker"
+    lore:
+      - "Stockage portable"
+    price_range:
+      min: 200
+      max: 400
+    amount: 1
+    stock: 1800
+
+  - material: PHANTOM_MEMBRANE
+    name: "Membrane de fantôme"
+    lore:
+      - "Réparation d'élytres"
+      - "Essence spectrale"
+    price_range:
+      min: 100
+      max: 200
+    amount: 1
+    stock: 5000
+
+  # Blocs de construction rares
+  - material: OBSIDIAN
+    name: "Obsidienne volcanique"
+    lore:
+      - "Résistance ultime"
+      - "Roche des portails"
+    price_range:
+      min: 15
+      max: 35
+    amount: 1
+    stock: 200
+
+  - material: CRYING_OBSIDIAN
+    name: "Obsidienne pleureuse"
+    lore:
+      - "Larmes cristallisées"
+      - "Anchor dimensionnel"
+    price_range:
+      min: 25
+      max: 50
+    amount: 1
+    stock: 1200
+
+  - material: RESPAWN_ANCHOR
+    name: "Ancre de réapparition"
+    lore:
+      - "Renaissance dans le Nether"
+      - "Point de retour sûr"
+    price_range:
+      min: 300
+      max: 500
+    amount: 1
+    stock: 200
+
+  - material: LODESTONE
+    name: "Magnétite"
+    lore:
+      - "Boussole personnalisée"
+      - "Navigation précise"
+    price_range:
+      min: 200
+      max: 350
+    amount: 1
+    stock: 5000
+
+  # Potions et enchantements
+  - material: EXPERIENCE_BOTTLE
+    name: "Fiole d'expérience"
+    lore:
+      - "Sagesse liquide"
+      - "Apprentissage instantané"
+    price_range:
+      min: 40
+      max: 80
+    amount: 1
+    stock: 1200
+
+  - material: ENCHANTED_BOOK
+    name: "Livre enchanté"
+    lore:
+      - "Savoir mystique"
+      - "Pouvoir aléatoire"
+    price_range:
+      min: 150
+      max: 800
+    amount: 1
+    stock: 7000
+
+  - material: NAME_TAG
+    name: "Étiquette de nom"
+    lore:
+      - "Baptise tes créatures"
+      - "Identité permanente"
+    price_range:
+      min: 80
+      max: 150
+    amount: 1
+    stock: 6000
+
+  # Items techniques et redstone
+  - material: REDSTONE
+    name: "Poudre de redstone"
+    lore:
+      - "Énergie électrique"
+      - "Circuits complexes"
+    price_range:
+      min: 5
+      max: 15
+    amount: 1
+    stock: 6000
+
+  - material: REDSTONE_BLOCK
+    name: "Bloc de redstone"
+    lore:
+      - "Source d'énergie"
+      - "Puissance concentrée"
+    price_range:
+      min: 45
+      max: 90
+    amount: 1
+    stock: 900
+
+  - material: PISTON
+    name: "Piston"
+    lore:
+      - "Mécanique avancée"
+      - "Force hydraulique"
+    price_range:
+      min: 30
+      max: 60
+    amount: 1
+    stock: 1200
+
+  - material: STICKY_PISTON
+    name: "Piston collant"
+    lore:
+      - "Adhérence parfaite"
+      - "Mécanique de précision"
+    price_range:
+      min: 40
+      max: 80
+    amount: 1
+    stock: 900
+
+  - material: DISPENSER
+    name: "Distributeur"
+    lore:
+      - "Automatisation"
+      - "Lancement de projectiles"
+    price_range:
+      min: 50
+      max: 100
+    amount: 1
+    stock: 700
+
+  - material: DROPPER
+    name: "Largueur"
+    lore:
+      - "Transport d'objets"
+      - "Logistique avancée"
+    price_range:
+      min: 40
+      max: 80
+    amount: 1
+    stock: 800
+
+  # Items décoratifs rares
+  - material: WITHER_SKELETON_SKULL
+    name: "Crâne de squelette Wither"
+    lore:
+      - "Trophée de guerre"
+      - "Invocation du Wither"
+    price_range:
+      min: 800
+      max: 1500
+    amount: 1
+    stock: 10
+
+  - material: SKELETON_SKULL
+    name: "Crâne de squelette"
+    lore:
+      - "Décoration macabre"
+      - "Souvenir de bataille"
+    price_range:
+      min: 50
+      max: 100
+    amount: 1
+    stock: 900
+
+  - material: ZOMBIE_HEAD
+    name: "Tête de zombie"
+    lore:
+      - "Trophée de survie"
+      - "Décoration effrayante"
+    price_range:
+      min: 40
+      max: 90
+    amount: 1
+    stock: 1000
+
+  - material: CREEPER_HEAD
+    name: "Tête de Creeper"
+    lore:
+      - "Explosive décoration"
+      - "Très dangereuse"
+    price_range:
+      min: 100
+      max: 200
+    amount: 1
+    stock: 200
+
+  - material: PLAYER_HEAD
+    name: "Tête de joueur"
+    lore:
+      - "Identité mystérieuse"
+      - "Collection privée"
+    price_range:
+      min: 200
+      max: 500
+    amount: 1
+    stock: 1800
+
+  # Minerais et matériaux de base
+  - material: COAL
+    name: "Charbon de mine"
+    lore:
+      - "Combustible essentiel"
+      - "Énergie pure"
+    price_range:
+      min: 2
+      max: 8
+    amount: 1
+    stock: 7000
+
+  - material: COPPER_INGOT
+    name: "Lingot de cuivre"
+    lore:
+      - "Métal conducteur"
+      - "Idéal pour la redstone"
+    price_range:
+      min: 8
+      max: 18
+    amount: 1
+    stock: 4500
+
+  - material: LAPIS_LAZULI
+    name: "Lapis-lazuli"
+    lore:
+      - "Pierre d'enchantement"
+      - "Bleu mystique"
+    price_range:
+      min: 12
+      max: 25
+    amount: 1
+    stock: 3000
+
+  - material: QUARTZ
+    name: "Quartz du Nether"
+    lore:
+      - "Cristal pur"
+      - "Beauté minérale"
+    price_range:
+      min: 15
+      max: 30
+    amount: 1
+    stock: 200
+
+  # Nourriture et agriculture
+  - material: BREAD
+    name: "Pain frais"
+    lore:
+      - "Nourriture de base"
+      - "Sustentation garantie"
+    price_range:
+      min: 5
+      max: 12
+    amount: 1
+    stock: 4000
+
+  - material: COOKED_BEEF
+    name: "Bœuf grillé"
+    lore:
+      - "Protéines de qualité"
+      - "Saveur incomparable"
+    price_range:
+      min: 8
+      max: 18
+    amount: 1
+    stock: 200
+
+  - material: CAKE
+    name: "Gâteau d'anniversaire"
+    lore:
+      - "Douceur sucrée"
+      - "Célébration garantie"
+    price_range:
+      min: 30
+      max: 60
+    amount: 1
+    stock: 7000
+
+  - material: HONEY_BOTTLE
+    name: "Bouteille de miel"
+    lore:
+      - "Nectar des abeilles"
+      - "Guérison naturelle"
+    price_range:
+      min: 20
+      max: 40
+    amount: 1
+    stock: 1200
+
+  # Blocs décoratifs
+  - material: GLOWSTONE
+    name: "Pierre lumineuse"
+    lore:
+      - "Éclairage éternel"
+      - "Lumière du Nether"
+    price_range:
+      min: 25
+      max: 50
+    amount: 1
+    stock: 1800
+
+  - material: SEA_LANTERN
+    name: "Lanterne marine"
+    lore:
+      - "Éclat des profondeurs"
+      - "Lumière aquatique"
+    price_range:
+      min: 35
+      max: 70
+    amount: 1
+    stock: 1200
+
+  - material: END_CRYSTAL
+    name: "Cristal de l'End"
+    lore:
+      - "Énergie dimensionnelle"
+      - "Pouvoir destructeur"
+    price_range:
+      min: 500
+      max: 900
+    amount: 1
+    stock: 1200
+
+  - material: CHORUS_FRUIT
+    name: "Fruit de chorus"
+    lore:
+      - "Téléportation aléatoire"
+      - "Goût de l'End"
+    price_range:
+      min: 25
+      max: 55
+    amount: 1
+    stock: 1500

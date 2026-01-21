@@ -1,0 +1,66 @@
+# Configuration ULTRA-SIMPLE - AntiVillagerLag v3.0.7
+#
+# 🎯 RÈGLE SIMPLE :
+# - Villageois sur SOL NORMAL = DÉSACTIVÉ (économise les performances, pas de trade)
+# - Villageois sur BLOC D'ÉMERAUDE = ACTIVÉ (peut trader normalement)
+#
+# C'est tout ! Pas plus compliqué que ça !
+
+# Option de debug
+debug: true
+
+# Ancien système de noms (gardé pour compatibilité)
+NamesThatDisable:
+  - Optimize
+  - Bonk
+
+# ⚠️ CES SECTIONS NE SONT PLUS UTILISÉES - gardées pour compatibilité
+BlocksThatEnable:
+  - EMERALD_BLOCK
+
+BlocksThatDisable:
+  - DIAMOND_BLOCK
+
+# Postes de travail (optionnel - peut rester désactivé)
+WorkstationsThatDisable:
+  - COMPOSTER
+  - SMOKER
+  - BARREL
+
+# Heures de restockage
+RestockTimes:
+  times:
+    - 1000
+    - 13000
+
+# Cooldown anti-abus
+ai-toggle-cooldown: 600
+
+# Limites des commandes
+RadiusLimit: 50
+RadiusDefault: 50
+
+# Options principales
+toggleableoptions:
+  # Empêcher le trade avec villageois désactivés
+  preventtrading: true
+
+  # Empêcher les villageois de vendre des objets avec Mending
+  prevent-mending-trades: true
+
+  # Système de noms (pour compatibilité)
+  usenametags: false
+  userenaming: false
+
+  # Système de blocs - LE PRINCIPAL !
+  useblocks: true
+
+  # Système de postes de travail (optionnel)
+  useworkstations: false
+
+# Messages pour les joueurs
+messages:
+  villager-disabled: "&c🚫 Ce villageois est DÉSACTIVÉ ! &7Placez-le sur un &a&lBLOC D'ÉMERAUDE &7pour qu'il puisse trader."
+  villager-enabled: "&a✅ Villageois ACTIVÉ ! &7Il peut maintenant commercer."
+  place-on-emerald: "&e💡 Astuce : &7Placez vos villageois sur des &a&lblocs d'émeraude &7pour les activer !"
+  emerald-block-required: "&6⚠️ Seuls les villageois sur des blocs d'émeraude peuvent trader !"

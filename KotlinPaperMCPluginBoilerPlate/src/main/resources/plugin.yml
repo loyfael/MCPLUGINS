@@ -1,0 +1,67 @@
+# === INFORMATIONS PRINCIPALES ===
+name: MyPlugin
+version: ${project.version}
+main: loyfael.MyPlugin
+api-version: '1.21'
+folia-supported: false
+
+# === INFORMATIONS OPTIONNELLES ===
+description: "${project.description}"
+website: "${project.url}"
+author: Loyfael
+authors: [Loyfael]
+prefix: MyPlugin
+
+# === DÉPENDANCES ===
+# Plugins requis (hard dependencies)
+depend: []
+
+# Plugins optionnels (soft dependencies)
+softdepend: [PlaceholderAPI, Vault, LuckPerms]
+
+# Plugins à charger avant celui-ci
+loadbefore: []
+
+# === PERMISSIONS ===
+permissions:
+  myplugin.admin:
+    description: Permission administrateur complète
+    default: op
+    children:
+      - myplugin.reload
+      - myplugin.debug
+  
+  myplugin.user:
+    description: Permission utilisateur de base
+    default: true
+    children:
+      - myplugin.help
+  
+  myplugin.reload:
+    description: Permission pour recharger le plugin
+    default: op
+  
+  myplugin.debug:
+    description: Permission pour utiliser les commandes de debug
+    default: op
+  
+  myplugin.help:
+    description: Permission pour voir l'aide
+    default: true
+
+# === COMMANDES ===
+commands:
+  myplugin:
+    description: Commande principale du plugin
+    usage: /<command> [help|reload|info]
+    aliases: [mp, plugin]
+    permission: myplugin.user
+    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande !"
+  
+  # Exemple de commande supplémentaire
+  mycommand:
+    description: Exemple de commande personnalisée
+    usage: /<command> [argument]
+    aliases: [mc, cmd]
+    permission: myplugin.user
+    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande !"

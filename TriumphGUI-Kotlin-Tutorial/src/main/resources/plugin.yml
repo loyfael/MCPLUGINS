@@ -1,0 +1,37 @@
+# Plugin.yml d'exemple
+name: TriumphGUI-Kotlin-Example
+version: '${project.version}'
+main: loyfael.Main
+api-version: '1.21'
+folia-supported: false
+
+description: "Exemple d'utilisation de Triumph-GUI avec Kotlin"
+website: "https://github.com/votre-username/triumph-gui-kotlin-example"
+author: VotrePseudo
+authors: [VotrePseudo]
+
+commands:
+  menu:
+    description: Ouvre le menu principal de démonstration
+    usage: /<command>
+    permission: exemple.menu
+    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande !"
+
+  demo:
+    description: Menu de démonstration avec toutes les fonctionnalités
+    usage: /<command>
+    aliases: [gui-demo, triumph-demo]
+    permission: exemple.demo
+
+permissions:
+  exemple.menu:
+    description: Permission pour utiliser le menu de base
+    default: true
+
+  exemple.demo:
+    description: Permission pour la démonstration complète
+    default: true
+
+  exemple.admin:
+    description: Permission administrateur pour accès complet
+    default: op

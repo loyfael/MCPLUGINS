@@ -1,0 +1,7 @@
+name: LoyLecternFirstPage
+main: loyfael.Main
+version: '${project.version}'
+api-version: '1.21.8'
+author: loyfael
+description: Plugin that resets a lectern book to page one when closed
+website: https://github.com/loyfael/LoyLecternFirstPage

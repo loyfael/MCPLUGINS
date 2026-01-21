@@ -1,0 +1,338 @@
+# LoyCustomMobs – Tables de loot avancées
+# Chaque mob dispose de quatre catégories :
+#  - guaranteed : loot principal garanti
+#  - secondary  : 20–50 % de chance
+#  - rare       : 1–5 % de chance
+#  - legendary  : <= 1 % de chance
+#
+# Les livres enchantés utilisent les pools définis dans "enchantment-pools".
+
+rarity-settings:
+  COMMON:
+    enchant-count:
+      min: 1
+      max: 1
+    levels:
+      min: 1
+      max: 2
+  UNCOMMON:
+    enchant-count:
+      min: 1
+      max: 2
+    levels:
+      min: 1
+      max: 2
+  RARE:
+    enchant-count:
+      min: 2
+      max: 2
+    levels:
+      min: 3
+      max: 4
+  EPIC:
+    enchant-count:
+      min: 2
+      max: 3
+    levels:
+      min: 5
+      max: 5
+    special-enchants:
+      - MENDING
+      - INFINITY
+  LEGENDARY:
+    enchant-count:
+      min: 2
+      max: 3
+    levels:
+      min: 5
+      max: 5
+    special-enchants:
+      - MENDING
+      - INFINITY
+  MYTHIC:
+    enchant-count:
+      min: 3
+      max: 3
+    levels:
+      min: 5
+      max: 5
+    special-enchants:
+      - MENDING
+      - INFINITY
+
+enchantment-pools:
+  DEFAULT:
+    PROTECTION: 3
+    UNBREAKING: 2
+    SHARPNESS: 1
+  ZOMBIE:
+    PROTECTION: 4
+    SHARPNESS: 2
+    UNBREAKING: 3
+  SKELETON:
+    POWER: 4
+    PUNCH: 2
+    INFINITY: 1
+  BLAZE:
+    FIRE_ASPECT: 3
+    FLAME: 3
+    LOOTING: 2
+  SPIDER:
+    BANE_OF_ARTHROPODS: 4
+    SWEEPING_EDGE: 2
+    SHARPNESS: 1
+  ENDERMAN:
+    EFFICIENCY: 3
+    SILK_TOUCH: 2
+    FORTUNE: 3
+  WITHER_SKELETON:
+    FIRE_PROTECTION: 2
+    SMITE: 4
+    KNOCKBACK: 2
+  MAGMA_CUBE:
+    FIRE_PROTECTION: 3
+    KNOCKBACK: 2
+    LOOTING: 1
+  WITCH:
+    MENDING: 1
+    UNBREAKING: 2
+    PROTECTION: 1
+
+custom-items:
+  MOLDY_BREAD:
+    material: BREAD
+    name: "&aPain moisi"
+    lore:
+      - "&7Un goût de victoire"
+      - "&7(et de moisissure)."
+  ANCIENT_BONE_FRAGMENT:
+    material: BONE
+    name: "&fFragment d'os ancien"
+    lore:
+      - "&7Vestige d'une épopée oubliée"
+      - "&7Composant d'artisanat rare"
+  VOIDSTONE:
+    material: OBSIDIAN
+    name: "&5Pierre du vide"
+    lore:
+      - "&7Vibre d'une énergie étrange"
+      - "&7Permet d'invoquer un mini-boss"
+  RARE_ESSENCE_VIAL:
+    material: GLASS_BOTTLE
+    name: "&dFlacon d'essence rare"
+    lore:
+      - "&7Concentré alchimique instable"
+  FEMUR_SCREAM_BOW:
+    material: BOW
+    name: "&eArc \"Cri-du-Fémur\""
+    lore:
+      - "&7Hurle à chaque flèche tirée"
+      - "&7On entend des claquements inquiétants"
+    enchantments:
+      POWER: 5
+      UNBREAKING: 3
+    unbreakable: true
+  FLAMESCION_SWORD:
+    material: NETHERITE_SWORD
+    name: "&6Épée \"Flamèche de Soliris\""
+    lore:
+      - "&7Une lame qui laisse des traînées de braise"
+    enchantments:
+      FIRE_ASPECT: 2
+      SHARPNESS: 5
+      LOOTING: 3
+    unbreakable: true
+  ZOMBIE_PLAQUE:
+    material: ZOMBIE_HEAD
+    name: "&aTête de zombie spéciale"
+    lore:
+      - "&7Un souvenir terrifiant et parfumé"
+  VOID_EYE:
+    material: ENDER_EYE
+    name: "&5Œil du néant purifié"
+    lore:
+      - "&7Regarde droit dans votre âme"
+  WITCH_MENDING_BOOK:
+    book: true
+    enchantments:
+      MENDING: 1
+      UNBREAKING: 3
+
+loot:
+  DEFAULT:
+    guaranteed:
+      - item: EXPERIENCE_BOTTLE
+        min: 1
+        max: 2
+    secondary:
+      - chance: 0.3
+        item: GOLD_INGOT
+        min: 1
+        max: 2
+    rare:
+      - chance: 0.03
+        item: EMERALD
+        min: 1
+        max: 1
+    legendary:
+      - chance: 0.005
+        item: NETHER_STAR
+        min: 1
+        max: 1
+
+  ZOMBIE:
+    guaranteed:
+      - item: RAW_IRON
+        min: 2
+        max: 4
+    secondary:
+      - chance: 0.45
+        book: true
+        pool: ZOMBIE
+    rare:
+      - chance: 0.04
+        custom-item: MOLDY_BREAD
+    legendary:
+      - chance: 0.008
+        custom-item: ZOMBIE_PLAQUE
+
+  SKELETON:
+    guaranteed:
+      - item: ARROW
+        min: 8
+        max: 16
+    secondary:
+      - chance: 0.35
+        book: true
+        pool: SKELETON
+        overrides:
+          levels:
+            min: 3
+            max: 4
+    rare:
+      - chance: 0.03
+        custom-item: ANCIENT_BONE_FRAGMENT
+    legendary:
+      - chance: 0.006
+        custom-item: FEMUR_SCREAM_BOW
+
+  BLAZE:
+    guaranteed:
+      - item: BLAZE_ROD
+        min: 2
+        max: 4
+    secondary:
+      - chance: 0.4
+        item: COAL
+        min: 3
+        max: 6
+    rare:
+      - chance: 0.02
+        item: MAGMA_CREAM
+        min: 1
+        max: 2
+      - chance: 0.015
+        custom-item: RARE_ESSENCE_VIAL
+    legendary:
+      - chance: 0.005
+        custom-item: FLAMESCION_SWORD
+
+  SPIDER:
+    guaranteed:
+      - item: STRING
+        min: 4
+        max: 8
+    secondary:
+      - chance: 0.4
+        book: true
+        pool: SPIDER
+    rare:
+      - chance: 0.03
+        item: COBWEB
+        min: 1
+        max: 2
+      - chance: 0.02
+        item: FERMENTED_SPIDER_EYE
+        min: 1
+        max: 1
+    legendary:
+      - chance: 0.005
+        item: ELYTRA
+        min: 1
+        max: 1
+
+  ENDERMAN:
+    guaranteed:
+      - item: ENDER_PEARL
+        min: 1
+        max: 3
+    secondary:
+      - chance: 0.35
+        item: CHORUS_FRUIT
+        min: 1
+        max: 3
+    rare:
+      - chance: 0.02
+        custom-item: VOIDSTONE
+    legendary:
+      - chance: 0.008
+        custom-item: VOID_EYE
+
+  WITCH:
+    guaranteed:
+      - item: SPLASH_POTION
+        metadata:
+          potion: random
+        min: 1
+        max: 1
+    secondary:
+      - chance: 0.5
+        item: GLOWSTONE_DUST
+        min: 2
+        max: 5
+    rare:
+      - chance: 0.03
+        custom-item: RARE_ESSENCE_VIAL
+    legendary:
+      - chance: 0.009
+        custom-item: WITCH_MENDING_BOOK
+
+  WITHER_SKELETON:
+    guaranteed:
+      - item: COAL
+        min: 2
+        max: 5
+    secondary:
+      - chance: 0.4
+        book: true
+        pool: WITHER_SKELETON
+    rare:
+      - chance: 0.02
+        item: WITHER_SKELETON_SKULL
+        min: 1
+        max: 1
+    legendary:
+      - chance: 0.004
+        item: NETHER_STAR
+        min: 1
+        max: 1
+
+  MAGMA_CUBE:
+    guaranteed:
+      - item: MAGMA_CREAM
+        min: 2
+        max: 5
+    secondary:
+      - chance: 0.45
+        book: true
+        pool: MAGMA_CUBE
+    rare:
+      - chance: 0.02
+        item: BLAZE_POWDER
+        min: 2
+        max: 4
+    legendary:
+      - chance: 0.006
+        item: NETHERITE_SCRAP
+        min: 1
+        max: 1

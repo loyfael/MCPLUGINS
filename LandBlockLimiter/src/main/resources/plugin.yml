@@ -1,0 +1,28 @@
+name: LandsBlockLimiter
+version: 1.0.0
+main: loyfael.Main
+api-version: 1.21
+description: Limite le nombre de blocs spécifiques par terrain et par joueur dans Lands
+author: Loyfael
+website: https://github.com/loyfael
+depend: [Lands]
+
+commands:
+  lbl:
+    description: Commande principale du plugin LandsBlockLimiter
+    usage: /<command> [reload|scan]
+    aliases: [landsblocklimiter]
+
+permissions:
+  landsblocklimiter.admin:
+    description: Permissions administrateur pour LandsBlockLimiter
+    default: op
+    children:
+      - landsblocklimiter.reload
+      - landsblocklimiter.scan
+  landsblocklimiter.reload:
+    description: Permission pour recharger la configuration
+    default: op
+  landsblocklimiter.scan:
+    description: Permission pour scanner les blocs dans un terrain
+    default: op

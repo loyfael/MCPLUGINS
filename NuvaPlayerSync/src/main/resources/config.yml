@@ -1,0 +1,157 @@
+# ==================================================
+# NuvaPlayerSynchro - ULTRA HIGH PERFORMANCE Configuration
+# ==================================================
+#
+# This plugin is now optimized for EXTREME performance and can handle
+# thousands of concurrent players with MongoDB and ultra-aggressive settings.
+#
+# PERFORMANCE OPTIMIZATIONS ACTIVE:
+# - MongoDB with 20-100 connection pool
+# - Asynchronous batch processing (25 operations/batch)
+# - Ultra-aggressive thread pools (CPU cores * 4)
+# - Advanced caching with LRU eviction (2000 entries)
+# - Compression enabled (zstd/snappy/zlib)
+# - Unordered bulk writes for maximum speed
+#
+# PERFORMANCE PRESETS:
+#
+# === SMALL SERVER (1-50 players) ===
+# autosave.interval: 600 (10 minutes)
+# autosave.high-load-threshold: 50
+# database.mongodb.connection-pool.max-size: 30
+#
+# === MEDIUM SERVER (50-200 players) ===
+# autosave.interval: 300 (5 minutes) - DEFAULT
+# autosave.high-load-threshold: 100
+# database.mongodb.connection-pool.max-size: 50
+#
+# === LARGE SERVER (200-500 players) ===
+# autosave.interval: 180 (3 minutes)
+# autosave.high-load-interval: 45 (45 seconds)
+# autosave.high-load-threshold: 200
+# database.mongodb.connection-pool.max-size: 75
+#
+# === MASSIVE SERVER (500+ players) ===
+# autosave.interval: 120 (2 minutes)
+# autosave.high-load-interval: 30 (30 seconds)
+# autosave.high-load-threshold: 300
+# database.mongodb.connection-pool.max-size: 100
+#
+# ==================================================
+
+# Language configuration
+language: "en" # Available: en, fr
+
+# === SYSTÈME DE CHANGEMENTS RAPIDES D'INVENTAIRE ===
+rapid-changes:
+  # Détection des changements rapides (garde pour les statistiques)
+  detection-window: 3000  # Fenêtre de 3 secondes pour détecter les changements rapides
+  threshold: 3           # Nombre de changements pour entrer en mode rapide
+
+  # Sauvegardes forcées (garantie anti-perte)
+  max-changes-before-force-save: 8    # Force une sauvegarde après 8 changements
+  max-delay-before-force-save: 3000   # Force une sauvegarde après 3 secondes max (réduit)
+
+  # Délais de sauvegarde ultra-rapides PAR DÉFAUT
+  rapid-mode-delay: 50     # 50ms (1 tick) entre sauvegardes en mode rapide
+  normal-mode-delay: 100   # 100ms (2 ticks) en mode normal - ULTRA RAPIDE PAR DÉFAUT
+
+database:
+  type: "mongodb" # Ultra-high-performance NoSQL for massive concurrent operations
+  mongodb:
+    host: "localhost"
+    port: 27017
+    database: "minecraft"
+    username: ""  # Leave empty for no auth
+    password: ""  # Leave empty for no auth
+    auth-source: "admin" # Use 'admin' for MongoDB auth source
+
+    # ULTRA-HIGH PERFORMANCE MongoDB optimizations
+    connection-pool:
+      max-size: 100             # Extreme connection limit for massive concurrency
+      min-size: 20              # High minimum for instant availability
+      max-idle-time: 15         # Fast cleanup (seconds)
+      max-lifetime: 180         # 3 minutes max connection lifetime
+      max-wait-time: 2          # Ultra-fast timeout for high throughput
+
+    # Performance-optimized write and read settings
+    write-concern: "w1"         # Fast writes with minimal safety overhead
+    journal: false              # Disable journal for maximum speed
+    read-preference: "primaryPreferred"  # Load balancing with fallback
+    read-concern: "local"       # Fastest read concern
+    retry-writes: true          # Automatic retry on transient failures
+    compression: "zstd,snappy,zlib"  # Enable compression for network optimization
+
+# Synchronization configuration
+sync:
+  xp: true
+  enderchest: true
+  inventory: true
+  health: true
+  hunger: true
+
+# ULTRA-HIGH LOAD performance with crash protection
+autosave:
+  interval: 300 # 5 minutes default
+  high-load-interval: 60 # 1 minute if 100+ players (crash protection)
+  high-load-threshold: 100 # Threshold to activate high load mode
+
+# Advanced crash protection
+crash-protection:
+  enabled: true
+  lag-threshold: 100 # Trigger emergency save if lag > 100ms
+  emergency-save-cooldown: 30 # Cooldown between emergency saves (seconds)
+  backup-save-enabled: true # Backup save in case of failure
+  max-emergency-retries: 3 # Max number of retry attempts
+
+# ULTRA-HIGH PERFORMANCE settings
+performance:
+  # Ultra-fast cooldown for maximum responsiveness
+  save-cooldown: 500 # 500ms (reduced from 1000ms)
+
+  # Advanced caching with LRU eviction
+  cache-size: 2000 # Increased cache for better hit rates
+  cache-cleanup-interval: 180 # Cleanup every 3 minutes
+
+  # Ultra-aggressive threading (auto-calculated based on CPU)
+  database-threads: 0 # Auto: cores * 4 (minimum 8)
+  inventory-threads: 0 # Auto: cores * 2 (minimum 4)
+
+  # Optimized batch processing
+  batch-save-size: 25 # Reduced batch size for faster processing
+  batch-load-enabled: true # Batch loading enabled
+  log-bulk-operations: false # Set to true for debugging only
+
+  # Advanced inventory optimizations
+  compress-inventories: true
+  inventory-cache-size: 3000 # Larger cache for heavy inventory usage
+
+  # Performance monitoring and alerts
+  performance-monitoring: true
+  alert-high-load: 300 # Alert if more than 300 players
+  alert-memory-usage: 90 # Alert if memory > 90%
+  log-successful-saves: false # Enable only for debugging (impacts performance)
+
+# Debug settings (only enable for troubleshooting)
+debug:
+  show-detailed-stats: false # Enable detailed MongoDB stats in /sync stats
+  log-connection-events: false # Log MongoDB connection events
+
+# MongoDB server-side optimizations (configure in mongod.conf):
+# storage:
+#   wiredTiger:
+#     engineConfig:
+#       cacheSizeGB: 2
+#     collectionConfig:
+#       blockCompressor: zstd
+# net:
+#   maxIncomingConnections: 200
+  # === LOGGING POUR SYSTÈME DE CHANGEMENTS RAPIDES ===
+  log-rapid-mode: false        # Log quand un joueur entre/sort du mode rapide
+  log-rapid-saves: false       # Log les sauvegardes en mode rapide
+  log-normal-saves: false      # Log les sauvegardes normales
+  log-force-saves: true        # Log les sauvegardes forcées (recommandé)
+  log-autosave: false          # Log les sauvegardes automatiques
+
+# operationProfiling:
+#   mode: off

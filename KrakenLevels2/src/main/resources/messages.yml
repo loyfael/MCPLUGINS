@@ -1,0 +1,90 @@
+# ================================
+# KrakenLevels Messages - English
+# ================================
+
+messages:
+  # Plugin prefix
+  prefix: "&8[&6KrakenLevels&8] "
+
+  # General messages
+  no-permission: "&cYou don't have permission to use this command!"
+  player-not-found: "&cPlayer not found!"
+  invalid-number: "&cPlease enter a valid number!"
+  plugin-reloaded: "&aKrakenLevels reloaded successfully!"
+
+  # GUI messages
+  gui:
+    error: "&cError opening the menu! Contact an administrator."
+    type-not-found: "&cGUI type not found: {0}"
+
+  # Command messages
+  commands:
+    help:
+      header: "&6=== &lKrakenLevels Mission Commands &6==="
+      info: "&e/mission info &7- Show your mission info"
+      reset: "&e/mission reset <player> &7- Reset a player (Admin)"
+      set: "&e/mission set <player> <level> &7- Set player level (Admin)"
+      testsync: "&e/mission testsync [info|force|status|clear] [player] &7- Sync test (Admin)"
+      player: "&e/mission player <name> [server] &7- View level by server (Admin)"
+    mission-opened: "&aMissions menu opened!"
+    reload:
+      success: "&aConfiguration reloaded successfully!"
+    unknown: "&cUnknown command! Type &e/mission info &cfor available commands."
+    cache:
+      usage: "&cUsage: /mission cache <clear|stats>"
+    give:
+      usage: "&cUsage: /mission give <player> <level>"
+      success: "&aLevel &6{0} &agiven to &e{1} &asuccessfully!"
+      target-notification: "&aYou received level &6{0} &afrom an administrator!"
+    reset:
+      usage: "&cUsage: /mission reset [player]"
+      success: "&aYour level has been reset!"
+      target-success: "&aLevel of &e{0} &ahas been reset!"
+    set:
+      success: "&aYour level has been set to &6{0}&a!"
+    mission-info:
+      level: "&aYour current mission level: &6{0}"
+    reset-messages:
+      # Additional reset-related messages (not used by default commands)
+      success: "&a&lReset successful! &rYour levels have been reset."
+      target-notification: "&a&lYour level has been reset by an administrator."
+      failure: "&cReset failed! Please try again."
+    stats:
+      header: "&6=== &lStatistics of {0} &6==="
+      level: "&eLevel: &f{0}"
+      buttons: "&eButtons: &f{0}"
+    top:
+      header: "&6=== &lTop Players &6==="
+    info:
+      header: "&6=== &lKrakenLevels Information &6==="
+      version: "&eVersion: &f{0}"
+      database-status: "&eDatabase status: &f{0}"
+      cache-stats: "&eCache stats: &f{0} entries"
+    missions:
+      coming-soon: "&eMissions system coming soon!"
+
+  # Level messages
+  levels:
+    level-up: "&a&lCongratulations! &rYou've reached level &6{0}&a!"
+    max-level: "&eYou already reached the maximum level!"
+
+  # Mission messages
+  missions:
+    started: "&aMission started! &7{0}"
+    completed: "&a&lMission completed! &rYou received your rewards."
+    progress: "&eProgress: &a{0}&7/&c{1}"
+
+  # Plugin (system) messages
+  plugin:
+    startup:
+      success: "&aKrakenLevels v{0} enabled successfully!"
+    shutdown:
+      starting: "&6Shutting down KrakenLevels..."
+      complete: "&aKrakenLevels shut down cleanly"
+
+  # System error messages
+  error:
+    database-connection: "&cDatabase connection error!"
+    mongodb-unavailable: "&cMongoDB unavailable or not configured!"
+    config-load: "&cError while loading configuration!"
+    service-unavailable: "&cService temporarily unavailable"

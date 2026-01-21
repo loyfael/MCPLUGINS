@@ -1,0 +1,42 @@
+name: LiteFish
+version: '1.0.0'
+main: loyfael.litefish.LiteFish
+api-version: 1.16
+authors: [Loyfael]
+description: 'Simplified Advanced Fishing Plugin with Nexo, Vault, and WorldGuard support'
+website: 'https://github.com/loyfael'
+
+softdepend: [Vault, WorldGuard, Nexo]
+
+commands:
+  lfish:
+    description: 'Main LiteFish command'
+    usage: '/lfish help'
+    permission: litefish.use
+    aliases: [litefish, fishing]
+
+permissions:
+  litefish.*:
+    description: 'All LiteFish permissions'
+    children:
+      litefish.use: true
+      litefish.admin: true
+      
+  litefish.use:
+    description: 'Basic LiteFish usage'
+    default: true
+    
+  litefish.admin:
+    description: 'LiteFish admin permissions'
+    default: op
+    children:
+      litefish.admin.reload: true
+      litefish.admin.stats: true
+      
+  litefish.admin.reload:
+    description: 'Permission to reload the plugin'
+    default: op
+    
+  litefish.admin.stats:
+    description: 'Permission to view other players stats'
+    default: op

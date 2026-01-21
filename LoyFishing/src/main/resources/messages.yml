@@ -1,0 +1,84 @@
+# ===========================================
+# LiteFish Messages Configuration (Français)
+# ===========================================
+
+# Préfixe du plugin
+prefix: "&b[LiteFish] &f"
+
+# Messages Généraux
+no-permission: "&cVous n'avez pas la permission d'utiliser cette commande !"
+reload-success: "&aConfiguration rechargée avec succès !"
+player-not-found: "&cJoueur introuvable !"
+plugin-disabled: "&cLiteFish est actuellement désactivé !"
+
+# Messages de Pêche
+fishing:
+  caught: "&aVous avez attrapé un(e) &e{fish}&a dans le biome &b{biome}&a !"
+  sold: "&aVous avez vendu &e{amount}&a poisson(s) pour &e{money}€&a !"
+  no-fish-to-sell: "&cVous n'avez aucun poisson à vendre !"
+  inventory-full: "&cVotre inventaire est plein ! Certains objets ont pu être jetés au sol."
+
+# Messages de Titre pour la Pêche
+titles:
+  fishing-animation: "&b&lPêche en cours{dots}"
+  fishing-subtitle: "&7Attendez qu'un poisson morde..."
+  minigame-normal: "&e&lÇA MORD !"
+  minigame-lava: "&c&lÇA MORD EN LAVE !"
+  minigame-void: "&5&lQUELQUE CHOSE ÉMERGE DU VIDE !"
+  minigame-subtitle: "&7Cliquez quand la barre est verte !"
+  success-normal: "&a&l{fish}"
+  success-lava: "&c&l{fish}"
+  success-void: "&5&l{fish}"
+  success-subtitle: "&7+{exp} XP"
+  treasure: "&6&l✦ TRÉSOR TROUVÉ ! ✦"
+  treasure-subtitle: "&e{treasure} découvert ! &7+{exp} XP"
+  fail-caught: "&c&lIl s'est échappé..."
+  fail-subtitle: "&7Plus de chance la prochaine fois !"
+  nothing-caught: "&6&lRien n'a été attrapé"
+  nothing-subtitle: "&7Réessayez..."
+  level-up: "&e&lRareté du butin augmentée !"
+  level-up-subtitle: "&7Nouveau niveau : &a{level}"
+
+# Messages d'Économie
+economy:
+  not-enabled: "&cL'économie n'est pas activée sur ce serveur !"
+  insufficient-funds: "&cVous n'avez pas assez d'argent !"
+  transaction-failed: "&cTransaction échouée ! Veuillez réessayer."
+
+# Messages de Tournoi
+tournament:
+  started: "&e&lTournoi de Pêche Commencé !"
+  ended: "&e&lTournoi de Pêche Terminé !"
+  winner: "&a&l{player} &aa remporté le tournoi avec &e{amount} &apoisson(s) !"
+  position: "&eVous avez fini en position &b#{position} &eavec &a{amount} &epoisson(s) !"
+
+# Messages WorldGuard
+worldguard:
+  no-fishing: "&cVous ne pouvez pas pêcher dans cette région !"
+  no-build: "&cVous ne pouvez pas construire dans cette région !"
+
+# Messages Admin
+admin:
+  player-stats-reset: "&aLes statistiques du joueur ont été réinitialisées !"
+  config-error: "&cErreur dans le fichier de configuration : {error}"
+  hook-enabled: "&aConnexion réussie avec {plugin} !"
+  hook-disabled: "&cÉchec de la connexion avec {plugin} !"
+
+# Messages d'Aide
+help:
+  header: "&b&l=== Aide LiteFish ==="
+  footer: "&b&l====================="
+  command-format: "&e{command} &7- {description}"
+
+# Messages d'Erreur
+error:
+  command-failed: "&cÉchec de l'exécution de la commande !"
+  invalid-biome: "&cNom de biome invalide : &e{biome}"
+  invalid-number: "&cNombre invalide : &e{input}"
+  player-only: "&cCette commande ne peut être utilisée que par les joueurs !"
+  console-only: "&cCette commande ne peut être utilisée que depuis la console !"
+  
+# Messages Mini-jeu Void
+void-minigame:
+  rod-blocked: "&c&l[VOID] &7Impossible de ramener l'hameçon pendant le mini-jeu !"
+  cancelled-item-change: "&c&l[VOID] &7Mini-jeu annulé car vous avez changé d'item !"
