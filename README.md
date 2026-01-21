@@ -31,6 +31,7 @@ If you need details (commands, permissions, configuration), open the module READ
 - **LandsBlockLimiter** ([LandBlockLimiter](LandBlockLimiter/)): Adds per-land limits for configured block types when using the **Lands** plugin (e.g., limit hoppers/chests/beacons). Includes `/lbl reload` and `/lbl scan`.
 - **LoyCompassMenu** ([LoyCompassMenu](LoyCompassMenu/)): Quality-of-life shortcut: **right-click with a compass** to execute `/menu`.
 - **LoyLecternFirstPage** ([LoyLecternFirstPage](LoyLecternFirstPage/)): Ensures lectern books open on **page 1** (prevents “random page” behavior).
+- **LoyVoidBounce** ([LoyVoidBounce](LoyVoidBounce/)): Simple void protection: **bounce players back up** when they fall below a configured Y level.
 
 Not production plugins (templates / examples):
 

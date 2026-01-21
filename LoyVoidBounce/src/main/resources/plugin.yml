@@ -1,0 +1,21 @@
+name: LoyVoidBounce
+main: loyfael.Main
+version: '${project.version}'
+api-version: '1.21'
+author: loyfael
+description: A modern Paper plugin template for Minecraft 1.21+
+website: https://github.com/loyfael/LoyVoidBounce
+
+commands:
+  loyvoidbounce:
+    description: Main command for LoyVoidBounce plugin
+    usage: /loyvoidbounce [reload|info]
+    permission: loyvoidbounce.use
+
+permissions:
+  loyvoidbounce.use:
+    description: Basic permission to use LoyVoidBounce commands
+    default: true
+  loyvoidbounce.admin:
+    description: Administrative permission for LoyVoidBounce
+    default: op
