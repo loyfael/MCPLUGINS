@@ -1,0 +1,166 @@
+# === CONFIGURATION AETHERPLAYER DELIVERY ===
+# Plugin de livraison player-to-player pour Minecraft PaperMC
+# Version: 1.0.0
+
+# === DATABASE CONFIGURATION ===
+database:
+  # Type de base de données: mysql ou sqlite
+  type: "sqlite"  # Par défaut SQLite pour simplicité
+  
+  # Configuration MySQL (utilisée si type = "mysql")
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "aetherdelivery"
+    username: "delivery_user"
+    password: "changeme"
+    properties:
+      autoReconnect: true
+      characterEncoding: "utf8"
+      useUnicode: true
+      useSSL: false
+      allowPublicKeyRetrieval: true
+    
+  # Configuration SQLite (utilisée si type = "sqlite")
+  sqlite:
+    filename: "aetherdelivery.db"  # Fichier dans le dossier plugins/AetherPlayerDelivery/
+    
+  # Configuration du pool de connexions
+  hikari:
+    maximum-pool-size: 10
+    minimum-idle: 3
+    connection-timeout: 30000
+    idle-timeout: 600000
+    max-lifetime: 1800000
+
+# === ECONOMY SETTINGS ===
+economy:
+  # Commission prise par le serveur sur chaque transaction (%)
+  server-commission: 5.0
+  
+  # Frais fixes par transaction
+  transaction-fee: 10.0
+  
+  # Format d'affichage des prix
+  currency-format: "%.2f $"
+
+# === DELIVERY SETTINGS ===
+livraison:
+  # Délai maximum pour récupérer les items après acceptation (en jours)
+  delai_recuperation: 3
+  
+  # Délai maximum pour livrer après récupération (en jours)  
+  delai_livraison: 2
+  
+  # Commission du livreur (% du prix total)
+  commission_livreur: 15.0
+  
+  # Bonus distance minimum pour encourager les longues livraisons
+  bonus_distance_min: 1000  # blocs
+  bonus_distance_multiplier: 0.1  # par tranche de 1000 blocs
+  
+  # Remboursement en cas d'expiration (%)
+  remboursement_expire: 50
+
+# === ORDER SETTINGS ===
+commande:
+  # Délai d'expiration d'une commande sans livreur (en jours)
+  delai_expiration: 7
+  
+  # Prix minimum pour créer une commande
+  prix_minimum: 10.0
+  
+  # Prix maximum pour éviter les abus
+  prix_maximum: 10000.0
+  
+  # Items interdits (ne peuvent pas être commandés)
+  items_interdits:
+    - "BEDROCK"
+    - "COMMAND_BLOCK"
+    - "BARRIER"
+    - "STRUCTURE_VOID"
+
+# === REPUTATION SYSTEM ===
+reputation:
+  # Réputation minimum pour être livreur
+  reputation-minimum: 0.0
+  
+  # Points gagnés pour une livraison réussie
+  points-livraison-reussie: 10
+  
+  # Points perdus pour une livraison échouée
+  points-livraison-echouee: -25
+  
+  # Points perdus pour annulation
+  points-annulation: -5
+
+# === NOTIFICATION SETTINGS ===
+notifications:
+  # Activer les notifications sonores
+  sounds-enabled: true
+  
+  # Sons pour différents événements
+  sounds:
+    nouvelle-commande: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    commande-acceptee: "ENTITY_PLAYER_LEVELUP" 
+    livraison-terminee: "UI_TOAST_CHALLENGE_COMPLETE"
+    paiement-recu: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    erreur: "ENTITY_VILLAGER_NO"
+    
+  # Messages dans le chat
+  chat-notifications:
+    # Notifier le client quand sa commande est acceptée
+    commande-acceptee: true
+    # Notifier le client quand sa commande est livrée
+    commande-livree: true
+    # Notifier le livreur des nouveaux paiements
+    paiement-recu: true
+
+# === GUI SETTINGS ===
+gui:
+  # Titre des menus
+  titles:
+    main-menu: "&6AetherPlayer Delivery"
+    create-order: "&aCreer une commande"
+    my-orders: "&bMes commandes"
+    available-deliveries: "&elivraisons disponibles"
+    my-deliveries: "&5Mes livraisons"
+  
+  # Taille des menus (en rangées)
+  menu-size: 6
+
+# === SCHEDULER SETTINGS ===
+scheduler:
+  # Intervalle de vérification des expirations (en minutes)
+  check-interval: 30
+  
+  # Activer les vérifications automatiques
+  auto-cleanup: true
+  
+  # Heure de maintenance quotidienne (format HH:mm)
+  maintenance-time: "03:00"
+
+# === DEBUG SETTINGS ===
+debug:
+  # Activer les logs détaillés
+  verbose-logging: false
+  
+  # Log des transactions économiques
+  log-transactions: true
+  
+  # Log des événements de livraison
+  log-delivery-events: true
+
+# === ADVANCED SETTINGS ===
+advanced:
+  # Nombre maximum de commandes simultanées par joueur
+  max-orders-per-player: 5
+  
+  # Nombre maximum de livraisons simultanées par livreur  
+  max-deliveries-per-player: 3
+  
+  # Cache des données joueur (en secondes)
+  player-data-cache-duration: 300
+  
+  # Timeout pour les requêtes SQL (en secondes)
+  sql-timeout: 30

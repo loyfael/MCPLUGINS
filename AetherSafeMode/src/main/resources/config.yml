@@ -1,0 +1,163 @@
+# ====================================
+# AetherSafeMode Configuration
+# ====================================
+
+# Base de données
+database:
+  type: "sqlite"  # sqlite ou mysql
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "aethersafemode"
+    username: "username"
+    password: "password"
+  sqlite:
+    file: "data.db"
+
+# Délai de changement de mode (en millisecondes). Empêche au joueur de spam le changement de mode.
+mode-change-delay: 3000
+
+# Délai entre les changements de mode (cooldown en millisecondes)
+# 86400000 = 24 heures, 3600000 = 1 heure, 1800000 = 30 minutes
+mode-change-cooldown: 86400000
+
+# Messages du plugin
+messages:
+  # Messages généraux
+  prefix: "&8[&7AetherSafe&8] "
+  only-players: "&8[&7AetherSafe&8] &cSeuls les joueurs peuvent utiliser cette commande."
+  no-permission: "&8[&7AetherSafe&8] &cTu n'as pas la permission pour ça !"
+
+  # Messages de statut
+  current-mode-safe: "&8[&7AetherSafe&8] &7Tu es en &a&lMODE SÉCURISÉ &8(&7Tu es protégé&8)"
+  current-mode-unsafe: "&8[&7AetherSafe&8] &7Tu es en &c&lMODE COMBAT &8(&cAttention aux risques !&8)"
+
+  # Messages de changement de mode
+  switching-to-safe: "&8[&7AetherSafe&8] &7Passage en &a&lMODE SÉCURISÉ&7..."
+  switching-to-unsafe: "&8[&7AetherSafe&8] &7Passage en &c&lMODE COMBAT&7... &cAttention !"
+  mode-changed-safe: "&8[&7AetherSafe&8] &a✅ &7Tu es maintenant protégé ! Tes objets sont en sécurité."
+  mode-changed-unsafe: "&8[&7AetherSafe&8] &c⚠️ &7Tu peux maintenant te battre ! Attention à ne pas mourir."
+
+  # Messages de combat
+  cannot-attack-safe-mode: "&8[&7AetherSafe&8] &7Tu ne peux pas attaquer en mode sécurisé !"
+  cannot-attack-safe-player: "&8[&7AetherSafe&8] &7Ce joueur est protégé, tu ne peux pas l'attaquer."
+
+  # Messages de mort
+  death-safe-mode: "&8[&7AetherSafe&8] &a🛡️ &7Tes objets ont été sauvés ! Merci le mode sécurisé !"
+  death-unsafe-mode: "&8[&7AetherSafe&8] &c💀 &7Tu as perdu tes objets... C'est le risque du mode combat !"
+
+# Interface graphique
+gui:
+  title: "&8Choisir son mode de jeu"
+
+  # Items de l'interface
+  items:
+    safe-mode:
+      name: "&a&lMODE SÉCURISÉ"
+      lore:
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+        - ""
+        - "&7🛡️ &aJe veux être protégé"
+        - "&7📦 &aMes objets sont sauvés si je meurs"
+        - "&7🏠 &aPerfait pour construire et explorer"
+        - ""
+        - "&8▪ &7Personne ne peut m'attaquer"
+        - "&8▪ &7Je ne peux attaquer personne"
+        - ""
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+      material: "LIME_CONCRETE"
+
+    unsafe-mode:
+      name: "&c&lMODE DANGER"
+      lore:
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+        - ""
+        - "&7⚔️ &cJe veux me battre avec d'autres joueurs"
+        - "&7💀 &cSi je meurs, je perds mes objets"
+        - "&7🎯 &cPour les joueurs qui aiment le défi"
+        - ""
+        - "&4&lATTENTION :"
+        - "&8▪ &7C'est à tes risques et périls"
+        - "&8▪ &7Les admins ne rendent pas les objets perdus"
+        - "&8▪ &7Tu acceptes de perdre tes affaires"
+        - ""
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+      material: "RED_CONCRETE"
+
+    confirm:
+      name: "&a&lCONFIRMER"
+      lore:
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+        - ""
+        - "&7Confirmer le changement de mode"
+        - ""
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+        - "&a&l➤ Cliquez pour confirmer"
+      material: "LIME_CONCRETE"
+
+    cancel:
+      name: "&c&lANNULER"
+      lore:
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+        - ""
+        - "&7Annuler le changement de mode"
+        - ""
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+        - "&c&l➤ Cliquez pour annuler"
+      material: "RED_CONCRETE"
+
+    current-safe:
+      name: "&a&lMODE ACTUEL : SÉCURISÉ"
+      lore:
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+        - ""
+        - "&a✓ &7Vous êtes actuellement protégé"
+        - "&a✓ &7Vos objets sont sécurisés"
+        - ""
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+      material: "EMERALD_BLOCK"
+
+    current-unsafe:
+      name: "&c&lMODE ACTUEL : COMBAT"
+      lore:
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+        - ""
+        - "&c⚠ &7Vous êtes en mode combat"
+        - "&c⚠ &7Risque de perte d'objets"
+        - ""
+        - "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+      material: "REDSTONE_BLOCK"
+
+# Messages de cooldown et délais
+cooldown:
+  switching: "&8[&7AetherSafe&8] &7Changement en cours... &8(&7%time%s restantes&8)"
+  complete: "&8[&7AetherSafe&8] &a✓ &7Changement de mode terminé !"
+
+# Messages détaillés d'activation de mode (COPIÉS-COLLÉS EXACTEMENT DU CODE)
+detailed-messages:
+  safe-mode-activated:
+    - ""
+    - "§8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+    - "§8│             §a§lMODE SÉCURISÉ ACTIVÉ                      §8│"
+    - "§8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+    - "§8│  §a✓ §7Vous êtes maintenant protégé"
+    - "§8│  §a✓ §7Vos objets seront préservés à la mort"
+    - "§8│  §a✓ §7Vous ne pouvez plus être attaqué"
+    - "§8│  §a✓ §7Parfait pour explorer tranquillement"
+    - "§8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+    - ""
+
+  unsafe-mode-activated:
+    - ""
+    - "§8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+    - "§8│              §c§lMODE COMBAT ACTIVÉ                       §8│"
+    - "§8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+    - "§8│  §c⚠ §7Combat PvP maintenant possible"
+    - "§8│  §c⚠ §7Vous perdrez vos objets à la mort"
+    - "§8│  §c⚠ §7Autres joueurs peuvent vous attaquer"
+    - "§8│"
+    - "§8│  §4§lIMPORTANT:"
+    - "§8│  §7Le staff n'est pas responsable des pertes"
+    - "§8│  §7Utilisez §f/safemode §7pour revenir en sécurité"
+    - "§8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+    - ""

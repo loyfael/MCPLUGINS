@@ -14,17 +14,21 @@ Each module is independent and typically has its own `pom.xml`.
 - Each plugin usually has its own `src/main/resources/plugin.yml` (Paper/Spigot descriptor).
 - Most modules also have their own README.
 
-Quick links: [AetherialShop](AetherialShop/), [AntiVillagerLag](AntiVillagerLag/), [KrakenLevels2](KrakenLevels2/), [LoyChatFillCommand](LoyChatFillCommand/), [LoyCustomMobs](LoyCustomMobs/), [LoyFishing](LoyFishing/), [LoyFlightImproved](LoyFlightImproved/), [LandBlockLimiter](LandBlockLimiter/), [LoyCompassMenu](LoyCompassMenu/), [LoyLecternFirstPage](LoyLecternFirstPage/), [NuvaPlayerSync](NuvaPlayerSync/).
+Quick links: [AetherialShop](AetherialShop/), [AetherPlayerShop](AetherPlayerShop/), [AetherPlayerShop2](AetherPlayerShop2/), [AetherPlayerDelivery](AetherPlayerDelivery/), [AntiVillagerLag](AntiVillagerLag/), [KrakenLevels2](KrakenLevels2/), [LoyChatFillCommand](LoyChatFillCommand/), [LoyCustomMobs](LoyCustomMobs/), [LoyFishing](LoyFishing/), [LoyFlightImproved](LoyFlightImproved/), [LandBlockLimiter](LandBlockLimiter/), [LoyCompassMenu](LoyCompassMenu/), [LoyLecternFirstPage](LoyLecternFirstPage/), [NuvaPeoples](NuvaPeoples/), [NuvaPlayerSync](NuvaPlayerSync/).
 
 ## What is the purpose of each plugin?
 
 If you need details (commands, permissions, configuration), open the module README.
 
 - **AetherialShop** ([AetherialShop](AetherialShop/)): Temporary rotating **admin shop** (daily rotation). Provides `/dailyshop` for players and `/ashop` admin commands. (Depends on Vault)
+- **AetherPlayerShop** ([AetherPlayerShop](AetherPlayerShop/)): Player shop system written in **Java**; older version of the player shop plugin.
+- **AetherPlayerShop2** ([AetherPlayerShop2](AetherPlayerShop2/)): **Kotlin rewrite** of AetherPlayerShop with **full functionality** and improved features; the modern, production-ready version of the player shop system.
+- **AetherPlayerDelivery** ([AetherPlayerDelivery](AetherPlayerDelivery/)): Unfinished player-to-player **delivery system** with **paid/remunerated deliveries** between players.
 - **AntiVillagerLag** ([AntiVillagerLag](AntiVillagerLag/)): Villager performance helper that **toggles villager behavior/trading based on simple rules** (notably: villagers on an **emerald block** can trade; otherwise they get disabled), with commands to optimize/unoptimize and options to prevent **Mending** trades.
 - **KrakenLevels2 / KrakenLevels** ([KrakenLevels2](KrakenLevels2/)): Lightweight **levels + missions** system for modern Paper servers, with MongoDB (or YAML) storage, PlaceholderAPI placeholders, and optional Vault integration.
 - **LoyChatFillCommand** ([LoyChatFillCommand](LoyChatFillCommand/)): Sends **clickable messages** that pre-fill the player's chat input with a command/text (Paper 1.21.8).
 - **LoyCustomMobs** ([LoyCustomMobs](LoyCustomMobs/)): Custom mobs framework with **abilities**, **rarity tiers**, and configurable **loot**, designed for Paper 1.21.x.
+- **NuvaPeoples** ([NuvaPeoples](NuvaPeoples/)): **Class/People system** written in Kotlin; allows players to choose a unique class with specialized passives. Features 6 distinct peoples (Bastorgnes, Tartinuits, Sylvounets, Grosuki, Bricobrak, Miraziens) with immersive fantasy GUI, MySQL database persistence, and PlaceholderAPI integration.
 - **NuvaPlayerSynchro** ([NuvaPlayerSync](NuvaPlayerSync/)): MongoDB-based **player data synchronization** plugin (inventory/enderchest/XP/health/hunger…), aimed at high-concurrency setups. (Do not use in production; read the module README.)
 - **LoyFishing / LiteFish** ([LoyFishing](LoyFishing/)): Simplified advanced **fishing** plugin: configurable drops (by biome), player stats, and optional hooks for Vault (economy), WorldGuard (regions), and Nexo (custom items).
 - **LoyFlightImproved** ([LoyFlightImproved](LoyFlightImproved/)): Elytra boost plugin: **right-click to boost** elytras; consumes hunger per boost.

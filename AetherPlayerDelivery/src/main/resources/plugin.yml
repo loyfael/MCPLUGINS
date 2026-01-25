@@ -1,0 +1,117 @@
+# === INFORMATIONS PRINCIPALES ===
+name: AetherPlayerDelivery
+version: ${project.version}
+main: loyfael.AetherPlayerDelivery
+api-version: '1.21'
+folia-supported: false
+
+# === INFORMATIONS OPTIONNELLES ===
+description: "Plugin de commandes et livraisons entre joueurs avec système économique"
+website: "${project.url}"
+author: Felke
+authors: [Felke]
+prefix: AetherPlayerDelivery
+
+# === DÉPENDANCES ===
+# Plugins requis (hard dependencies)
+depend: [Vault]
+
+# Plugins optionnels (soft dependencies)
+softdepend: [PlaceholderAPI, LuckPerms]
+
+# Plugins à charger avant celui-ci
+loadbefore: []
+
+# === PERMISSIONS ===
+permissions:
+  aetherplayerdelivery.admin:
+    description: Permission administrateur complète
+    default: op
+    children:
+      aetherplayerdelivery.reload: true
+      aetherplayerdelivery.debug: true
+      aetherplayerdelivery.commande.admin: true
+      aetherplayerdelivery.livraison.admin: true
+  
+  aetherplayerdelivery.user:
+    description: Permission utilisateur de base
+    default: true
+    children:
+      aetherplayerdelivery.help: true
+      aetherplayerdelivery.commande.create: true
+      aetherplayerdelivery.commande.list: true
+      aetherplayerdelivery.livraison.accept: true
+      aetherplayerdelivery.livraison.deliver: true
+  
+  aetherplayerdelivery.reload:
+    description: Permission pour recharger le plugin
+    default: op
+  
+  aetherplayerdelivery.debug:
+    description: Permission pour utiliser les commandes de debug
+    default: op
+  
+  aetherplayerdelivery.help:
+    description: Permission pour voir l'aide
+    default: true
+
+  # Permissions commandes
+  aetherplayerdelivery.commande.create:
+    description: Permission pour créer des commandes
+    default: true
+    
+  aetherplayerdelivery.commande.list:
+    description: Permission pour voir ses commandes
+    default: true
+    
+  aetherplayerdelivery.commande.admin:
+    description: Permission pour gérer toutes les commandes
+    default: op
+
+  # Permissions livraisons
+  aetherplayerdelivery.livraison.accept:
+    description: Permission pour accepter des livraisons
+    default: true
+    
+  aetherplayerdelivery.livraison.deliver:
+    description: Permission pour livrer des commandes
+    default: true
+    
+  aetherplayerdelivery.livraison.admin:
+    description: Permission pour gérer toutes les livraisons
+    default: op
+    
+  # Permissions GUI
+  aetherplayerdelivery.gui:
+    description: Permission pour utiliser l'interface graphique
+    default: true
+
+# === COMMANDES ===
+commands:
+  delivery:
+    description: Interface graphique principale d'AetherPlayerDelivery
+    usage: /<command> [gui|help]
+    aliases: [aether, livraison-gui]
+    permission: aetherplayerdelivery.gui
+    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande !"
+    
+  commande:
+    description: Gestion des commandes (création, suivi, annulation)
+    usage: /<command> [create|list|cancel|info] [args...]
+    aliases: [cmd, order]
+    permission: aetherplayerdelivery.commande.create
+    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande !"
+  
+  livraison:
+    description: Gestion des livraisons (acceptation, dépôt, liste)
+    usage: /<command> [accept|deliver|list|depot] [args...]
+    aliases: [delivery, livr]
+    permission: aetherplayerdelivery.livraison.accept
+    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande !"
+    
+  aetherplayerdelivery:
+    description: Commande principale du plugin (administration)
+    usage: /<command> [help|reload|info|stats]
+    aliases: [apd, aetherpd]
+    permission: aetherplayerdelivery.admin
+    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande !"

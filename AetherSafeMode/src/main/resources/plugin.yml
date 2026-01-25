@@ -1,0 +1,34 @@
+name: AetherSafeMode
+version: 1.0.0
+main: loyfael.Main
+api-version: 1.21.8
+description: Plugin de gestion des modes de jeu PvP avec protection et base de données
+author: Loyfael
+website: https://github.com/loyfael
+
+softdepend: [WorldGuard, Lands, PlaceholderAPI]
+
+commands:
+  safemode:
+    description: Gérer votre mode de jeu (Sécurisé/Combat)
+    usage: /<command> [status|reload]
+    aliases: [sm, mode, pvpmode]
+    permission: aethersafemode.use
+
+permissions:
+  aethersafemode.use:
+    description: Utiliser les commandes de base du plugin
+    default: true
+  aethersafemode.toggle:
+    description: Changer de mode de jeu
+    default: true
+  aethersafemode.reload:
+    description: Recharger la configuration
+    default: op
+  aethersafemode.admin:
+    description: Accès admin complet
+    default: op
+    children:
+      - aethersafemode.use
+      - aethersafemode.toggle
+      - aethersafemode.reload

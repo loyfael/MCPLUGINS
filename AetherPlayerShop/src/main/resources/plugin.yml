@@ -1,0 +1,66 @@
+name: AetherPlayerShop
+main: loyfael.Main
+version: '${project.version}'
+api-version: '1.21'
+author: loyfael
+description: Plugin avancé de boutiques joueurs avec MongoDB et menu central global
+website: https://github.com/loyfael/AetherPlayerShop
+
+# DÉPENDANCES CRITIQUES pour le système économique
+depend: [Vault]
+softdepend: [CMI, EssentialsX, Towny]
+
+commands:
+  chestshop:
+    description: Commande principale du plugin
+    usage: /<command> [help|info|reload|stats|delete]
+    aliases: [cs, shop, playershop]
+  shopinfo:
+    description: Ouvre le menu global des shops
+    usage: /<command>
+    aliases: [shops, shoplist]
+  shopdebug:
+    description: Commandes de diagnostic pour les shops
+    usage: /<command> [lookup|cleanup|stats|cache]
+    permission: aetherplayershop.debug
+
+permissions:
+  aetherplayershop.*:
+    description: Toutes les permissions du plugin
+    default: op
+    children:
+      aetherplayershop.create: true
+      aetherplayershop.manage: true
+      aetherplayershop.buy: true
+      aetherplayershop.sell: true
+      aetherplayershop.admin: true
+      aetherplayershop.buyown: true
+      aetherplayershop.debug: true
+
+  aetherplayershop.create:
+    description: Créer des shops
+    default: true
+
+  aetherplayershop.manage:
+    description: Gérer ses propres shops
+    default: true
+
+  aetherplayershop.buy:
+    description: Acheter dans les shops
+    default: true
+
+  aetherplayershop.sell:
+    description: Vendre dans les shops
+    default: true
+
+  aetherplayershop.admin:
+    description: Permissions administrateur (accès total)
+    default: op
+
+  aetherplayershop.buyown:
+    description: Permet d'acheter dans ses propres shops (pour tester)
+    default: op
+
+  aetherplayershop.debug:
+    description: Commandes de diagnostic
+    default: op

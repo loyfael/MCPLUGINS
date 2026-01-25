@@ -1,0 +1,82 @@
+name: AetherPlayerShop
+version: '${project.version}'
+main: loyfael.Main
+api-version: '1.21.8'
+folia-supported: false
+
+description: "Plugin de shop joueur avancé avec MySQL, Vault et TriumphGUI"
+website: "https://github.com/loyfael/aether-player-shop"
+author: Loyfael
+authors: [Loyfael]
+
+depend: [Vault]
+softdepend: []
+
+commands:
+  chestshop:
+    description: Commandes principales pour gérer les shops
+    usage: /<command> [info|delete] [joueur]
+    aliases: [cs, shop, playershop]
+    permission: aetherplayershop.use
+    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande !"
+
+  shopdebug:
+    description: Commandes de debug et maintenance pour les administrateurs
+    usage: /<command> [stats|lookup|cleanup|ghostcleanup]
+    aliases: [sd, debugshop]
+    permission: aetherplayershop.admin
+    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande !"
+
+permissions:
+  # Permissions de base
+  aetherplayershop.use:
+    description: Permission de base pour utiliser le plugin
+    default: true
+
+  aetherplayershop.create:
+    description: Permission pour créer des shops
+    default: true
+
+  aetherplayershop.buy:
+    description: Permission pour acheter dans les shops
+    default: true
+
+  aetherplayershop.sell:
+    description: Permission pour vendre dans les shops
+    default: true
+
+  # Permission de limite de shops personnalisable
+  # Format: aetherplayershop.shops.<nombre>
+  # Exemple: aetherplayershop.shops.10 permet jusqu'à 10 shops
+
+  aetherplayershop.bypasslimit:
+    description: Bypass la limite de shops (équivalent à unlimited)
+    default: op
+
+  # Permissions administrateur
+  aetherplayershop.admin:
+    description: Accès complet aux commandes admin et debug
+    default: op
+    children:
+      aetherplayershop.use: true
+      aetherplayershop.create: true
+      aetherplayershop.buy: true
+      aetherplayershop.sell: true
+      aetherplayershop.bypasslimit: true
+      aetherplayershop.admin.delete: true
+      aetherplayershop.admin.edit: true
+
+  aetherplayershop.admin.delete:
+    description: Permission pour supprimer les shops d'autres joueurs
+    default: op
+
+  aetherplayershop.admin.edit:
+    description: Permission pour modifier les shops d'autres joueurs
+    default: op
+
+  # Permissions wildcard
+  aetherplayershop.*:
+    description: Toutes les permissions du plugin
+    default: op
+    children:
+      aetherplayershop.admin: true

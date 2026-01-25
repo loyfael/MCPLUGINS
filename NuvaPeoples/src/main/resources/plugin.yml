@@ -1,0 +1,34 @@
+name: NuvaPeoples
+version: 1.0.0
+main: loyfael.ClassePlugin
+api-version: 1.21
+authors: [Loyfael]
+description: Plugin de classes/peuples Minecraft avec passifs spécifiques
+website: https://github.com/loyfael
+
+depend:
+  - PlaceholderAPI
+
+commands:
+  classe:
+    description: Gestion des classes/peuples
+    usage: /classe <choisir|oublier|info|reload> [peuple]
+    permission: nuva.classe.use
+    aliases: [class, peuple]
+
+permissions:
+  nuva.classe.use:
+    description: Utiliser les commandes de base du plugin
+    default: true
+  nuva.classe.admin:
+    description: Administration du plugin (reload)
+    default: op
+  nuva.classe.choisir:
+    description: Choisir une classe
+    default: op
+  nuva.classe.oublier:
+    description: Oublier sa classe courante
+    default: op
+  nuva.classe.info:
+    description: Voir les informations de sa classe
+    default: true

@@ -1,0 +1,227 @@
+# Configuration NuvaPeoples
+# Plugin de classes/peuples Minecraft PaperMC 1.21.8
+
+# Mode debug (affiche les informations dans la console)
+debug: false
+
+# Configuration base de données
+# Types supportés: "mysql", "sqlite" 
+database:
+  type: "sqlite"  # mysql ou sqlite
+  # Configuration MySQL (utilisée si type = "mysql")
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "nuva_peoples"
+    username: "root"
+    password: "password"
+  # Configuration SQLite (utilisée si type = "sqlite")
+  sqlite:
+    file: "data.db"
+  pool_size: 10
+
+# Messages du plugin
+messages:
+  prefix: "&8[&3&lClasse&8]&r "
+  classe_choisie: "&aVous avez choisi la classe &e{classe}&a !"
+  classe_oubliee: "&cVous avez oublié votre classe et êtes redevenu une &7Âme errante&c."
+  classe_actuelle: "&evotre classe actuelle : &a{classe}"
+  aucune_classe: "&cVous n'avez aucune classe sélectionnée."
+  passifs_actifs: "&ePassifs actifs :"
+  classe_inexistante: "&cCette classe n'existe pas !"
+  cooldown_actif: "&cCe passif est en cours de rechargement ! ({temps}s restantes)"
+  pain_absorption: "&a+2 cœurs d'absorption pendant 10 secondes !"
+  regeneration_active: "&aRégénération active !"
+  resistance_active: "&aRésistance activée !"
+  config_rechargee: "&aConfiguration rechargée avec succès !"
+  pas_permission: "&cVous n'avez pas la permission d'utiliser cette commande."
+  
+# Configuration des cooldowns (en secondes)
+cooldowns:
+  pain_nourricier: 20
+  serenite_lunaire: 60
+  esprit_apaise: 45
+
+# Configuration des passifs
+passifs:
+  # Bastorgnes (Orqs)
+  frappe_lourde:
+    enabled: true
+    bonus_degats: 0.02 # +2%
+  peau_fer:
+    enabled: true
+    reduction_degats: 0.05 # -5%
+    
+  # Tartinuits (Hobbits)
+  pain_nourricier:
+    enabled: true
+    absorption_coeurs: 2
+    duree_absorption: 10 # secondes
+    cooldown: 20
+  sante_florissante:
+    enabled: true
+    niveau_regeneration: 1
+    
+  # Sylvounets (Elfes)
+  tir_sylvestre:
+    enabled: true
+    bonus_degats: 0.02 # +2%
+  agilite_forestiere:
+    enabled: true
+    bonus_vitesse: 0.20 # +20%
+    biomes_forestiers:
+      # Forêts principales
+      - "forest"
+      - "birch_forest"
+      - "dark_forest"
+      - "old_growth_birch_forest"
+      - "old_growth_pine_taiga"
+      - "old_growth_spruce_taiga"
+      # Jungles
+      - "jungle"
+      - "sparse_jungle"
+      - "bamboo_jungle"
+      # Taïgas
+      - "taiga"
+      - "snowy_taiga"
+      # Variantes avec collines (si elles existent encore)
+      - "windswept_forest"
+      - "flower_forest"
+      
+  # Grosuki (Hommes panda/kitsunes)
+  serenite_lunaire:
+    enabled: true
+    seuil_vie: 0.25 # <25% PV
+    niveau_resistance: 1
+    duree: 5 # secondes
+    cooldown: 60
+  esprit_apaise:
+    enabled: true
+    temps_accroupi: 3 # secondes
+    niveau_regeneration: 2
+    duree_regeneration: 5
+    cooldown: 45
+    
+  # Bricobrak (Humains)
+  outils_bricoleurs:
+    enabled: true
+    reduction_durabilite: 0.20 # -20%
+  ressort_bricole:
+    enabled: true
+    niveau_jump_boost: 1
+    
+  # Miraziens (Hommes oiseaux)
+  plume_legere:
+    enabled: true
+    reduction_degats_chute: 0.50 # -50%
+  precision_aerienne:
+    enabled: true
+    chance_faiblesse: 0.10 # 10%
+    duree_faiblesse: 3 # secondes
+    niveau_faiblesse: 1
+
+# Configuration GUI
+gui:
+  title: "&6Choix de votre Classe"
+  size: 27 # Taille de l'inventaire (9, 18, 27, 36, 45, 54)
+  
+  # Positions des items dans la GUI (0-26 pour une GUI de 27 slots)
+  positions:
+    bastorgnes: 10
+    tartinuits: 11  
+    sylvounets: 12
+    grosuki: 13
+    bricobrak: 14
+    miraziens: 15
+    ame_errante: 16
+    fermer: 22
+    
+  # Items pour chaque classe
+  items:
+    bastorgnes:
+      material: "IRON_AXE"
+      display_name: "&c⚒ Bastorgnes"
+      lore:
+        - "&7Peuple des orqs guerriers"
+        - ""
+        - "&ePassifs :"
+        - "&a• Frappe lourde : +2% dégâts massues"
+        - "&a• Peau de fer : -5% dégâts subis"
+        - ""
+        - "&7Rôle : &eTank léger, corps-à-corps"
+        
+    tartinuits:
+      material: "BREAD"
+      display_name: "&e🥖 Tartinuits"  
+      lore:
+        - "&7Peuple des hobbits"
+        - ""
+        - "&ePassifs :"
+        - "&a• Pain nourricier : pain → +2 cœurs absorption 10s"
+        - "&a• Santé florissante : régén I si faim pleine"
+        - ""
+        - "&7Rôle : &eSoutien naturel, survie améliorée"
+        
+    sylvounets:
+      material: "BOW"
+      display_name: "&2🌿 Sylvounets"
+      lore:
+        - "&7Peuple des elfes"
+        - ""
+        - "&ePassifs :"
+        - "&a• Tir sylvestre : +2% dégâts arc/arbalète"
+        - "&a• Agilité forestière : +20% vitesse en forêt"
+        - ""
+        - "&7Rôle : &eArchers/éclaireurs forestiers"
+        
+    grosuki:
+      material: "BAMBOO"
+      display_name: "&f🦊 Grosuki"
+      lore:
+        - "&7Humains panda/kitsunes"
+        - ""
+        - "&ePassifs :"
+        - "&a• Sérénité lunaire : <25% vie → Résistance I 5s"
+        - "&a• Esprit apaisé : s'accroupir 3s → Régén II 5s"
+        - ""
+        - "&7Rôle : &eDéfensifs et méditatifs"
+        
+    bricobrak:
+      material: "REDSTONE"
+      display_name: "&4💥 Bricobrak"
+      lore:
+        - "&7Peuple des humains"
+        - ""
+        - "&ePassifs :"
+        - "&a• Outils bricoleurs : -20% perte durabilité"
+        - "&a• Ressort bricolé : Jump Boost I permanent"
+        - ""
+        - "&7Rôle : &eInventifs, mobilité et durabilité"
+        
+    miraziens:
+      material: "FEATHER"
+      display_name: "&b🐦 Miraziens"
+      lore:
+        - "&7Hommes oiseaux"
+        - ""
+        - "&ePassifs :"
+        - "&a• Plume légère : -50% dégâts chute"
+        - "&a• Précision aérienne : flèches 10% Weakness I 3s"
+        - ""
+        - "&7Rôle : &eÉclaireurs/snipers aériens"
+        
+    ame_errante:
+      material: "GLASS"
+      display_name: "&7Âme errante"
+      lore:
+        - "&7Classe par défaut"
+        - ""
+        - "&cAucun passif"
+        - ""
+        - "&7Rôle : &eAucun bonus"
+        
+    fermer:
+      material: "BARRIER"
+      display_name: "&cFermer"
+      lore:
+        - "&7Fermer ce menu"

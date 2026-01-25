@@ -1,0 +1,104 @@
+# =============================================================================
+# AetherPlayerShop - Configuration
+# Plugin avancé de boutiques joueurs avec MongoDB
+# =============================================================================
+
+# Configuration MongoDB (OBLIGATOIRE)
+mongodb:
+  # Chaîne de connexion MongoDB avec authentification
+  # Format: mongodb://[username:password@]host[:port]/[database]?authSource=admin
+  # IMPORTANT: Les caractères spéciaux dans le mot de passe doivent être URL-encodés
+  # @ = %40, : = %3A, etc.
+  connection-string: "mongodb://admin:nvaLS_2fX9e%40mdb@45.140.164.224:27017/nuvalis?authSource=admin"
+
+  # Nom de la base de données
+  database: "nuvalis"
+
+# Configuration des shops
+shop:
+  # Nombre maximum de shops par joueur (bypassable avec permission)
+  max-shops-per-player: 6
+
+  # Activation de la téléportation vers les shops
+  teleport-enabled: true
+
+  # Délai de téléportation en secondes (0 = instantané)
+  teleport-delay: 3
+
+# Configuration de l'interface utilisateur
+gui:
+  # Titre du menu principal
+  menu-title: "§6§lAether Player Shop"
+
+  # Nombre d'items affichés par page
+  items-per-page: 45
+
+# Configuration du cache haute performance
+cache:
+  # Taille maximale du cache (shops les plus consultés)
+  max-size: 1000
+
+  # Durée d'expiration en minutes
+  expire-minutes: 30
+
+# Effets visuels et sonores
+effects:
+  # Activation des sons lors des transactions
+  sound-enabled: true
+
+  # Activation des particules lors des transactions
+  particle-enabled: true
+
+# Messages personnalisables
+messages:
+  # Préfixe des messages du plugin
+  prefix: "§6[AetherShop] §r"
+
+  # Messages de succès
+  shop-created: "§aShop créé avec succès !"
+  transaction-success: "§aTransaction effectuée avec succès !"
+
+  # Messages d'erreur
+  insufficient-funds: "§cFonds insuffisants. Vous avez besoin de {price}◎ (vous avez {balance}◎)."
+  inventory-full: "§cInventaire plein. Vous avez besoin de place pour {quantity} items."
+  shop-not-found: "§cShop introuvable ou inactif."
+  no-permission: "§cVous n'avez pas la permission d'effectuer cette action."
+
+  # Limites
+  shop-limit-reached: "§cVous avez atteint la limite de {limit} shops."
+
+# Configuration des filtres avancés
+filters:
+  # Matériaux à exclure des recherches (format: MATERIAL_NAME)
+  excluded-materials:
+    - "BEDROCK"
+    - "BARRIER"
+    - "COMMAND_BLOCK"
+
+  # Prix minimum autorisé pour un shop
+  min-price: 0.01
+
+  # Prix maximum autorisé pour un shop
+  max-price: 999999.99
+
+# Performance et optimisation
+performance:
+  # Intervalle de nettoyage du cache en minutes
+  cache-cleanup-interval: 5
+
+  # Nombre de threads pour les opérations MongoDB
+  mongo-thread-pool-size: 4
+
+  # Timeout des requêtes MongoDB en millisecondes
+  mongo-timeout: 5000
+
+# Logs et debug
+logging:
+  # Niveau de log (INFO, WARNING, SEVERE)
+  level: "INFO"
+
+  # Enregistrement des transactions dans les logs
+  log-transactions: false
+
+  # Debug des performances (temps d'exécution des requêtes)
+  debug-performance: false
