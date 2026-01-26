@@ -1,0 +1,78 @@
+# ================================
+# AetherPlayerShop - Configuration
+# ================================
+# Plugin de shop joueur avancé
+# Version: 2.0.0
+# ================================
+
+# Configuration de la base de données MySQL
+database:
+  type: mysql
+  host: my-host
+  port: 3306
+  name: my-name
+  user: my-user
+  password: my-password
+  
+  # Paramètres du pool de connexions HikariCP
+  hikari:
+    maximumPoolSize: 10
+    minimumIdle: 2
+    connectionTimeoutMs: 30000
+    idleTimeoutMs: 600000
+    maxLifetimeMs: 1800000
+
+# Configuration du mode serveur
+server:
+  # Mode de fonctionnement: ACTIVE (normal) ou CATALOG_ONLY (catalogue uniquement, redirection vers autre serveur)
+  mode: "ACTIVE"
+  # Serveur principal pour les achats (utilisé en mode CATALOG_ONLY)
+  primaryServer: "skyland"
+
+# Configuration des shops
+shop:
+  # Nombre maximum de shops par joueur (par défaut)
+  # Peut être override par les permissions aetherplayershop.shops.<nombre>
+  max-shops-per-player: 6
+  
+  # Activer la téléportation vers les shops
+  teleport-enabled: true
+  
+  # Délai de téléportation (en secondes)
+  teleport-delay: 3
+  
+  # Nombre de jours d'inactivité avant désactivation automatique du shop
+  inactivity-days: 30
+
+# Configuration des menus GUI
+gui:
+  # Titre du menu principal
+  menu-title: "§8Catalogue"
+  
+  # Nombre d'items par page
+  items-per-page: 45
+
+# Configuration du mode catalogue uniquement
+catalogOnly:
+  # Message affiché quand un joueur clique sur un shop en mode catalogue
+  clickMessage: "Connecte-toi au serveur skyland pour faire un achat !"
+  
+  # Commande suggérée pour rejoindre le serveur principal
+  suggestCommand: "/server skyland"
+
+# Configuration du cache
+cache:
+  # Taille maximale du cache
+  max-size: 1000
+  
+  # Durée d'expiration du cache (en minutes)
+  expire-minutes: 30
+
+# Configuration des effets
+effects:
+  # Activer les effets sonores
+  sound-enabled: true
+  
+  # Activer les effets de particules
+  particle-enabled: true
+
