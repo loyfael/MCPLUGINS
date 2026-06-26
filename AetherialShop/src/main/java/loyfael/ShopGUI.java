@@ -4,6 +4,9 @@ import loyfael.interfaces.IEconomyService;
 import loyfael.interfaces.IShopService;
 import loyfael.model.ShopItem;
 import loyfael.utils.UXHelper;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,12 +20,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ShopGUI implements Listener {
 
+    private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.legacySection();
+    private static final PlainTextComponentSerializer PLAIN_TEXT_SERIALIZER = PlainTextComponentSerializer.plainText();
+    private static final String MAIN_TITLE_PLAIN = "Bazaar de Zéphyline Bricorne";
+    private static final String BUY_PREFIX_PLAIN = "🛒 Acheter - ";
+    private static final String SELL_PREFIX_PLAIN = "💰 Vendre - ";
+
     private final IShopService shopService;
     private final IEconomyService economyService;
+    private final Set<UUID> activeTransactions = new HashSet<>();
 
   public ShopGUI(IShopService shopService, IEconomyService economyService) {
         this.shopService = shopService;
@@ -31,7 +45,7 @@ public class ShopGUI implements Listener {
 
     public void openShop(Player player) {
         UXHelper.playShopOpenSound(player);
-        Inventory inv = Bukkit.createInventory(null, 45, "§8Bazaar de Zéphyline Bricorne");
+        Inventory inv = Bukkit.createInventory(null, 45, LEGACY_SERIALIZER.deserialize("§8Bazaar de Zéphyline Bricorne"));
 
         // Ligne décorative du haut
         for (int i = 0; i < 9; i++) {
@@ -100,7 +114,7 @@ public class ShopGUI implements Listener {
             lore.add("§7§lCLIC GAUCHE: §aVENDRE §0§l");
             lore.add("§7§lCLIC DROIT: §aACHETER §0§l");
 
-            meta.setLore(lore);
+            meta.lore(toLegacyComponents(lore));
             displayItem.setItemMeta(meta);
         }
 
@@ -111,7 +125,7 @@ public class ShopGUI implements Listener {
         ItemStack item = new ItemStack(Material.BOOK);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName("§6📊 §lInformations");
+            meta.displayName(LEGACY_SERIALIZER.deserialize("§6📊 §lInformations"));
             List<String> lore = List.of(
                     "§b§l§oZéphyline §7§ote salue d’un clin d’œil ;)",
                     "§7Chaque matin à 4h00, son étal s’anime de", 
@@ -127,7 +141,7 @@ public class ShopGUI implements Listener {
                     "§7Ton solde: §e" + UXHelper.formatMoney(economyService.getBalance(player)),
                     "§7Items disponibles: §a" + shopService.getCurrentItems().size()
             );
-            meta.setLore(lore);
+            meta.lore(toLegacyComponents(lore));
             item.setItemMeta(meta);
         }
         return item;
@@ -137,7 +151,7 @@ public class ShopGUI implements Listener {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(color);
+            meta.displayName(LEGACY_SERIALIZER.deserialize(color));
             item.setItemMeta(meta);
         }
         return item;
@@ -145,7 +159,7 @@ public class ShopGUI implements Listener {
 
     public void openBuyMenu(Player player, ShopItem item) {
         UXHelper.playClickSound(player);
-        Inventory inv = Bukkit.createInventory(null, 27, "§a🛒 Acheter - " + item.getName());
+        Inventory inv = Bukkit.createInventory(null, 27, LEGACY_SERIALIZER.deserialize("§a🛒 Acheter - " + item.getName()));
 
         // Ligne décorative
         for (int i = 18; i < 27; i++) {
@@ -179,7 +193,7 @@ public class ShopGUI implements Listener {
 
     public void openSellMenu(Player player, ShopItem item) {
         UXHelper.playClickSound(player);
-        Inventory inv = Bukkit.createInventory(null, 27, "§c💰 Vendre - " + item.getName());
+        Inventory inv = Bukkit.createInventory(null, 27, LEGACY_SERIALIZER.deserialize("§c💰 Vendre - " + item.getName()));
 
         // Ligne décorative
         for (int i = 18; i < 27; i++) {
@@ -210,7 +224,7 @@ public class ShopGUI implements Listener {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(name);
+            meta.displayName(LEGACY_SERIALIZER.deserialize(name));
             List<String> lore = new ArrayList<>();
             lore.add("§7Quantité: §e" + amount);
 
@@ -227,7 +241,7 @@ public class ShopGUI implements Listener {
                 lore.add("§7Gain total: §6" + UXHelper.formatMoney(totalEarnings));
             }
 
-            meta.setLore(lore);
+            meta.lore(toLegacyComponents(lore));
             item.setItemMeta(meta);
         }
         return item;
@@ -237,8 +251,8 @@ public class ShopGUI implements Listener {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(name);
-            meta.setLore(List.of(reason));
+            meta.displayName(LEGACY_SERIALIZER.deserialize(name));
+            meta.lore(toLegacyComponents(List.of(reason)));
             item.setItemMeta(meta);
         }
         return item;
@@ -248,9 +262,9 @@ public class ShopGUI implements Listener {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(name);
+            meta.displayName(LEGACY_SERIALIZER.deserialize(name));
             if (amount > 0) {
-                meta.setLore(List.of("§7Quantité: §e" + amount));
+                meta.lore(toLegacyComponents(List.of("§7Quantité: §e" + amount)));
             }
             item.setItemMeta(meta);
         }
@@ -284,7 +298,7 @@ public class ShopGUI implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
 
-        String title = event.getView().getTitle();
+        String title = getPlainViewTitle(event.getView());
 
         // Vérification de sécurité - joueur toujours connecté
         if (!player.isOnline()) {
@@ -293,9 +307,9 @@ public class ShopGUI implements Listener {
         }
 
         // Sécuriser TOUS les menus du shop
-        if (title.contains("Bazaar de Zéphyline Bricorne") ||
-            title.startsWith("§a🛒 Acheter - ") ||
-            title.startsWith("§c💰 Vendre - ")) {
+        if (title.contains(MAIN_TITLE_PLAIN) ||
+            title.startsWith(BUY_PREFIX_PLAIN) ||
+            title.startsWith(SELL_PREFIX_PLAIN)) {
 
             // Bloquer TOUS les types de clics dangereux qui permettent de voler des items
             if (event.getClick().isShiftClick() ||
@@ -320,7 +334,7 @@ public class ShopGUI implements Listener {
 
             // Pour les clics LEFT et RIGHT légitimes dans les menus d'achat/vente,
             // annuler l'événement pour empêcher de prendre l'item
-            if (title.startsWith("§a🛒 Acheter - ") || title.startsWith("§c💰 Vendre - ")) {
+            if (title.startsWith(BUY_PREFIX_PLAIN) || title.startsWith(SELL_PREFIX_PLAIN)) {
                 if (event.getClick() == ClickType.LEFT || event.getClick() == ClickType.RIGHT) {
                     event.setCancelled(true);
                     // Continue vers la logique du shop ci-dessous
@@ -329,7 +343,7 @@ public class ShopGUI implements Listener {
                     event.setCancelled(true);
                     return;
                 }
-            } else if (title.contains("Bazaar de Zéphyline Bricorne")) {
+            } else if (title.contains(MAIN_TITLE_PLAIN)) {
                 // Pour le menu principal, annuler l'événement pour empêcher de prendre les items
                 // mais laisser passer TOUS les clics LEFT et RIGHT vers la logique
                 if (event.getClick() == ClickType.LEFT || event.getClick() == ClickType.RIGHT) {
@@ -343,7 +357,7 @@ public class ShopGUI implements Listener {
             }
         }
 
-        if (title.contains("Bazaar de Zéphyline Bricorne")) {
+        if (title.contains(MAIN_TITLE_PLAIN)) {
             if (event.getCurrentItem() == null || event.getCurrentItem().getType().name().contains("GLASS_PANE")) return;
 
             int slot = event.getSlot();
@@ -379,9 +393,9 @@ public class ShopGUI implements Listener {
                 player.closeInventory();
                 Main.getInstance().getLogger().severe("Erreur dans onInventoryClick: " + e.getMessage());
             }
-        } else if (title.startsWith("§a🛒 Acheter - ")) {
+        } else if (title.startsWith(BUY_PREFIX_PLAIN)) {
             handleBuyClick(player, event);
-        } else if (title.startsWith("§c💰 Vendre - ")) {
+        } else if (title.startsWith(SELL_PREFIX_PLAIN)) {
             handleSellClick(player, event);
         }
     }
@@ -394,8 +408,8 @@ public class ShopGUI implements Listener {
             if (meta == null) return;
 
             // Extraire correctement le nom de l'item depuis le titre
-            String title = event.getView().getTitle();
-            String itemName = extractItemNameFromTitle(title, "🛒 Acheter - ");
+            String title = getPlainViewTitle(event.getView());
+            String itemName = extractItemNameFromTitle(title, BUY_PREFIX_PLAIN);
             ShopItem shopItem = findItemByName(itemName);
 
             if (shopItem == null) {
@@ -413,12 +427,12 @@ public class ShopGUI implements Listener {
             if (quantity <= 0) return;
 
             // Protection contre les clics multiples rapides
-            if (player.hasMetadata("shop_transaction_in_progress")) {
+            if (activeTransactions.contains(player.getUniqueId())) {
                 UXHelper.sendErrorMessage(player, "Transaction en cours, veuillez patienter...");
                 return;
             }
 
-            player.setMetadata("shop_transaction_in_progress", new org.bukkit.metadata.FixedMetadataValue(Main.getInstance(), true));
+            activeTransactions.add(player.getUniqueId());
 
             try {
                 if (shopService.processBuy(player, shopItem, quantity)) {
@@ -426,7 +440,7 @@ public class ShopGUI implements Listener {
                     player.closeInventory();
                 }
             } finally {
-                player.removeMetadata("shop_transaction_in_progress", Main.getInstance());
+                activeTransactions.remove(player.getUniqueId());
             }
         } catch (Exception e) {
             UXHelper.sendErrorMessage(player, "Erreur lors de la transaction!");
@@ -443,8 +457,8 @@ public class ShopGUI implements Listener {
             if (meta == null) return;
 
             // Extraire correctement le nom de l'item depuis le titre
-            String title = event.getView().getTitle();
-            String itemName = extractItemNameFromTitle(title, "💰 Vendre - ");
+            String title = getPlainViewTitle(event.getView());
+            String itemName = extractItemNameFromTitle(title, SELL_PREFIX_PLAIN);
             ShopItem shopItem = findItemByName(itemName);
 
             if (shopItem == null) {
@@ -462,12 +476,12 @@ public class ShopGUI implements Listener {
             if (quantity <= 0) return;
 
             // Protection contre les clics multiples rapides
-            if (player.hasMetadata("shop_transaction_in_progress")) {
+            if (activeTransactions.contains(player.getUniqueId())) {
                 UXHelper.sendErrorMessage(player, "Transaction en cours, veuillez patienter...");
                 return;
             }
 
-            player.setMetadata("shop_transaction_in_progress", new org.bukkit.metadata.FixedMetadataValue(Main.getInstance(), true));
+            activeTransactions.add(player.getUniqueId());
 
             try {
                 if (shopService.processSell(player, shopItem, quantity)) {
@@ -476,7 +490,7 @@ public class ShopGUI implements Listener {
                     player.closeInventory();
                 }
             } finally {
-                player.removeMetadata("shop_transaction_in_progress", Main.getInstance());
+                activeTransactions.remove(player.getUniqueId());
             }
         } catch (Exception e) {
             UXHelper.sendErrorMessage(player, "Erreur lors de la transaction!");
@@ -514,9 +528,11 @@ public class ShopGUI implements Listener {
     }
 
     private int getQuantityFromLore(ItemMeta meta) {
-        if (meta.getLore() == null) return 0;
+        List<Component> lore = meta.lore();
+        if (lore == null) return 0;
 
-        for (String line : meta.getLore()) {
+        for (Component component : lore) {
+            String line = LEGACY_SERIALIZER.serialize(component);
             if (line.startsWith("§7Quantité: §e")) {
                 try {
                     return Integer.parseInt(line.substring(14));
@@ -528,17 +544,23 @@ public class ShopGUI implements Listener {
         return 0;
     }
 
+    private List<Component> toLegacyComponents(List<String> lines) {
+        return lines.stream()
+                .map(LEGACY_SERIALIZER::deserialize)
+                .collect(Collectors.toList());
+    }
+
     // Protection contre le glisser-déposer (drag) dans les menus du shop
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         if (!(event.getWhoClicked() instanceof Player)) return;
 
-        String title = event.getView().getTitle();
+        String title = getPlainViewTitle(event.getView());
 
         // Bloquer TOUS les drags dans les menus du shop
-        if (title.contains("Bazaar de Zéphyline Bricorne") ||
-            title.startsWith("§a🛒 Acheter - ") ||
-            title.startsWith("§c💰 Vendre - ")) {
+        if (title.contains(MAIN_TITLE_PLAIN) ||
+            title.startsWith(BUY_PREFIX_PLAIN) ||
+            title.startsWith(SELL_PREFIX_PLAIN)) {
 
             event.setCancelled(true);
         }
@@ -549,12 +571,12 @@ public class ShopGUI implements Listener {
     public void onInventoryClose(org.bukkit.event.inventory.InventoryCloseEvent event) {
         if (!(event.getPlayer() instanceof Player player)) return;
 
-        String title = event.getView().getTitle();
+        String title = getPlainViewTitle(event.getView());
 
         // Vérifier si c'est un menu du shop
-        if (title.contains("Bazaar de Zéphyline Bricorne") ||
-            title.startsWith("§a🛒 Acheter - ") ||
-            title.startsWith("§c💰 Vendre - ")) {
+        if (title.contains(MAIN_TITLE_PLAIN) ||
+            title.startsWith(BUY_PREFIX_PLAIN) ||
+            title.startsWith(SELL_PREFIX_PLAIN)) {
 
             // Si le joueur a un item sur son curseur, le supprimer pour éviter le vol
             ItemStack cursorItem = player.getItemOnCursor();
@@ -562,5 +584,9 @@ public class ShopGUI implements Listener {
                 player.setItemOnCursor(null);
             }
         }
+    }
+
+    private String getPlainViewTitle(org.bukkit.inventory.InventoryView view) {
+        return PLAIN_TEXT_SERIALIZER.serialize(view.title());
     }
 }

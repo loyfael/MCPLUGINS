@@ -1,12 +1,17 @@
 package loyfael.model;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShopItem {
+
+    private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.legacyAmpersand();
 
     private final Material material;
     private final String name;
@@ -42,8 +47,15 @@ public class ShopItem {
         ItemStack item = new ItemStack(material, amount);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            if (name != null) meta.setDisplayName(name);
-            if (lore != null) meta.setLore(lore);
+            if (name != null) {
+                meta.displayName(LEGACY_SERIALIZER.deserialize(name));
+            }
+            if (lore != null) {
+                List<Component> loreComponents = lore.stream()
+                        .map(LEGACY_SERIALIZER::deserialize)
+                        .collect(Collectors.toList());
+                meta.lore(loreComponents);
+            }
             item.setItemMeta(meta);
         }
         return item;

@@ -1,0 +1,29 @@
+name: AetherialShop
+version: 1.0
+main: loyfael.Main
+api-version: 1.21
+depend: [Vault]
+author: Loyfael
+description: Shop administratif temporaire avec rotation quotidienne
+
+commands:
+  dailyshop:
+    description: Ouvre le shop du jour
+    usage: /dailyshop [joueur]
+    permission: aetherialshop.use
+    aliases: [dshop, shop]
+  ashop:
+    description: Commandes admin du shop
+    usage: /ashop <test-discord|reload|stats|rotate|rotate-silent|check-rotation>
+    permission: aetherialshop.admin
+
+permissions:
+  aetherialshop.use:
+    description: Utiliser le shop quotidien
+    default: true
+  aetherialshop.open.others:
+    description: Ouvrir le shop pour d'autres joueurs
+    default: op
+  aetherialshop.admin:
+    description: Administrer le shop
+    default: op

@@ -1,0 +1,22 @@
+# Configuration du plugin AetherialShop
+# Heure de rotation quotidienne du shop
+rotation:
+  hour: 6
+  minute: 0
+  items_per_day: 9
+
+# Configuration Discord
+discord:
+  enabled: false
+  webhook_url: "https://discord.com/api/webhooks/1413039291818577951/5fW-7gs7b6Bx4RVKZQ-gox2d51aTAwWpNNjom5ulTDNhpUYXfMqaazjniuxOA3KiI2eK"
+  embed_color: "#FFD700"
+  send_on_rotation: true
+  send_on_big_sale: true
+  big_sale_threshold: 5000
+
+# Configuration base de données
+database:
+  type: "sqlite"
+  file: "shop_data.db"
+  backup_on_startup: true
+
