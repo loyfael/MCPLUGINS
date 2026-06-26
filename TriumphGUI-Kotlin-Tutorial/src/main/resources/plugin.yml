@@ -1,6 +1,6 @@
 # Plugin.yml d'exemple
 name: TriumphGUI-Kotlin-Example
-version: '${project.version}'
+version: '${version}'
 main: loyfael.Main
 api-version: '1.21'
 folia-supported: false

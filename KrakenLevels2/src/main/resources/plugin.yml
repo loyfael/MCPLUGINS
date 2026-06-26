@@ -1,7 +1,7 @@
 name: KrakenLevels
-version: 1.0-SNAPSHOT
+version: ${version}
 main: loyfael.Main
-api-version: 1.21.8
+api-version: 1.21
 author: Loyfael
 description: Advanced level system plugin for Minecraft
 website: https://github.com/loyfael/KrakenLevels

@@ -1,0 +1,85 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.4.3'
+}
+
+group = 'loyfael'
+version = '1.0-SNAPSHOT'
+description = 'Plugin de niveaux pour Minecraft avec MongoDB'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    maven { url = 'https://jitpack.io' }
+    maven { url = 'https://nexus.hc.to/content/repositories/pub_releases/' }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:26.1.2.build.72-stable'
+    compileOnly 'me.clip:placeholderapi:2.11.6'
+    compileOnly 'net.milkbowl.vault:VaultAPI:1.7'
+    compileOnly 'net.luckperms:api:5.4'
+    compileOnly 'com.google.code.gson:gson:2.10.1'
+    compileOnly 'org.jetbrains:annotations:24.1.0'
+
+    implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+    implementation 'com.github.cryptomorin:XSeries:11.3.0'
+    implementation 'dev.triumphteam:triumph-gui:3.1.11'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+
+tasks.processResources {
+    filteringCharset = 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    archiveBaseName.set('KrakenLevels2')
+    archiveClassifier.set('')
+    archiveVersion.set(project.version.toString())
+
+    exclude 'META-INF/MANIFEST.MF'
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    exclude 'META-INF/NOTICE*'
+    exclude 'META-INF/versions/**'
+    exclude 'module-info.class'
+
+    mergeServiceFiles()
+
+    relocate 'dev.triumphteam.gui', 'loyfael.libs.triumphgui'
+    relocate 'com.cryptomorin.xseries', 'loyfael.libs.xseries'
+    relocate 'org.mongodb', 'loyfael.libs.mongodb'
+    relocate 'com.mongodb', 'loyfael.libs.mongodb.driver'
+    relocate 'org.bson', 'loyfael.libs.bson'
+    relocate 'org.slf4j', 'loyfael.libs.slf4j'
+}
+
+jar {
+    enabled = false
+}
+
+build {
+    dependsOn shadowJar
+}

@@ -23,12 +23,12 @@ public class BlockCounter {
     private final ConfigManager configManager;
     private final MessageManager messageManager;
 
-    // Cache: LandID -> PlayerUUID -> Material -> Count
-    private final Map<Integer, Map<UUID, Map<Material, Integer>>> blockCounts;
+    // Cache: Land ULID -> PlayerUUID -> Material -> Count
+    private final Map<String, Map<UUID, Map<Material, Integer>>> blockCounts;
 
     // Performance optimizations
-    private final Set<Integer> scanningLands = ConcurrentHashMap.newKeySet();
-    private final Map<Integer, Long> lastScanTime = new ConcurrentHashMap<>();
+    private final Set<String> scanningLands = ConcurrentHashMap.newKeySet();
+    private final Map<String, Long> lastScanTime = new ConcurrentHashMap<>();
     private final Queue<ScanTask> scanQueue = new LinkedList<>();
     private BukkitTask scanWorker;
 
@@ -77,7 +77,7 @@ public class BlockCounter {
         // Check if we need to scan this land
         ensureLandScanned(land);
 
-        Map<UUID, Map<Material, Integer>> landCounts = blockCounts.get(land.getId());
+        Map<UUID, Map<Material, Integer>> landCounts = blockCounts.get(getLandKey(land));
         if (landCounts == null) return 0;
 
         Map<Material, Integer> playerCounts = landCounts.get(playerUUID);
@@ -107,7 +107,7 @@ public class BlockCounter {
     public int getTotalBlockCountFast(Land land, Material material) {
         if (land == null) return 0;
 
-        int landId = land.getId();
+        String landId = getLandKey(land);
 
         // Check if we have valid cache
         Map<UUID, Map<Material, Integer>> landCounts = blockCounts.get(landId);
@@ -174,7 +174,7 @@ public class BlockCounter {
             Set<Material> limitedMaterials = configManager.getBlockLimits().keySet();
 
             if (configManager.isDebug()) {
-                plugin.getLogger().info("IMMEDIATE scan starting for land " + land.getId() + " (" + land.getName() + ") - scanning ALL land chunks");
+                plugin.getLogger().info("IMMEDIATE scan starting for land " + getLandKey(land) + " (" + land.getName() + ") - scanning ALL land chunks");
             }
 
             // FIXED: Scan ALL chunks that are within the land boundaries
@@ -191,7 +191,7 @@ public class BlockCounter {
                         // 1. Chunk currently belongs to our land
                         // 2. OR chunk has no current owner (might be from deleted land)
                         // This ensures we always count all physical blocks in the area
-                        if (chunkLand == null || chunkLand.getId() == land.getId()) {
+                        if (chunkLand == null || sameLand(chunkLand, land)) {
                             scanChunkForAllPhysicalBlocks(chunk, landCounts, ownerUUID, limitedMaterials);
                         }
                     } catch (Exception e) {
@@ -204,7 +204,7 @@ public class BlockCounter {
                 int totalBlocks = landCounts.values().stream()
                     .mapToInt(playerMap -> playerMap.values().stream().mapToInt(Integer::intValue).sum())
                     .sum();
-                plugin.getLogger().info("IMMEDIATE scan completed for land " + land.getId() +
+                plugin.getLogger().info("IMMEDIATE scan completed for land " + getLandKey(land) +
                     " - Found " + totalBlocks + " limited blocks in ALL land chunks");
             }
 
@@ -224,7 +224,7 @@ public class BlockCounter {
 
         ensureLandScanned(land);
 
-        Map<UUID, Map<Material, Integer>> landCounts = blockCounts.get(land.getId());
+        Map<UUID, Map<Material, Integer>> landCounts = blockCounts.get(getLandKey(land));
         if (landCounts == null) return 0;
 
         int total = 0;
@@ -240,7 +240,7 @@ public class BlockCounter {
     private void ensureLandScanned(Land land) {
         if (land == null) return;
 
-        int landId = land.getId();
+        String landId = getLandKey(land);
 
         // Check if already scanning
         if (scanningLands.contains(landId)) {
@@ -266,7 +266,7 @@ public class BlockCounter {
      * Queue a land for async scanning
      */
     private void queueLandScan(Land land) {
-        if (scanningLands.add(land.getId())) {
+        if (scanningLands.add(getLandKey(land))) {
             scanQueue.offer(new ScanTask(land));
         }
     }
@@ -286,7 +286,7 @@ public class BlockCounter {
                 } catch (Exception e) {
                     plugin.getLogger().warning("Error during async land scan: " + e.getMessage());
                 } finally {
-                    scanningLands.remove(task.land.getId());
+                    scanningLands.remove(getLandKey(task.land));
                 }
             }
         }
@@ -298,7 +298,7 @@ public class BlockCounter {
     private void scanLandOptimized(Land land) {
         if (land == null) return;
 
-        int landId = land.getId();
+        String landId = getLandKey(land);
         Map<UUID, Map<Material, Integer>> landCounts = new ConcurrentHashMap<>();
 
         UUID ownerUUID = land.getOwnerUID();
@@ -338,7 +338,7 @@ public class BlockCounter {
         Set<Material> limitedMaterials = configManager.getBlockLimits().keySet();
 
         if (configManager.isDebug()) {
-            plugin.getLogger().info("Scanning land " + land.getId() + " (" + land.getName() + ") with " + limitedMaterials.size() + " limited materials");
+            plugin.getLogger().info("Scanning land " + getLandKey(land) + " (" + land.getName() + ") with " + limitedMaterials.size() + " limited materials");
         }
 
         // Scan all loaded chunks and check if they belong to this land
@@ -352,7 +352,7 @@ public class BlockCounter {
                 try {
                     // Check if chunk belongs to current land by coordinates (not cached ID)
                     Land chunkLand = plugin.getLandsIntegration().getLandByChunk(world, chunk.getX(), chunk.getZ());
-                    if (chunkLand != null && chunkLand.getId() == land.getId()) {
+                    if (sameLand(chunkLand, land)) {
                         // FIXED: Use the anti-exploit scan method here too
                         scanChunkForAllPhysicalBlocks(chunk, landCounts, ownerUUID, limitedMaterials);
                         foundChunks++;
@@ -366,7 +366,7 @@ public class BlockCounter {
             }
 
             if (configManager.isDebug() && foundChunks > 0) {
-                plugin.getLogger().info("World " + world.getName() + ": scanned " + scannedChunks + " chunks, found " + foundChunks + " belonging to land " + land.getId());
+                plugin.getLogger().info("World " + world.getName() + ": scanned " + scannedChunks + " chunks, found " + foundChunks + " belonging to land " + getLandKey(land));
             }
         }
     }
@@ -478,7 +478,7 @@ public class BlockCounter {
     public void addBlock(Land land, UUID playerUUID, Material material) {
         if (land == null) return;
 
-        int landId = land.getId();
+        String landId = getLandKey(land);
 
         // Ensure cache exists for this land
         Map<UUID, Map<Material, Integer>> landCounts = blockCounts.computeIfAbsent(landId, k -> new ConcurrentHashMap<>());
@@ -507,7 +507,7 @@ public class BlockCounter {
     public void removeBlock(Land land, UUID playerUUID, Material material) {
         if (land == null) return;
 
-        Map<UUID, Map<Material, Integer>> landCounts = blockCounts.get(land.getId());
+        Map<UUID, Map<Material, Integer>> landCounts = blockCounts.get(getLandKey(land));
         if (landCounts == null) return;
 
         Map<Material, Integer> playerCounts = landCounts.get(playerUUID);
@@ -522,7 +522,7 @@ public class BlockCounter {
             }
 
             // Update the last scan time to indicate fresh cache
-            lastScanTime.put(land.getId(), System.currentTimeMillis());
+            lastScanTime.put(getLandKey(land), System.currentTimeMillis());
 
             if (configManager.isDebug()) {
                 int newTotal = 0;
@@ -532,7 +532,7 @@ public class BlockCounter {
                 plugin.getLogger().info(messageManager.getMessage("debug_block_removed",
                     "material", material,
                     "player", playerUUID,
-                    "landId", land.getId(),
+                    "landId", getLandKey(land),
                     "count", getBlockCount(land, playerUUID, material)) +
                     " | New total in land: " + newTotal);
             }
@@ -554,7 +554,7 @@ public class BlockCounter {
     /**
      * Clears cache for a specific land
      */
-    public void clearLandCache(int landId) {
+    public void clearLandCache(String landId) {
         blockCounts.remove(landId);
         lastScanTime.remove(landId);
         scanningLands.remove(landId);
@@ -564,7 +564,7 @@ public class BlockCounter {
      * Clears cache for a specific land (overload for Land object)
      */
     public void clearLandCache(Land land) {
-        clearLandCache(land.getId());
+        clearLandCache(getLandKey(land));
     }
 
     /**
@@ -582,7 +582,7 @@ public class BlockCounter {
      */
     public void forceRescanLand(Land land) {
         if (land != null) {
-            clearLandCache(land.getId());
+            clearLandCache(getLandKey(land));
             queueLandScan(land);
         }
     }
@@ -594,7 +594,7 @@ public class BlockCounter {
     public boolean needsAntiExploitScan(Land land) {
         if (land == null) return false;
 
-        int landId = land.getId();
+        String landId = getLandKey(land);
         Long lastScan = lastScanTime.get(landId);
 
         // Si jamais scanné, scan nécessaire
@@ -631,7 +631,7 @@ public class BlockCounter {
                         // Vérifier si ce chunk appartient à notre land
                         Land chunkLand = plugin.getLandsIntegration().getLandByChunk(world, chunk.getX(), chunk.getZ());
 
-                        if (chunkLand != null && chunkLand.getId() == land.getId()) {
+                        if (sameLand(chunkLand, land)) {
                             // Scanner physiquement ce chunk pour le material spécifique
                             int blocksInChunk = countMaterialInChunkPhysical(chunk, material);
                             totalFound += blocksInChunk;
@@ -729,6 +729,14 @@ public class BlockCounter {
         }
         
         return false; // No limited blocks found
+    }
+
+    private String getLandKey(Land land) {
+        return land.getULID().toString();
+    }
+
+    private boolean sameLand(Land first, Land second) {
+        return first != null && second != null && getLandKey(first).equals(getLandKey(second));
     }
 
     // Task class for scan queue

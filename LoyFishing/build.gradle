@@ -1,0 +1,68 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.4.3'
+}
+
+group = 'loyfael'
+version = '1.0.0'
+description = 'Simplified Advanced Fishing Plugin with Nexo, Vault, and WorldGuard support'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url = 'https://nexus.hc.to/content/repositories/pub_releases/' }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:26.1.2.build.72-stable'
+    compileOnly 'net.milkbowl.vault:VaultAPI:1.7'
+
+    implementation 'com.mysql:mysql-connector-j:8.0.33'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+
+tasks.processResources {
+    filteringCharset = 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    archiveBaseName.set('LoyFishing')
+    archiveClassifier.set('')
+    archiveVersion.set(project.version.toString())
+
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    exclude 'META-INF/MANIFEST.MF'
+    exclude 'META-INF/versions/**'
+    exclude 'module-info.class'
+
+    mergeServiceFiles()
+}
+
+jar {
+    enabled = false
+}
+
+build {
+    dependsOn shadowJar
+}

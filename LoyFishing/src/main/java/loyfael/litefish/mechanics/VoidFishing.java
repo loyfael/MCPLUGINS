@@ -303,7 +303,7 @@ public class VoidFishing {
                 Math.random() * 0.5, 
                 (Math.random() - 0.5) * 0.8
             );
-            biteLoc.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, upLoc, 1, 0.05, 0.05, 0.05, 0.01);
+            biteLoc.getWorld().spawnParticle(Particle.ENCHANT, upLoc, 1, 0.05, 0.05, 0.05, 0.01);
         }
         
         // Create hook pulling effect - simulate fish pulling like in water

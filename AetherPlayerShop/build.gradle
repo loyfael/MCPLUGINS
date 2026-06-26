@@ -1,0 +1,68 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.4.3'
+}
+
+group = 'loyfael'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url = 'https://nexus.hc.to/content/repositories/pub_releases/' }
+    maven { url = 'https://repo.triumphteam.dev/releases/' }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:26.1.2.build.72-stable'
+    compileOnly 'net.milkbowl.vault:VaultAPI:1.7'
+    compileOnly 'org.jetbrains:annotations:24.1.0'
+
+    implementation 'org.mongodb:mongodb-driver-sync:5.0.0'
+    implementation 'dev.triumphteam:triumph-gui:3.1.11'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+    options.compilerArgs += '-Xlint:deprecation'
+}
+
+tasks.processResources {
+    filteringCharset = 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('AetherPlayerShop')
+    archiveClassifier.set('')
+    archiveVersion.set(project.version.toString())
+
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    exclude 'META-INF/MANIFEST.MF'
+    exclude 'META-INF/native-image/**'
+    exclude 'META-INF/versions/**'
+    exclude 'module-info.class'
+
+    relocate 'com.mongodb', 'loyfael.aetherplayershop.libs.mongodb'
+    relocate 'org.bson', 'loyfael.aetherplayershop.libs.bson'
+    relocate 'dev.triumphteam.gui', 'loyfael.aetherplayershop.libs.triumphgui'
+}
+
+jar {
+    enabled = false
+}
+
+build {
+    dependsOn shadowJar
+}

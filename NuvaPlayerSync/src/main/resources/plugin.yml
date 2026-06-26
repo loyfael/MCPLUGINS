@@ -1,7 +1,7 @@
 name: NuvaPlayerSynchro
 main: loyfael.Main
-version: '${project.version}'
-api-version: '1.21.7'
+version: '${version}'
+api-version: '1.21'
 author: loyfael
 description: A modern player data synchronization plugin for Minecraft 1.21+
 website: https://github.com/loyfael/NuvaPlayerSynchro

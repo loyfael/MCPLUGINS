@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.4.3'
+}
+
+group = 'com.loyfael'
+version = '1.0.0'
+description = 'LandsBlockLimiter'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url = 'https://repo.incredibleplugins.com/releases/' }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:26.1.2.build.72-stable'
+    compileOnly 'com.incredibleplugins:lands-api:7.27.1'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+
+processResources {
+    filteringCharset = 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('LandsBlockLimiter')
+    archiveClassifier.set('')
+    archiveVersion.set(project.version.toString())
+}
+
+jar {
+    enabled = false
+}
+
+build.dependsOn shadowJar

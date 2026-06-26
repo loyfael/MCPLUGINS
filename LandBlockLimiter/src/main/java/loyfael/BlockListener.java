@@ -82,7 +82,7 @@ public class BlockListener implements Listener {
             plugin.getLogger().info("=== ANTI-EXPLOIT PLACEMENT CHECK ===");
             plugin.getLogger().info("Player: " + player.getName());
             plugin.getLogger().info("Material: " + material);
-            plugin.getLogger().info("Land: " + land.getName() + " (ID: " + land.getId() + ")");
+            plugin.getLogger().info("Land: " + land.getName() + " (ID: " + land.getULID() + ")");
             plugin.getLogger().info("REAL physical count found: " + realPhysicalCount);
             plugin.getLogger().info("Limit configured: " + limit);
             plugin.getLogger().info("Will block placement: " + (realPhysicalCount >= limit));
@@ -177,7 +177,7 @@ public class BlockListener implements Listener {
                         // Check if the player is the owner or a member of this land
                         if (land.getOwnerUID().equals(player.getUniqueId()) || land.isTrusted(player.getUniqueId())) {
                             if (configManager.isDebug()) {
-                                plugin.getLogger().info("Forcing rescan of land " + land.getName() + " (ID: " + land.getId() + ") for player " + player.getName());
+                                plugin.getLogger().info("Forcing rescan of land " + land.getName() + " (ID: " + land.getULID() + ") for player " + player.getName());
                             }
 
                             // Force a full rescan of the land

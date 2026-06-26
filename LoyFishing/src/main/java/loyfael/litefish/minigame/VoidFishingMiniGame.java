@@ -155,7 +155,7 @@ public class VoidFishingMiniGame implements Listener {
             gameActive = true;
             
             // Effets visuels d'entrée (thème void en violet)
-            location.getWorld().spawnParticle(Particle.SPELL_WITCH, location, 10, 0.6, 0.4, 0.6, 0.01);
+            location.getWorld().spawnParticle(Particle.WITCH, location, 10, 0.6, 0.4, 0.6, 0.01);
             location.getWorld().spawnParticle(Particle.CLOUD, location, 12, 0.8, 0.5, 0.8, 0.02);
             player.playSound(location, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 0.4f, 1.2f);
             
@@ -220,7 +220,7 @@ public class VoidFishingMiniGame implements Listener {
             
             // Particules ambiantes (thème violet)
             if (Math.random() < 0.05) {
-                location.getWorld().spawnParticle(Particle.SPELL_WITCH, location, 1, 0.3, 0.2, 0.3, 0.01);
+                location.getWorld().spawnParticle(Particle.WITCH, location, 1, 0.3, 0.2, 0.3, 0.01);
             }
         }
         
@@ -239,7 +239,7 @@ public class VoidFishingMiniGame implements Listener {
             player.playSound(location, Sound.ENTITY_FISHING_BOBBER_RETRIEVE, 0.6f, pitch);
             
             // Particules violettes
-            location.getWorld().spawnParticle(Particle.SPELL_WITCH, location, 2, 0.2, 0.2, 0.2, 0.01);
+            location.getWorld().spawnParticle(Particle.WITCH, location, 2, 0.2, 0.2, 0.2, 0.01);
             
             if (progressBar >= targetProgress) {
                 onGameSuccess();
@@ -277,8 +277,8 @@ public class VoidFishingMiniGame implements Listener {
             
             // Sons et particules
             player.playSound(player.getLocation(), Sound.ENTITY_FISHING_BOBBER_RETRIEVE, 1.0f, 1.5f);
-            location.getWorld().spawnParticle(Particle.SPELL_WITCH, location, 12, 0.6, 0.4, 0.6, 0.02);
-            location.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, location, 8, 0.5, 0.4, 0.5, 0.1);
+            location.getWorld().spawnParticle(Particle.WITCH, location, 12, 0.6, 0.4, 0.6, 0.02);
+            location.getWorld().spawnParticle(Particle.ENCHANT, location, 8, 0.5, 0.4, 0.5, 0.1);
             
             // Récompenses
             giveVoidRewards();
