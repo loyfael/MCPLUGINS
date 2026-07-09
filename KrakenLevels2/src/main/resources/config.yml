@@ -71,38 +71,29 @@ server:
   name: "lobby"
 
 # ================================
+# Debug mode (detailed MongoDB logs and stack traces)
+# ================================
+debug: false
+
+# ================================
 # MongoDB configuration
 # ================================
 mongodb:
-  # Option 1: Use MongoDB URI directly (recommended)
-  # If this is set, all other mongodb parameters are ignored
+  # Option 1: MongoDB URI (recommended — if set, host/port/username/password below are ignored)
   # Example: mongodb://root:password@45.140.164.224:27017/nuvalis?authSource=admin
   uri: ""
-  
-  # Option 2: Manual configuration (used if uri is empty)
-  # MongoDB server address
+
+  # Option 2: Discrete configuration (used only when uri is empty)
   host: localhost
-  
-  # Connection port (default: 27017)
   port: 27017
-  
-  # Database name
   database: krakenlevels
-  
-  # Authentication (leave empty if not used)
   username: ""
   password: ""
-  
-  # Authentication database (usually 'admin')
   auth-source: "admin"
-  
-  # Connection options
-  connection:
-    # Connection timeout in milliseconds
-    timeout: 5000
-    
-    # Automatic cleanup of old sessions (hours)
-    cleanup-interval: 24
+
+  # Connection timeouts (milliseconds)
+  connect-timeout: 5000
+  server-selection-timeout: 5000
 
 # ================================
 # GUI configuration
@@ -230,18 +221,10 @@ placeholders:
   # Format for progress display
   progress-format: "{current}/{required}"
 
-# Debug configuration
-debug:
-  enabled: false
-  log-level: INFO
-
 # ================================
 # System configuration
 # ================================
 system:
-  # Use MongoDB instead of YAML files
-  use-mongodb: true
-
   # Auto save (minutes)
   auto-save: 5
   
@@ -259,6 +242,3 @@ system:
     enabled: true
     # Cache lifetime in milliseconds
     lifetime: 300000  # 5 minutes
-
-  # Debug mode
-  debug: false

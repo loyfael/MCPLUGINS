@@ -7,7 +7,7 @@ import loyfael.api.interfaces.IConfigurationService;
 import loyfael.api.interfaces.IMongoConnectionManager;
 import loyfael.api.interfaces.IPlayerService;
 import loyfael.Main;
-import loyfael.utils.Utils;
+import loyfael.core.mongodb.MongoLogger;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
@@ -64,30 +64,24 @@ public class SynchronizationService implements ISynchronizationService {
         // Initialize server name as null, will be set in start() method
         this.serverName = null;
         this.syncExecutor = Executors.newScheduledThreadPool(2);
-        
-        Utils.sendConsoleLog("&eService de synchronisation créé (en attente de démarrage)");
     }
 
     @Override
     public void start() {
         if (running) {
-            Utils.sendConsoleLog("&eService de synchronisation déjà démarré");
             return;
         }
 
         try {
-            // Initialize server name from configuration now that config service is ready
             this.serverName = configService.getConfig().getString("server.name", "server-" + System.currentTimeMillis());
-            Utils.sendConsoleLog("&eService de synchronisation initialisé pour le serveur: " + serverName);
-            
             initializeMongoDB();
             startChangeStreamListener();
             startPeriodicSync();
             running = true;
-            Utils.sendConsoleLog("&aService de synchronisation démarré avec succès");
+            MongoLogger.debug("Service de synchronisation démarré pour le serveur : " + serverName);
         } catch (Exception e) {
-            Utils.sendConsoleLog("&cErreur lors du démarrage de la synchronisation: " + e.getMessage());
-            e.printStackTrace();
+            MongoLogger.error("Erreur lors du démarrage de la synchronisation : " + e.getMessage());
+            MongoLogger.debug("Détail démarrage synchronisation", e);
         }
     }
 
@@ -108,9 +102,9 @@ public class SynchronizationService implements ISynchronizationService {
             if (!syncExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
                 syncExecutor.shutdownNow();
             }
-            Utils.sendConsoleLog("&aService de synchronisation arrêté proprement");
+            MongoLogger.debug("Service de synchronisation arrêté.");
         } catch (Exception e) {
-            Utils.sendConsoleLog("&cErreur lors de l'arrêt de la synchronisation: " + e.getMessage());
+            MongoLogger.debug("Erreur lors de l'arrêt de la synchronisation", e);
         }
     }
 
@@ -124,11 +118,9 @@ public class SynchronizationService implements ISynchronizationService {
             throw new RuntimeException("MongoDB connection not initialized");
         }
         
-        String databaseName = configService.getConfig().getString("mongodb.database", "krakenlevels");
+        String databaseName = connectionManager.getDatabaseName();
         syncDatabase = connectionManager.getDatabase(databaseName);
         syncCollection = syncDatabase.getCollection("playerdata");
-        
-        Utils.sendConsoleLog("&aConnexion MongoDB pour synchronisation établie");
     }
 
     private void startChangeStreamListener() {
@@ -142,7 +134,7 @@ public class SynchronizationService implements ISynchronizationService {
                 
             } catch (Exception e) {
                 if (running) {
-                    Utils.sendConsoleLog("&cErreur lors de la vérification des changements: " + e.getMessage());
+                    MongoLogger.debug("Erreur lors de la vérification des changements", e);
                 }
             }
         }, 5, 10, java.util.concurrent.TimeUnit.SECONDS); // Vérifier toutes les 10 secondes
@@ -159,7 +151,7 @@ public class SynchronizationService implements ISynchronizationService {
                 checkPlayerDataChange(playerUuid);
             }
         } catch (Exception e) {
-            Utils.sendConsoleLog("&cErreur lors de la vérification des changements: " + e.getMessage());
+            MongoLogger.debug("Erreur lors de la vérification des changements", e);
         }
     }
 
@@ -190,7 +182,7 @@ public class SynchronizationService implements ISynchronizationService {
             }
 
         } catch (Exception e) {
-            Utils.sendConsoleLog("&cErreur lors de la vérification des données du joueur " + playerUuid + ": " + e.getMessage());
+            MongoLogger.debug("Erreur lors de la vérification des données du joueur " + playerUuid, e);
         }
     }
 
@@ -216,7 +208,7 @@ public class SynchronizationService implements ISynchronizationService {
             }
 
         } catch (Exception e) {
-            Utils.sendConsoleLog("&cErreur lors de la synchronisation des données du joueur " + playerUuid + ": " + e.getMessage());
+            MongoLogger.debug("Erreur lors de la synchronisation des données du joueur " + playerUuid, e);
         }
     }
 
@@ -232,7 +224,7 @@ public class SynchronizationService implements ISynchronizationService {
                     }
                 }
             } catch (Exception e) {
-                Utils.sendConsoleLog("&cErreur lors de la synchronisation périodique: " + e.getMessage());
+                MongoLogger.debug("Erreur lors de la synchronisation périodique", e);
             }
         }, 30, 30, TimeUnit.SECONDS);
     }
@@ -265,7 +257,7 @@ public class SynchronizationService implements ISynchronizationService {
                 }
                 return false;
             } catch (Exception e) {
-                Utils.sendConsoleLog("&cErreur lors de la synchronisation des données de " + playerUuid + ": " + e.getMessage());
+                MongoLogger.debug("Erreur lors de la synchronisation des données de " + playerUuid, e);
                 return false;
             }
         }, syncExecutor);
@@ -284,8 +276,8 @@ public class SynchronizationService implements ISynchronizationService {
                 var localPlayerDataOpt = Main.getInstance().getPlayerService().getPlayerData(playerUuid);
                 
                 if (mongoDoc == null && !localPlayerDataOpt.isPresent()) {
-                    Utils.sendConsoleLog("&c[SYNC] ❌ Aucune donnée trouvée nulle part pour " + playerUuid);
-                    return false; // Aucune donnée nulle part
+                    MongoLogger.debug("Aucune donnée trouvée pour " + playerUuid);
+                    return false;
                 }
                 
                 // Si seulement des données locales existent, les pousser vers MongoDB
@@ -311,7 +303,7 @@ public class SynchronizationService implements ISynchronizationService {
                 IPlayerService.PlayerData mongoData = deserializeMongoData(mongoDoc);
                 
                 if (mongoData == null) {
-                    Utils.sendConsoleLog("&c[SYNC] ❌ Erreur lors de la désérialisation des données MongoDB pour " + playerUuid);
+                    MongoLogger.debug("Erreur de désérialisation MongoDB pour " + playerUuid);
                     return false;
                 }
                 
@@ -332,8 +324,7 @@ public class SynchronizationService implements ISynchronizationService {
                 return true;
                 
             } catch (Exception e) {
-                Utils.sendConsoleLog("&c[SYNC] ❌ Erreur lors de la synchronisation forcée de " + playerUuid + ": " + e.getMessage());
-                e.printStackTrace();
+                MongoLogger.debug("Erreur lors de la synchronisation forcée de " + playerUuid, e);
                 return false;
             }
         }, syncExecutor);
@@ -346,7 +337,7 @@ public class SynchronizationService implements ISynchronizationService {
                 // Les changements seront automatiquement détectés par le change stream
                 syncPlayerData(playerUuid);
             } catch (Exception e) {
-                Utils.sendConsoleLog("&cErreur lors de la notification de changement: " + e.getMessage());
+                MongoLogger.debug("Erreur lors de la notification de changement", e);
             }
         });
     }
@@ -367,7 +358,7 @@ public class SynchronizationService implements ISynchronizationService {
             // Utils.sendConsoleLog("&aSynchronisation activée pour " + playerUuid);
             syncPlayerData(playerUuid);
         } else {
-            Utils.sendConsoleLog("&cSynchronisation désactivée pour " + playerUuid);
+            MongoLogger.debug("Synchronisation désactivée pour " + playerUuid);
         }
     }
 
@@ -435,19 +426,10 @@ public class SynchronizationService implements ISynchronizationService {
             
             return playerData;
         } catch (Exception e) {
-            Utils.sendConsoleLog("&cErreur lors de la désérialisation MongoDB: " + e.getMessage());
-            Utils.sendConsoleLog("&cDocument MongoDB problématique: " + mongoDoc.toJson());
-            
-            // Log détaillé pour debug
+            MongoLogger.debug("Erreur lors de la désérialisation MongoDB", e);
             if (mongoDoc != null) {
-                Utils.sendConsoleLog("&eChamps présents dans le document:");
-                for (String key : mongoDoc.keySet()) {
-                    Object value = mongoDoc.get(key);
-                    String type = value != null ? value.getClass().getSimpleName() : "null";
-                    Utils.sendConsoleLog("&e  " + key + ": " + type + " = " + value);
-                }
+                MongoLogger.debug("Document MongoDB : " + mongoDoc.toJson());
             }
-            
             return null;
         }
     }
@@ -497,7 +479,7 @@ public class SynchronizationService implements ISynchronizationService {
                 mergedMissionProgress.put(missionKey, finalProgress);
                 
                 if (finalProgress != localProgress) {
-                    Utils.sendConsoleLog("&e[SYNC] 📊 Mission " + missionKey + ": " + localProgress + " → " + finalProgress);
+                    MongoLogger.debug("Mission " + missionKey + " : " + localProgress + " → " + finalProgress);
                 }
             }
         }

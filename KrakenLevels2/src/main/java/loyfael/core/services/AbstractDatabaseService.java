@@ -2,7 +2,6 @@ package loyfael.core.services;
 
 import loyfael.api.interfaces.IDatabaseService;
 import loyfael.api.interfaces.IConfigurationService;
-import loyfael.utils.Utils;
 
 import java.util.Map;
 import java.util.Optional;
@@ -27,19 +26,10 @@ public abstract class AbstractDatabaseService implements IDatabaseService {
                 return true;
             }
 
-            Utils.sendConsoleLog("&6Initializing database service...");
             connected = doInitialize();
-
-            if (connected) {
-                Utils.sendConsoleLog("&aDatabase service initialized successfully.");
-            } else {
-                Utils.sendConsoleLog("&cFailed to initialize the database service.");
-            }
-
             return connected;
 
         } catch (Exception e) {
-            Utils.sendConsoleLog("&cError during database initialization: " + e.getMessage());
             connected = false;
             return false;
         }
@@ -50,10 +40,9 @@ public abstract class AbstractDatabaseService implements IDatabaseService {
         if (connected) {
             try {
                 doDisconnect();
+            } catch (Exception ignored) {
+            } finally {
                 connected = false;
-                Utils.sendConsoleLog("&eDatabase connection closed.");
-            } catch (Exception e) {
-                Utils.sendConsoleLog("&cError while closing the database: " + e.getMessage());
             }
         }
     }

@@ -1,13 +1,14 @@
 package loyfael.core;
 
 import loyfael.api.interfaces.*;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Conteneur de services principal implémentant l'inversion de dépendance
- * Responsabilité unique : gérer le cycle de vie des services
+ * Conteneur de services principal implémentant l'inversion de dépendance.
+ * Responsabilité unique : gérer le cycle de vie des services.
  */
 public class ServiceContainer implements IServiceContainer {
 
@@ -24,9 +25,7 @@ public class ServiceContainer implements IServiceContainer {
         if (serviceInterface == null || implementation == null) {
             throw new IllegalArgumentException("Service interface et implementation ne peuvent pas être null");
         }
-
         services.put(serviceInterface, implementation);
-        // Suppression du log d'enregistrement de service
     }
 
     @Override
@@ -55,88 +54,85 @@ public class ServiceContainer implements IServiceContainer {
         }
     }
 
-    private void initializeInOrder() {
-        // 1. Configuration en premier
+    private void initializeInOrder() throws Exception {
         if (hasService(IConfigurationService.class)) {
-            logger.info("[KrakenLevels] Initialisation du service de configuration...");
             getService(IConfigurationService.class).initialize();
         }
 
-        // 2. MongoDB Connection Manager (if available)
-        if (hasService(loyfael.api.interfaces.IMongoConnectionManager.class)) {
-            logger.info("[KrakenLevels] Initialisation du gestionnaire de connexion MongoDB...");
-            try {
-                getService(loyfael.api.interfaces.IMongoConnectionManager.class).initialize();
-            } catch (Exception e) {
-                logger.severe("[KrakenLevels] Échec de l'initialisation MongoDB: " + e.getMessage());
-                throw new RuntimeException("Impossible d'initialiser MongoDB", e);
-            }
+        if (hasService(IMongoConnectionManager.class)) {
+            getService(IMongoConnectionManager.class).initialize();
         }
 
-        // 3. Cache
-        if (hasService(ICacheService.class)) {
-            logger.info("[KrakenLevels] Initialisation du service de cache...");
-            // Le cache n'a pas besoin d'initialisation particulière
-        }
-
-        // 4. Base de données (dépend de la configuration et de MongoDB)
         if (hasService(IDatabaseService.class)) {
-            logger.info("[KrakenLevels] Initialisation du service de base de données...");
-            getService(IDatabaseService.class).initialize();
-        }
-
-        // 5. Services métier qui dépendent des services de base
-        if (hasService(ILevelsConfigService.class)) {
-            logger.info("[KrakenLevels] Service de configuration des niveaux déjà initialisé");
-            // Le LevelsConfigService s'initialise dans son constructeur, pas besoin d'appeler initialize()
-        }
-
-        // 6. Service de synchronisation (dépend de la base de données et de la configuration)
-        if (hasService(ISynchronizationService.class)) {
-            logger.info("[KrakenLevels] Initialisation du service de synchronisation...");
-            IConfigurationService configService = getService(IConfigurationService.class);
-            boolean syncEnabled = configService.getConfig().getBoolean("synchronization.enabled", false);
-            
-            if (syncEnabled) {
-                ISynchronizationService syncService = getService(ISynchronizationService.class);
-                syncService.start();
-                logger.info("[KrakenLevels] Service de synchronisation démarré");
-            } else {
-                logger.info("[KrakenLevels] Service de synchronisation désactivé dans la configuration");
+            boolean dbReady = getService(IDatabaseService.class).initialize();
+            if (!dbReady && hasService(IMongoConnectionManager.class)) {
+                throw new RuntimeException("Impossible d'initialiser le service de base de données MongoDB");
             }
         }
 
-        // Les autres services (PlayerService, NotificationService, etc.) n'ont pas besoin d'initialisation explicite
-        logger.info("[KrakenLevels] Tous les services ont été initialisés avec succès");
+        if (hasService(ISynchronizationService.class)) {
+            IConfigurationService configService = getService(IConfigurationService.class);
+            if (configService.getConfig().getBoolean("synchronization.enabled", false)) {
+                getService(ISynchronizationService.class).start();
+            }
+        }
     }
 
     @Override
     public void shutdownServices() {
-        services.values().forEach(service -> {
-            try {
-                if (service instanceof ISynchronizationService) {
-                    ((ISynchronizationService) service).stop();
-                } else if (service instanceof IConfigurationService) {
-                    ((IConfigurationService) service).shutdown();
-                } else if (service instanceof IDatabaseService) {
-                    ((IDatabaseService) service).disconnect();
-                }
-            } catch (Exception e) {
-                logger.warning("Erreur lors de l'arrêt du service " + service.getClass().getSimpleName() + ": " + e.getMessage());
+        shutdownIfPresent(ISynchronizationService.class, service -> ((ISynchronizationService) service).stop());
+        shutdownIfPresent(IDatabaseService.class, service -> ((IDatabaseService) service).disconnect());
+        shutdownIfPresent(IMongoConnectionManager.class, service -> ((IMongoConnectionManager) service).disconnect());
+        shutdownIfPresent(IConfigurationService.class, service -> ((IConfigurationService) service).shutdown());
+    }
+
+    private void shutdownIfPresent(Class<?> serviceClass, ServiceShutdown action) {
+        Object service = services.get(serviceClass);
+        if (service == null) {
+            return;
+        }
+        try {
+            action.run(service);
+        } catch (Exception e) {
+            logger.warning("Erreur lors de l'arrêt du service "
+                + service.getClass().getSimpleName() + ": " + e.getMessage());
+        }
+    }
+
+    /**
+     * Reconnects MongoDB using the current configuration (used by /levels reload).
+     */
+    public void reconnectMongoDB() throws Exception {
+        if (!hasService(IMongoConnectionManager.class)) {
+            return;
+        }
+
+        IMongoConnectionManager connectionManager = getService(IMongoConnectionManager.class);
+        connectionManager.reconnect();
+
+        if (hasService(IDatabaseService.class)) {
+            IDatabaseService databaseService = getService(IDatabaseService.class);
+            databaseService.disconnect();
+            if (!databaseService.initialize()) {
+                throw new RuntimeException("Impossible de réinitialiser le service de base de données MongoDB");
             }
-        });
+        }
     }
 
     @Override
     public String getServicesStatus() {
         StringBuilder status = new StringBuilder("État des services:\n");
-
-        services.forEach((interfaceClass, implementation) -> {
-            String serviceName = interfaceClass.getSimpleName();
-            String implName = implementation.getClass().getSimpleName();
-            status.append("- ").append(serviceName).append(" -> ").append(implName).append("\n");
-        });
-
+        services.forEach((interfaceClass, implementation) ->
+            status.append("- ")
+                .append(interfaceClass.getSimpleName())
+                .append(" -> ")
+                .append(implementation.getClass().getSimpleName())
+                .append("\n"));
         return status.toString();
+    }
+
+    @FunctionalInterface
+    private interface ServiceShutdown {
+        void run(Object service) throws Exception;
     }
 }

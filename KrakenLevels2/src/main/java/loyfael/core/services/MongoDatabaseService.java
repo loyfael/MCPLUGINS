@@ -1,10 +1,11 @@
 package loyfael.core.services;
 
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import loyfael.api.interfaces.IConfigurationService;
 import loyfael.api.interfaces.IMongoConnectionManager;
-import loyfael.utils.Utils;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoCollection;
+import loyfael.core.mongodb.MongoExceptionHandler;
+import loyfael.core.mongodb.MongoLogger;
 import org.bson.Document;
 
 import java.util.HashMap;
@@ -12,11 +13,12 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * MongoDB implementation of the database service
- * Liskov substitution principle: can replace AbstractDatabaseService
- * Uses shared MongoDB connection manager
+ * MongoDB implementation of the database service.
+ * Uses the shared {@link IMongoConnectionManager} — never creates its own client.
  */
 public class MongoDatabaseService extends AbstractDatabaseService {
+
+    private static final String COLLECTION_NAME = "playerdata";
 
     private final IMongoConnectionManager connectionManager;
     private MongoDatabase database;
@@ -30,29 +32,23 @@ public class MongoDatabaseService extends AbstractDatabaseService {
     @Override
     protected boolean doInitialize() {
         try {
-            // Connection is already initialized by the connection manager
             if (!connectionManager.isConnected()) {
-                Utils.sendConsoleLog("&cMongoDB connection manager not initialized");
+                MongoLogger.error("Le gestionnaire de connexion MongoDB n'est pas disponible.");
                 return false;
             }
 
-            // Get database from shared connection
-            String databaseName = configService.getConfig().getString("mongodb.database", "krakenlevels");
-            database = connectionManager.getDatabase(databaseName);
-            collection = database.getCollection("playerdata");
-
+            database = connectionManager.getDatabase(connectionManager.getDatabaseName());
+            collection = database.getCollection(COLLECTION_NAME);
             return true;
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cMongoDB initialization error: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoExceptionHandler.logFailure(exception);
             return false;
         }
     }
 
     @Override
     protected void doDisconnect() {
-        // Connection manager handles closing the shared connection
-        // This service just releases its local references
         database = null;
         collection = null;
     }
@@ -64,12 +60,9 @@ public class MongoDatabaseService extends AbstractDatabaseService {
 
         try {
             Document filter = new Document("_id", key);
-            
-            // Retrieve server name from configuration for synchronization
             String serverName = configService.getConfig().getString("server.name", "unknown-server");
             long currentTime = System.currentTimeMillis();
-            
-            // Create metadata for cross-server synchronization
+
             Document metadata = new Document()
                 .append("lastModified", currentTime)
                 .append("lastModifiedBy", serverName)
@@ -78,13 +71,15 @@ public class MongoDatabaseService extends AbstractDatabaseService {
             Document document = new Document("_id", key)
                 .append("data", value)
                 .append("lastUpdated", currentTime)
-                .append("metadata", metadata); // Add synchronization metadata
+                .append("metadata", metadata);
 
             collection.replaceOne(filter, document,
                 new com.mongodb.client.model.ReplaceOptions().upsert(true));
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cError while saving to MongoDB: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoLogger.error("Erreur lors de la sauvegarde MongoDB : "
+                + MongoExceptionHandler.toUserMessage(exception));
+            MongoLogger.debug("Détail sauvegarde", exception);
         }
     }
 
@@ -101,8 +96,10 @@ public class MongoDatabaseService extends AbstractDatabaseService {
                 return Optional.of(result.get("data"));
             }
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cError while fetching from MongoDB: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoLogger.error("Erreur lors de la lecture MongoDB : "
+                + MongoExceptionHandler.toUserMessage(exception));
+            MongoLogger.debug("Détail lecture", exception);
         }
 
         return Optional.empty();
@@ -117,8 +114,10 @@ public class MongoDatabaseService extends AbstractDatabaseService {
             Document filter = new Document("_id", key);
             return collection.deleteOne(filter).getDeletedCount() > 0;
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cError while deleting in MongoDB: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoLogger.error("Erreur lors de la suppression MongoDB : "
+                + MongoExceptionHandler.toUserMessage(exception));
+            MongoLogger.debug("Détail suppression", exception);
             return false;
         }
     }
@@ -132,8 +131,10 @@ public class MongoDatabaseService extends AbstractDatabaseService {
             Document filter = new Document("_id", key);
             return collection.countDocuments(filter) > 0;
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cError while checking existence in MongoDB: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoLogger.error("Erreur lors de la vérification MongoDB : "
+                + MongoExceptionHandler.toUserMessage(exception));
+            MongoLogger.debug("Détail existence", exception);
             return false;
         }
     }
@@ -159,8 +160,10 @@ public class MongoDatabaseService extends AbstractDatabaseService {
                 }
             });
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cError while fetching by prefix in MongoDB: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoLogger.error("Erreur lors de la recherche MongoDB : "
+                + MongoExceptionHandler.toUserMessage(exception));
+            MongoLogger.debug("Détail recherche par préfixe", exception);
         }
 
         return results;
@@ -169,7 +172,5 @@ public class MongoDatabaseService extends AbstractDatabaseService {
     @Override
     public void backup() {
         ensureConnected();
-        // MongoDB backups are generally handled server-side
-        // No backup logs here
     }
 }
