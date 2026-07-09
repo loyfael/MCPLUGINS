@@ -1,7 +1,7 @@
 name: AetherSafeMode
-version: 1.0.0
+version: ${version}
 main: loyfael.Main
-api-version: 1.21.8
+api-version: 1.21
 description: Plugin de gestion des modes de jeu PvP avec protection et base de données
 author: Loyfael
 website: https://github.com/loyfael

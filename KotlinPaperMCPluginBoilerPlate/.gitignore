@@ -1,34 +1,32 @@
-### IntelliJ IDEA ###
+# Gradle
+.gradle/
+**/.gradle/
+build/
+**/build/
+
+# Kotlin
+.kotlin/
+**/.kotlin/
+
+# IntelliJ IDEA
+.idea/
+**/.idea/
+*.iml
+*.ipr
+*.iws
+
+# Fichiers de compilation
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### Kotlin ###
-.kotlin
-
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+**/out/
 bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
-.vscode/
-
-### Mac OS ###
-.DS_Store
-
+**/bin/
 target/
+**/target/
+
+# Système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log

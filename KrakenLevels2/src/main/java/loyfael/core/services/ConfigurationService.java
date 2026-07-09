@@ -44,14 +44,6 @@ public class ConfigurationService implements IConfigurationService {
                 Main.getInstance().saveDefaultConfig();
             }
             config = YamlConfiguration.loadConfiguration(configFile);
-            
-            // Removed forced MongoDB values (was temporarily hardcoded)
-            
-            // Diagnostic log to verify loaded file
-            Utils.sendConsoleLog("&eConfiguration loaded from: " + configFile.getAbsolutePath());
-            String mongoHost = config.getString("mongodb.host", "not set");
-            int mongoPort = config.getInt("mongodb.port", 0);
-            Utils.sendConsoleLog("&eMongoDB values read: host=" + mongoHost + ", port=" + mongoPort);
 
             // Initialiser messages.yml
             messagesFile = new File(dataFolder, "messages.yml");
@@ -151,9 +143,18 @@ public class ConfigurationService implements IConfigurationService {
     private void validateConfiguration() {
         boolean changed = false;
 
-        // Validate essential parameters
-        if (!config.contains("system.use-mongodb")) {
-            config.set("system.use-mongodb", true);
+        if (!config.contains("debug")) {
+            config.set("debug", false);
+            changed = true;
+        }
+
+        if (!config.contains("mongodb.connect-timeout")) {
+            config.set("mongodb.connect-timeout", 5000);
+            changed = true;
+        }
+
+        if (!config.contains("mongodb.server-selection-timeout")) {
+            config.set("mongodb.server-selection-timeout", 5000);
             changed = true;
         }
 

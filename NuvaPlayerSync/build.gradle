@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.4.3'
+}
+
+group = 'loyfael'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:26.1.2.build.72-stable'
+
+    implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+
+tasks.processResources {
+    filteringCharset = 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('NuvaPlayerSync')
+    archiveClassifier.set('')
+    archiveVersion.set(project.version.toString())
+
+    exclude 'META-INF/MANIFEST.MF'
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    exclude 'META-INF/NOTICE*'
+    exclude 'META-INF/versions/**'
+    exclude 'module-info.class'
+
+    mergeServiceFiles()
+    relocate 'org.mongodb', 'loyfael.libs.mongodb'
+    relocate 'com.mongodb', 'loyfael.libs.mongodb.driver'
+    relocate 'org.bson', 'loyfael.libs.bson'
+    relocate 'org.slf4j', 'loyfael.libs.slf4j'
+}
+
+jar {
+    enabled = false
+}
+
+build {
+    dependsOn shadowJar
+}

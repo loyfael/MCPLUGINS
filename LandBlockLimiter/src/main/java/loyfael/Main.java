@@ -1,5 +1,6 @@
 package loyfael;
 
+import me.angeschossen.lands.api.applicationframework.util.ULID;
 import me.angeschossen.lands.api.LandsIntegration;
 import me.angeschossen.lands.api.land.Land;
 import org.bukkit.Bukkit;
@@ -107,11 +108,11 @@ public class Main extends JavaPlugin {
             }
 
             try {
-                int landId = Integer.parseInt(args[1]);
-                Land land = landsIntegration.getLandById(landId);
+                String landIdentifier = args[1];
+                Land land = findLand(landIdentifier);
 
                 if (land == null) {
-                    sender.sendMessage(messageManager.getMessage("land_not_found", "landId", landId));
+                    sender.sendMessage(messageManager.getMessage("land_not_found", "landId", landIdentifier));
                     return true;
                 }
 
@@ -149,8 +150,8 @@ public class Main extends JavaPlugin {
                     }
                 });
 
-            } catch (NumberFormatException e) {
-                sender.sendMessage("&cInvalid land ID. Must be a number.");
+            } catch (IllegalArgumentException e) {
+                sender.sendMessage("&cInvalid land identifier. Use a Lands ULID or exact land name.");
                 return true;
             }
             return true;
@@ -178,7 +179,7 @@ public class Main extends JavaPlugin {
                         boolean needsRescan = blockCounter.needsAntiExploitScan(land);
                         if (needsRescan) {
                             if (configManager.isDebug()) {
-                                getLogger().info("Anti-exploit scan needed for land " + land.getName() + " (ID: " + land.getId() + ")");
+                                getLogger().info("Anti-exploit scan needed for land " + land.getName() + " (ID: " + land.getULID() + ")");
                             }
                             blockCounter.forceRescanLand(land);
                         }
@@ -213,5 +214,13 @@ public class Main extends JavaPlugin {
 
     public LandsIntegration getLandsIntegration() {
         return landsIntegration;
+    }
+
+    private Land findLand(String identifier) {
+        try {
+            return landsIntegration.getLandByULID(ULID.fromString(identifier));
+        } catch (IllegalArgumentException ignored) {
+            return landsIntegration.getLandByName(identifier);
+        }
     }
 }

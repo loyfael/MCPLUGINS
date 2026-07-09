@@ -1,6 +1,6 @@
 name: LoyCustomMobs
 main: loyfael.LoyCustomMobs
-version: '${project.version}'
+version: '${version}'
 api-version: '1.21'
 author: loyfael
 description: A modern Paper plugin for custom mobs with unique abilities and behaviors.

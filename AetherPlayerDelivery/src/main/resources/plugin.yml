@@ -1,13 +1,13 @@
 # === INFORMATIONS PRINCIPALES ===
 name: AetherPlayerDelivery
-version: ${project.version}
+version: ${version}
 main: loyfael.AetherPlayerDelivery
 api-version: '1.21'
 folia-supported: false
 
 # === INFORMATIONS OPTIONNELLES ===
 description: "Plugin de commandes et livraisons entre joueurs avec système économique"
-website: "${project.url}"
+website: "${url}"
 author: Felke
 authors: [Felke]
 prefix: AetherPlayerDelivery

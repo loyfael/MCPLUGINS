@@ -268,7 +268,7 @@ public class FishingMiniGame implements Listener {
             if (isLavaFishing) {
                 location.getWorld().spawnParticle(org.bukkit.Particle.LAVA, location, 2, 0.1, 0.1, 0.1, 0.01);
             } else {
-                location.getWorld().spawnParticle(org.bukkit.Particle.WATER_SPLASH, location, 3, 0.2, 0.1, 0.2, 0.02);
+                location.getWorld().spawnParticle(org.bukkit.Particle.SPLASH, location, 3, 0.2, 0.1, 0.2, 0.02);
             }
         }
         

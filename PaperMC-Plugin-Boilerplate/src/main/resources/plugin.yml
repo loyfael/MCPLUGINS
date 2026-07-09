@@ -1,6 +1,6 @@
 name: SkySyncro
 main: loyfael.Main
-version: '${project.version}'
+version: '${version}'
 api-version: '1.21'
 author: loyfael
 description: A modern Paper plugin template for Minecraft 1.21+

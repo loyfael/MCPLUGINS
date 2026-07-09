@@ -16,6 +16,7 @@ import loyfael.core.services.*;
 import loyfael.listeners.ImprovedEventListener;
 import loyfael.gui.services.ModernGuiService;
 import loyfael.utils.Utils;
+import loyfael.core.mongodb.MongoLogger;
 import loyfael.utils.hooks.PlaceholderAPIHook;
 
 /**
@@ -57,38 +58,32 @@ public final class Main extends JavaPlugin {
             // 1. Initialize services container
             initializeServiceContainer();
 
-            // 2. Initialize Vault economy
-            setupEconomy();
-
-            // 3. Register all services
-            registerAllServices();
-
-            // 4. Initialize services in dependency order
-            serviceContainer.initializeServices();
-
-            // 5. Start synchronization service now that all services are ready
-            ISynchronizationService syncService = serviceContainer.getService(ISynchronizationService.class);
-            if (syncService != null) {
-                syncService.start();
-            }
-
-            // 6. Create default resources
+            // 2. Ensure default config exists before reading settings
             createDefaultResources();
 
-            // 7. Register commands and listeners
+            // 3. Initialize Vault economy
+            setupEconomy();
+
+            // 4. Register all services
+            registerAllServices();
+
+            // 5. Initialize services in dependency order (includes MongoDB and sync)
+            serviceContainer.initializeServices();
+
+            // 6. Register commands and listeners
             registerCommandsAndListeners();
 
-            // 8. Initialize PlaceholderAPI hook
+            // 7. Initialize PlaceholderAPI hook
             initializePlaceholderAPI();
 
-            // 9. Start periodic save task if configured
+            // 8. Start periodic save task if configured
             startPeriodicSaveTask();
 
             Utils.sendConsoleLog("&aKrakenLevels enabled successfully!");
 
         } catch (Exception e) {
-            Utils.sendConsoleLog("&cCritical error during enable: " + e.getMessage());
-            e.printStackTrace();
+            Utils.sendConsoleLog("&cErreur critique lors de l'activation du plugin.");
+            MongoLogger.debug("Détail de l'erreur d'activation", e);
             getServer().getPluginManager().disablePlugin(this);
         }
     }
@@ -109,8 +104,7 @@ public final class Main extends JavaPlugin {
                 serviceContainer.shutdownServices();
             }
         } catch (Exception e) {
-            Utils.sendConsoleLog("&cError during shutdown: " + e.getMessage());
-            e.printStackTrace();
+            Utils.sendConsoleLog("&cErreur lors de l'arrêt du plugin : " + e.getMessage());
         } finally {
             instance = null;
         }
@@ -135,8 +129,15 @@ public final class Main extends JavaPlugin {
         cacheService = new CacheService();
         serviceContainer.registerService(ICacheService.class, cacheService);
 
-        // 2. Services with basic dependencies
-        databaseService = createOptimalDatabaseService();
+        // 2. MongoDB Connection Manager (if using MongoDB)
+        IMongoConnectionManager mongoConnectionManager = null;
+        if (getConfig().getBoolean("database.use-mongodb", true)) {
+            mongoConnectionManager = new loyfael.core.services.MongoConnectionManager(configurationService);
+            serviceContainer.registerService(IMongoConnectionManager.class, mongoConnectionManager);
+        }
+
+        // 3. Services with basic dependencies
+        databaseService = createOptimalDatabaseService(mongoConnectionManager);
         serviceContainer.registerService(IDatabaseService.class, databaseService);
 
         notificationService = new NotificationService(configurationService);
@@ -158,9 +159,9 @@ public final class Main extends JavaPlugin {
         guiService = new loyfael.gui.services.ModernGuiService(playerService, notificationService, levelsConfigService);
         serviceContainer.registerService(IGuiService.class, guiService);
 
-        // 6. Synchronization service (depends on database, cache, and configuration)
+        // 6. Synchronization service (depends on database, cache, configuration, and MongoDB connection manager)
         ISynchronizationService synchronizationService = new loyfael.core.services.SynchronizationService(
-            databaseService, cacheService, configurationService);
+            databaseService, cacheService, configurationService, mongoConnectionManager);
         serviceContainer.registerService(ISynchronizationService.class, synchronizationService);
     }
 
@@ -168,12 +169,12 @@ public final class Main extends JavaPlugin {
      * Create optimal database service according to configuration
      * Open/closed principle: extensible without modification
      */
-    private IDatabaseService createOptimalDatabaseService() {
+    private IDatabaseService createOptimalDatabaseService(IMongoConnectionManager mongoConnectionManager) {
         // Temporary use of Bukkit config for bootstrap
         boolean useMongoDB = getConfig().getBoolean("database.use-mongodb", true);
 
         if (useMongoDB) {
-            return new MongoDatabaseService(configurationService);
+            return new MongoDatabaseService(configurationService, mongoConnectionManager);
         } else {
             return new YamlDatabaseService(configurationService);
         }

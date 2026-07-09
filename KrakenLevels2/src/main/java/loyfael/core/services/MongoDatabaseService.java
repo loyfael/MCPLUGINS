@@ -1,11 +1,11 @@
 package loyfael.core.services;
 
-import loyfael.api.interfaces.IConfigurationService;
-import loyfael.utils.Utils;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import loyfael.api.interfaces.IConfigurationService;
+import loyfael.api.interfaces.IMongoConnectionManager;
+import loyfael.core.mongodb.MongoExceptionHandler;
+import loyfael.core.mongodb.MongoLogger;
 import org.bson.Document;
 
 import java.util.HashMap;
@@ -13,92 +13,44 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * MongoDB implementation of the database service
- * Liskov substitution principle: can replace AbstractDatabaseService
+ * MongoDB implementation of the database service.
+ * Uses the shared {@link IMongoConnectionManager} — never creates its own client.
  */
 public class MongoDatabaseService extends AbstractDatabaseService {
 
-    private MongoClient mongoClient;
+    private static final String COLLECTION_NAME = "playerdata";
+
+    private final IMongoConnectionManager connectionManager;
     private MongoDatabase database;
     private MongoCollection<Document> collection;
 
-    // Store last used configuration values for diagnostics & reload detection
-    private String lastHost;
-    private int lastPort;
-    private String lastUsername;
-    private String lastDatabaseName;
-
-    public MongoDatabaseService(IConfigurationService configService) {
+    public MongoDatabaseService(IConfigurationService configService, IMongoConnectionManager connectionManager) {
         super(configService);
+        this.connectionManager = connectionManager;
     }
 
     @Override
     protected boolean doInitialize() {
         try {
-            // Read MongoDB configuration from config.yml
-            String host = configService.getConfig().getString("mongodb.host", "localhost");
-            int port = configService.getConfig().getInt("mongodb.port", 27017);
-            String username = configService.getConfig().getString("mongodb.username", "");
-            String password = configService.getConfig().getString("mongodb.password", "");
-            String databaseName = configService.getConfig().getString("mongodb.database", "krakenlevels");
-
-            // Construire la chaîne de connexion avec paramètres optimisés pour réduire le trafic
-            String connectionString;
-            if (username.isEmpty() || password.isEmpty()) {
-                connectionString = "mongodb://" + host + ":" + port + "/" + databaseName +
-                    "?maxPoolSize=3&minPoolSize=1&maxIdleTimeMS=600000&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000";
-            } else {
-                // URL-encode special characters in username and password
-                String encodedUsername = urlEncode(username);
-                String encodedPassword = urlEncode(password);
-                connectionString = "mongodb://" + encodedUsername + ":" + encodedPassword + "@" + host + ":" + port + "/" + databaseName +
-                    "?authSource=admin&maxPoolSize=3&minPoolSize=1&maxIdleTimeMS=600000&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000";
+            if (!connectionManager.isConnected()) {
+                MongoLogger.error("Le gestionnaire de connexion MongoDB n'est pas disponible.");
+                return false;
             }
 
-            mongoClient = MongoClients.create(connectionString);
-            database = mongoClient.getDatabase(databaseName);
-            collection = database.getCollection("playerdata");
-
-            // One-time connection test
-            database.runCommand(new Document("ping", 1));
-            // Memorize configuration used
-            lastHost = host;
-            lastPort = port;
-            lastUsername = username;
-            lastDatabaseName = databaseName;
-
-            // Log sanitized connection info for diagnostics
-            String maskedUser = (username == null || username.isEmpty()) ? "(anonymous)" : username;
-            Utils.sendConsoleLog("&aMongoDB connected successfully &7[host=" + host + ":" + port + ", db=" + databaseName + ", user=" + maskedUser + "]");
+            database = connectionManager.getDatabase(connectionManager.getDatabaseName());
+            collection = database.getCollection(COLLECTION_NAME);
             return true;
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cMongoDB connection error: " + e.getMessage());
-            e.printStackTrace();
+        } catch (Exception exception) {
+            MongoExceptionHandler.logFailure(exception);
             return false;
-        }
-    }
-
-    /**
-     * URL-encodes a string for use in a MongoDB URL
-     */
-    private String urlEncode(String input) {
-        try {
-            return java.net.URLEncoder.encode(input, "UTF-8");
-        } catch (java.io.UnsupportedEncodingException e) {
-            // UTF-8 is always supported
-            return input;
         }
     }
 
     @Override
     protected void doDisconnect() {
-        if (mongoClient != null) {
-            mongoClient.close();
-            mongoClient = null;
-            database = null;
-            collection = null;
-        }
+        database = null;
+        collection = null;
     }
 
     @Override
@@ -108,12 +60,9 @@ public class MongoDatabaseService extends AbstractDatabaseService {
 
         try {
             Document filter = new Document("_id", key);
-            
-            // Retrieve server name from configuration for synchronization
             String serverName = configService.getConfig().getString("server.name", "unknown-server");
             long currentTime = System.currentTimeMillis();
-            
-            // Create metadata for cross-server synchronization
+
             Document metadata = new Document()
                 .append("lastModified", currentTime)
                 .append("lastModifiedBy", serverName)
@@ -122,13 +71,15 @@ public class MongoDatabaseService extends AbstractDatabaseService {
             Document document = new Document("_id", key)
                 .append("data", value)
                 .append("lastUpdated", currentTime)
-                .append("metadata", metadata); // Add synchronization metadata
+                .append("metadata", metadata);
 
             collection.replaceOne(filter, document,
                 new com.mongodb.client.model.ReplaceOptions().upsert(true));
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cError while saving to MongoDB: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoLogger.error("Erreur lors de la sauvegarde MongoDB : "
+                + MongoExceptionHandler.toUserMessage(exception));
+            MongoLogger.debug("Détail sauvegarde", exception);
         }
     }
 
@@ -145,8 +96,10 @@ public class MongoDatabaseService extends AbstractDatabaseService {
                 return Optional.of(result.get("data"));
             }
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cError while fetching from MongoDB: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoLogger.error("Erreur lors de la lecture MongoDB : "
+                + MongoExceptionHandler.toUserMessage(exception));
+            MongoLogger.debug("Détail lecture", exception);
         }
 
         return Optional.empty();
@@ -161,8 +114,10 @@ public class MongoDatabaseService extends AbstractDatabaseService {
             Document filter = new Document("_id", key);
             return collection.deleteOne(filter).getDeletedCount() > 0;
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cError while deleting in MongoDB: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoLogger.error("Erreur lors de la suppression MongoDB : "
+                + MongoExceptionHandler.toUserMessage(exception));
+            MongoLogger.debug("Détail suppression", exception);
             return false;
         }
     }
@@ -176,8 +131,10 @@ public class MongoDatabaseService extends AbstractDatabaseService {
             Document filter = new Document("_id", key);
             return collection.countDocuments(filter) > 0;
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cError while checking existence in MongoDB: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoLogger.error("Erreur lors de la vérification MongoDB : "
+                + MongoExceptionHandler.toUserMessage(exception));
+            MongoLogger.debug("Détail existence", exception);
             return false;
         }
     }
@@ -203,8 +160,10 @@ public class MongoDatabaseService extends AbstractDatabaseService {
                 }
             });
 
-        } catch (Exception e) {
-            Utils.sendConsoleLog("&cError while fetching by prefix in MongoDB: " + e.getMessage());
+        } catch (Exception exception) {
+            MongoLogger.error("Erreur lors de la recherche MongoDB : "
+                + MongoExceptionHandler.toUserMessage(exception));
+            MongoLogger.debug("Détail recherche par préfixe", exception);
         }
 
         return results;
@@ -213,13 +172,5 @@ public class MongoDatabaseService extends AbstractDatabaseService {
     @Override
     public void backup() {
         ensureConnected();
-        // MongoDB backups are generally handled server-side
-        // No backup logs here
     }
-
-    // Exposed for reload diagnostics
-    public String getLastHost() { return lastHost; }
-    public int getLastPort() { return lastPort; }
-    public String getLastUsername() { return lastUsername; }
-    public String getLastDatabaseName() { return lastDatabaseName; }
 }

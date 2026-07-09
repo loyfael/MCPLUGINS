@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.4.3'
+}
+
+group = 'loyfael'
+version = '1.0-SNAPSHOT'
+description = 'LoyVoidBounce'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:26.1.2.build.72-stable'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+
+processResources {
+    filteringCharset = 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('LoyVoidBounce')
+    archiveClassifier.set('')
+    archiveVersion.set(project.version.toString())
+}
+
+jar {
+    enabled = false
+}
+
+build.dependsOn shadowJar

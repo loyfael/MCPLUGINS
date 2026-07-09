@@ -119,20 +119,14 @@ public final class ImprovedLevelsCMD implements CommandExecutor, TabCompleter {
                 configService.reload();
                 notificationService.reloadMessages();
 
-                // Reconnect to MongoDB if it's the active backend (ensures new host/port changes are applied)
+                // Reconnect MongoDB if it's the active backend
                 try {
-                    IDatabaseService db = Main.getInstance().getDatabaseService();
-                    if (db instanceof loyfael.core.services.MongoDatabaseService mongoDb) {
-                        String beforeHost = mongoDb.getLastHost();
-                        int beforePort = mongoDb.getLastPort();
-                        db.disconnect();
-                        boolean ok = db.initialize();
-                        String afterHost = (mongoDb.getLastHost() == null ? "?" : mongoDb.getLastHost());
-                        int afterPort = mongoDb.getLastPort();
-                        Utils.sendConsoleLog("&eReload MongoDB: before=" + beforeHost + ":" + beforePort + " -> after=" + afterHost + ":" + afterPort + " status=" + (ok?"OK":"FAIL"));
+                    if (Main.getInstance().getDatabaseService()
+                        instanceof loyfael.core.services.MongoDatabaseService) {
+                        Main.getInstance().getServiceContainer().reconnectMongoDB();
                     }
                 } catch (Exception ex) {
-                    Utils.sendConsoleLog("&cErreur lors du rechargement MongoDB: " + ex.getMessage());
+                    loyfael.core.mongodb.MongoExceptionHandler.logFailure(ex);
                 }
 
                 Bukkit.getScheduler().runTask(Main.getInstance(), () -> {

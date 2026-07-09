@@ -227,7 +227,7 @@ public class TreasureManager {
         
         // Play sound and effects
         player.playSound(player.getLocation(), org.bukkit.Sound.BLOCK_CHEST_OPEN, 1.0f, 1.0f);
-        player.spawnParticle(org.bukkit.Particle.VILLAGER_HAPPY, player.getLocation().add(0, 1, 0), 10);
+        player.spawnParticle(org.bukkit.Particle.HAPPY_VILLAGER, player.getLocation().add(0, 1, 0), 10);
         
         // Remove one treasure from inventory
         treasureItem.setAmount(treasureItem.getAmount() - 1);

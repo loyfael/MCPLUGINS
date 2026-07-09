@@ -1,13 +1,13 @@
 # === INFORMATIONS PRINCIPALES ===
 name: MyPlugin
-version: ${project.version}
+version: ${version}
 main: loyfael.MyPlugin
 api-version: '1.21'
 folia-supported: false
 
 # === INFORMATIONS OPTIONNELLES ===
-description: "${project.description}"
-website: "${project.url}"
+description: "${description}"
+website: "${url}"
 author: Loyfael
 authors: [Loyfael]
 prefix: MyPlugin
