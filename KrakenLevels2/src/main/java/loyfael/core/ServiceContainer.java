@@ -62,25 +62,36 @@ public class ServiceContainer implements IServiceContainer {
             getService(IConfigurationService.class).initialize();
         }
 
-        // 2. Cache
+        // 2. MongoDB Connection Manager (if available)
+        if (hasService(loyfael.api.interfaces.IMongoConnectionManager.class)) {
+            logger.info("[KrakenLevels] Initialisation du gestionnaire de connexion MongoDB...");
+            try {
+                getService(loyfael.api.interfaces.IMongoConnectionManager.class).initialize();
+            } catch (Exception e) {
+                logger.severe("[KrakenLevels] Échec de l'initialisation MongoDB: " + e.getMessage());
+                throw new RuntimeException("Impossible d'initialiser MongoDB", e);
+            }
+        }
+
+        // 3. Cache
         if (hasService(ICacheService.class)) {
             logger.info("[KrakenLevels] Initialisation du service de cache...");
             // Le cache n'a pas besoin d'initialisation particulière
         }
 
-        // 3. Base de données (dépend de la configuration)
+        // 4. Base de données (dépend de la configuration et de MongoDB)
         if (hasService(IDatabaseService.class)) {
             logger.info("[KrakenLevels] Initialisation du service de base de données...");
             getService(IDatabaseService.class).initialize();
         }
 
-        // 4. Services métier qui dépendent des services de base
+        // 5. Services métier qui dépendent des services de base
         if (hasService(ILevelsConfigService.class)) {
             logger.info("[KrakenLevels] Service de configuration des niveaux déjà initialisé");
             // Le LevelsConfigService s'initialise dans son constructeur, pas besoin d'appeler initialize()
         }
 
-        // 5. Service de synchronisation (dépend de la base de données et de la configuration)
+        // 6. Service de synchronisation (dépend de la base de données et de la configuration)
         if (hasService(ISynchronizationService.class)) {
             logger.info("[KrakenLevels] Initialisation du service de synchronisation...");
             IConfigurationService configService = getService(IConfigurationService.class);

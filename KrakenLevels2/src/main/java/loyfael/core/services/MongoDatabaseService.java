@@ -1,9 +1,8 @@
 package loyfael.core.services;
 
 import loyfael.api.interfaces.IConfigurationService;
+import loyfael.api.interfaces.IMongoConnectionManager;
 import loyfael.utils.Utils;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
@@ -15,90 +14,47 @@ import java.util.Optional;
 /**
  * MongoDB implementation of the database service
  * Liskov substitution principle: can replace AbstractDatabaseService
+ * Uses shared MongoDB connection manager
  */
 public class MongoDatabaseService extends AbstractDatabaseService {
 
-    private MongoClient mongoClient;
+    private final IMongoConnectionManager connectionManager;
     private MongoDatabase database;
     private MongoCollection<Document> collection;
 
-    // Store last used configuration values for diagnostics & reload detection
-    private String lastHost;
-    private int lastPort;
-    private String lastUsername;
-    private String lastDatabaseName;
-
-    public MongoDatabaseService(IConfigurationService configService) {
+    public MongoDatabaseService(IConfigurationService configService, IMongoConnectionManager connectionManager) {
         super(configService);
+        this.connectionManager = connectionManager;
     }
 
     @Override
     protected boolean doInitialize() {
         try {
-            // Read MongoDB configuration from config.yml
-            String host = configService.getConfig().getString("mongodb.host", "localhost");
-            int port = configService.getConfig().getInt("mongodb.port", 27017);
-            String username = configService.getConfig().getString("mongodb.username", "");
-            String password = configService.getConfig().getString("mongodb.password", "");
-            String databaseName = configService.getConfig().getString("mongodb.database", "krakenlevels");
-
-            // Construire la chaîne de connexion avec paramètres optimisés pour réduire le trafic
-            String connectionString;
-            if (username.isEmpty() || password.isEmpty()) {
-                connectionString = "mongodb://" + host + ":" + port + "/" + databaseName +
-                    "?maxPoolSize=3&minPoolSize=1&maxIdleTimeMS=600000&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000";
-            } else {
-                // URL-encode special characters in username and password
-                String encodedUsername = urlEncode(username);
-                String encodedPassword = urlEncode(password);
-                connectionString = "mongodb://" + encodedUsername + ":" + encodedPassword + "@" + host + ":" + port + "/" + databaseName +
-                    "?authSource=admin&maxPoolSize=3&minPoolSize=1&maxIdleTimeMS=600000&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000";
+            // Connection is already initialized by the connection manager
+            if (!connectionManager.isConnected()) {
+                Utils.sendConsoleLog("&cMongoDB connection manager not initialized");
+                return false;
             }
 
-            mongoClient = MongoClients.create(connectionString);
-            database = mongoClient.getDatabase(databaseName);
+            // Get database from shared connection
+            String databaseName = configService.getConfig().getString("mongodb.database", "krakenlevels");
+            database = connectionManager.getDatabase(databaseName);
             collection = database.getCollection("playerdata");
 
-            // One-time connection test
-            database.runCommand(new Document("ping", 1));
-            // Memorize configuration used
-            lastHost = host;
-            lastPort = port;
-            lastUsername = username;
-            lastDatabaseName = databaseName;
-
-            // Log sanitized connection info for diagnostics
-            String maskedUser = (username == null || username.isEmpty()) ? "(anonymous)" : username;
-            Utils.sendConsoleLog("&aMongoDB connected successfully &7[host=" + host + ":" + port + ", db=" + databaseName + ", user=" + maskedUser + "]");
             return true;
 
         } catch (Exception e) {
-            Utils.sendConsoleLog("&cMongoDB connection error: " + e.getMessage());
-            e.printStackTrace();
+            Utils.sendConsoleLog("&cMongoDB initialization error: " + e.getMessage());
             return false;
-        }
-    }
-
-    /**
-     * URL-encodes a string for use in a MongoDB URL
-     */
-    private String urlEncode(String input) {
-        try {
-            return java.net.URLEncoder.encode(input, "UTF-8");
-        } catch (java.io.UnsupportedEncodingException e) {
-            // UTF-8 is always supported
-            return input;
         }
     }
 
     @Override
     protected void doDisconnect() {
-        if (mongoClient != null) {
-            mongoClient.close();
-            mongoClient = null;
-            database = null;
-            collection = null;
-        }
+        // Connection manager handles closing the shared connection
+        // This service just releases its local references
+        database = null;
+        collection = null;
     }
 
     @Override
@@ -216,10 +172,4 @@ public class MongoDatabaseService extends AbstractDatabaseService {
         // MongoDB backups are generally handled server-side
         // No backup logs here
     }
-
-    // Exposed for reload diagnostics
-    public String getLastHost() { return lastHost; }
-    public int getLastPort() { return lastPort; }
-    public String getLastUsername() { return lastUsername; }
-    public String getLastDatabaseName() { return lastDatabaseName; }
 }

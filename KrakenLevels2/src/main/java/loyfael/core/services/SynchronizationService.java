@@ -4,11 +4,10 @@ import loyfael.api.interfaces.ISynchronizationService;
 import loyfael.api.interfaces.IDatabaseService;
 import loyfael.api.interfaces.ICacheService;
 import loyfael.api.interfaces.IConfigurationService;
+import loyfael.api.interfaces.IMongoConnectionManager;
 import loyfael.api.interfaces.IPlayerService;
 import loyfael.Main;
 import loyfael.utils.Utils;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
@@ -29,15 +28,16 @@ import java.util.HashMap;
 /**
  * Service de synchronisation inter-serveur utilisant MongoDB polling (compatible standalone)
  * Principe de responsabilité unique : synchronisation uniquement
+ * Uses shared MongoDB connection manager
  */
 public class SynchronizationService implements ISynchronizationService {
 
     private final IDatabaseService databaseService;
     private final ICacheService cacheService;
     private final IConfigurationService configService;
+    private final IMongoConnectionManager connectionManager;
     
-    // MongoDB pour la synchronisation temps réel
-    private MongoClient syncMongoClient;
+    // MongoDB references using shared connection
     private MongoDatabase syncDatabase;
     private MongoCollection<Document> syncCollection;
     
@@ -55,10 +55,12 @@ public class SynchronizationService implements ISynchronizationService {
 
     public SynchronizationService(IDatabaseService databaseService, 
                                 ICacheService cacheService, 
-                                IConfigurationService configService) {
+                                IConfigurationService configService,
+                                IMongoConnectionManager connectionManager) {
         this.databaseService = databaseService;
         this.cacheService = cacheService;
         this.configService = configService;
+        this.connectionManager = connectionManager;
         // Initialize server name as null, will be set in start() method
         this.serverName = null;
         this.syncExecutor = Executors.newScheduledThreadPool(2);
@@ -98,9 +100,10 @@ public class SynchronizationService implements ISynchronizationService {
         running = false;
         
         try {
-            if (syncMongoClient != null) {
-                syncMongoClient.close();
-            }
+            // Connection manager handles cleanup of shared connection
+            syncDatabase = null;
+            syncCollection = null;
+            
             syncExecutor.shutdown();
             if (!syncExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
                 syncExecutor.shutdownNow();
@@ -112,28 +115,19 @@ public class SynchronizationService implements ISynchronizationService {
     }
 
     private void initializeMongoDB() throws Exception {
-        String host = configService.getConfig().getString("mongodb.host", "localhost");
-        int port = configService.getConfig().getInt("mongodb.port", 27017);
-        String username = configService.getConfig().getString("mongodb.username", "");
-        String password = configService.getConfig().getString("mongodb.password", "");
-        String databaseName = configService.getConfig().getString("mongodb.database", "krakenlevels");
-
-        String connectionString;
-        if (username.isEmpty() || password.isEmpty()) {
-            connectionString = "mongodb://" + host + ":" + port + "/" + databaseName;
-        } else {
-            String encodedUsername = java.net.URLEncoder.encode(username, "UTF-8");
-            String encodedPassword = java.net.URLEncoder.encode(password, "UTF-8");
-            connectionString = "mongodb://" + encodedUsername + ":" + encodedPassword + "@" + 
-                             host + ":" + port + "/" + databaseName + "?authSource=admin";
+        // Use shared connection manager instead of creating a new connection
+        if (connectionManager == null) {
+            throw new RuntimeException("MongoDB connection manager not available (MongoDB might be disabled)");
         }
-
-        syncMongoClient = MongoClients.create(connectionString);
-        syncDatabase = syncMongoClient.getDatabase(databaseName);
+        
+        if (!connectionManager.isConnected()) {
+            throw new RuntimeException("MongoDB connection not initialized");
+        }
+        
+        String databaseName = configService.getConfig().getString("mongodb.database", "krakenlevels");
+        syncDatabase = connectionManager.getDatabase(databaseName);
         syncCollection = syncDatabase.getCollection("playerdata");
-
-        // Test de connexion
-        syncDatabase.runCommand(new Document("ping", 1));
+        
         Utils.sendConsoleLog("&aConnexion MongoDB pour synchronisation établie");
     }
 

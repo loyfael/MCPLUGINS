@@ -135,8 +135,15 @@ public final class Main extends JavaPlugin {
         cacheService = new CacheService();
         serviceContainer.registerService(ICacheService.class, cacheService);
 
-        // 2. Services with basic dependencies
-        databaseService = createOptimalDatabaseService();
+        // 2. MongoDB Connection Manager (if using MongoDB)
+        IMongoConnectionManager mongoConnectionManager = null;
+        if (getConfig().getBoolean("database.use-mongodb", true)) {
+            mongoConnectionManager = new loyfael.core.services.MongoConnectionManager(configurationService);
+            serviceContainer.registerService(IMongoConnectionManager.class, mongoConnectionManager);
+        }
+
+        // 3. Services with basic dependencies
+        databaseService = createOptimalDatabaseService(mongoConnectionManager);
         serviceContainer.registerService(IDatabaseService.class, databaseService);
 
         notificationService = new NotificationService(configurationService);
@@ -158,9 +165,9 @@ public final class Main extends JavaPlugin {
         guiService = new loyfael.gui.services.ModernGuiService(playerService, notificationService, levelsConfigService);
         serviceContainer.registerService(IGuiService.class, guiService);
 
-        // 6. Synchronization service (depends on database, cache, and configuration)
+        // 6. Synchronization service (depends on database, cache, configuration, and MongoDB connection manager)
         ISynchronizationService synchronizationService = new loyfael.core.services.SynchronizationService(
-            databaseService, cacheService, configurationService);
+            databaseService, cacheService, configurationService, mongoConnectionManager);
         serviceContainer.registerService(ISynchronizationService.class, synchronizationService);
     }
 
@@ -168,12 +175,12 @@ public final class Main extends JavaPlugin {
      * Create optimal database service according to configuration
      * Open/closed principle: extensible without modification
      */
-    private IDatabaseService createOptimalDatabaseService() {
+    private IDatabaseService createOptimalDatabaseService(IMongoConnectionManager mongoConnectionManager) {
         // Temporary use of Bukkit config for bootstrap
         boolean useMongoDB = getConfig().getBoolean("database.use-mongodb", true);
 
         if (useMongoDB) {
-            return new MongoDatabaseService(configurationService);
+            return new MongoDatabaseService(configurationService, mongoConnectionManager);
         } else {
             return new YamlDatabaseService(configurationService);
         }

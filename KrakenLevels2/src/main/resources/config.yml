@@ -71,9 +71,15 @@ server:
   name: "lobby"
 
 # ================================
-# MongoDB configuration (local defaults)
+# MongoDB configuration
 # ================================
 mongodb:
+  # Option 1: Use MongoDB URI directly (recommended)
+  # If this is set, all other mongodb parameters are ignored
+  # Example: mongodb://root:password@45.140.164.224:27017/nuvalis?authSource=admin
+  uri: ""
+  
+  # Option 2: Manual configuration (used if uri is empty)
   # MongoDB server address
   host: localhost
   
@@ -86,6 +92,9 @@ mongodb:
   # Authentication (leave empty if not used)
   username: ""
   password: ""
+  
+  # Authentication database (usually 'admin')
+  auth-source: "admin"
   
   # Connection options
   connection:
