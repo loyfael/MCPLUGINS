@@ -11,6 +11,12 @@ description = 'AetherialShop'
 
 // ─── Compilation Java 25 ────────────────────────────────────────────────────
 // Paper 26.2 cible Java 25. On force donc le bytecode en release 25.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.release = 25
@@ -30,7 +36,7 @@ repositories {
 // ─── Dépendances ─────────────────────────────────────────────────────────────
 dependencies {
     // provided → compileOnly (non inclus dans le JAR final, fourni par le serveur)
-    compileOnly("io.papermc.paper:paper-api:26.2.build.+")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.133-stable")
     // VaultAPI dépend de org.bukkit:bukkit, mais paper-api fournit déjà bukkit via
     // sa capability. On exclut bukkit de VaultAPI pour éviter le conflit Gradle.
     compileOnly('com.github.MilkBowl:VaultAPI:1.7') {
