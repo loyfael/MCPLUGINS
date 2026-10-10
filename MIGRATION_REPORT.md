@@ -104,5 +104,6 @@ Les projets listes dans ce rapport compilent maintenant sous Gradle avec Java 25
   PDC sur les lits) : aucun usage trouve
 - AetherialShop : ajout de la toolchain Java 25 (la compilation utilisait le JDK de Gradle et echouait)
 - Compilation verifiee : les 20 projets passent `./gradlew build` sur Paper `26.2.build.133-stable`
-- Avertissements restants (API marquee pour suppression, sans erreur) :
-  LoyFishing (`Biome.valueOf/values`, `OldEnum.name`) et AetherPlayerShop (`org.bukkit.conversations`)
+- API marquees pour suppression remplacees (plus aucun avertissement `[removal]`) :
+  - LoyFishing : `Biome.valueOf/values` et `name()` remplaces par `BiomeUtils` (registre Paper), memes noms en config
+  - AetherPlayerShop : suppression de `PriceChangePrompt` (API `org.bukkit.conversations`), code mort remplace par `ShopEditMenuGUI`

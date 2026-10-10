@@ -4,6 +4,7 @@ import loyfael.litefish.LiteFish;
 import loyfael.litefish.models.FishDrop;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import loyfael.litefish.utils.BiomeUtils;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -69,7 +70,7 @@ public class FishCatalogGUI extends BaseGUI {
             } else {
                 for (String biome : fish.getBiomes()) {
                     try {
-                        Biome b = Biome.valueOf(biome);
+                        Biome b = BiomeUtils.parse(biome);
                         String biomeName = plugin.getBiomeManager().getBiomeDisplayName(b);
                         lore.add("&e  " + biomeName);
                     } catch (IllegalArgumentException e) {

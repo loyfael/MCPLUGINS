@@ -3,6 +3,7 @@ package loyfael.litefish.managers;
 import loyfael.litefish.LiteFish;
 import loyfael.litefish.models.BiomeData;
 import org.bukkit.Location;
+import loyfael.litefish.utils.BiomeUtils;
 import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,13 +40,13 @@ public class BiomeManager {
         
         for (String biomeKey : biomesSection.getKeys(false)) {
             try {
-                Biome biome = Biome.valueOf(biomeKey.toUpperCase());
+                Biome biome = BiomeUtils.parse(biomeKey);
                 ConfigurationSection biomeSection = biomesSection.getConfigurationSection(biomeKey);
                 
                 if (biomeSection != null) {
                     BiomeData data = new BiomeData(
                         biome,
-                        biomeSection.getString("name", biome.name()),
+                        biomeSection.getString("name", BiomeUtils.name(biome)),
                         biomeSection.getString("color", "#3F76E4"),
                         biomeSection.getInt("monster-chance", 15)
                     );
@@ -94,7 +95,7 @@ public class BiomeManager {
     }
     
     private BiomeData getDefaultBiomeData(Biome biome) {
-        return new BiomeData(biome, biome.name(), "#3F76E4", 15);
+        return new BiomeData(biome, BiomeUtils.name(biome), "#3F76E4", 15);
     }
     
     public Map<Biome, BiomeData> getAllBiomeData() {
@@ -108,7 +109,7 @@ public class BiomeManager {
     
     private void saveBiomeData(Biome biome, BiomeData data) {
         FileConfiguration config = plugin.getConfigManager().getBiomesConfig();
-        String path = "biomes." + biome.name();
+        String path = "biomes." + BiomeUtils.name(biome);
         
         config.set(path + ".name", data.getName());
         config.set(path + ".color", data.getColor());

@@ -7,6 +7,7 @@ import loyfael.litefish.models.BiomeData;
 import loyfael.litefish.models.FishDrop;
 import loyfael.litefish.utils.MessageUtils;
 import org.bukkit.Bukkit;
+import loyfael.litefish.utils.BiomeUtils;
 import org.bukkit.block.Biome;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -205,7 +206,7 @@ public class LiteFishCommand implements CommandExecutor, TabCompleter {
     
     private void sendDropsForBiome(CommandSender sender, String biomeName) {
         try {
-            Biome biome = Biome.valueOf(biomeName.toUpperCase());
+            Biome biome = BiomeUtils.parse(biomeName);
             List<FishDrop> drops = plugin.getDropManager().getDropsForBiome(biome);
             
             MessageUtils.sendRawMessage(sender, "&b&l=== Drops for " + biomeName + " ===");
@@ -268,8 +269,8 @@ public class LiteFishCommand implements CommandExecutor, TabCompleter {
                     break;
                     
                 case "drops":
-                    return Arrays.stream(Biome.values())
-                        .map(biome -> biome.name().toLowerCase())
+                    return BiomeUtils.all().stream()
+                        .map(biome -> BiomeUtils.name(biome).toLowerCase())
                         .filter(name -> name.startsWith(args[1].toLowerCase()))
                         .collect(Collectors.toList());
             }

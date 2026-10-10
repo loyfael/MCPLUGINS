@@ -4,6 +4,7 @@ import loyfael.litefish.LiteFish;
 import loyfael.litefish.models.FishDrop;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import loyfael.litefish.utils.BiomeUtils;
 import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -95,13 +96,13 @@ public class DropManager {
                     List<String> allowedBiomes = drop.getBiomes();
                     if (allowedBiomes.isEmpty()) {
                         // If no biomes specified, add to all biomes
-                        for (Biome biome : Biome.values()) {
+                        for (Biome biome : BiomeUtils.all()) {
                             biomeDrops.computeIfAbsent(biome, k -> new ArrayList<>()).add(dropKey);
                         }
                     } else {
                         for (String biomeName : allowedBiomes) {
                             try {
-                                Biome biome = Biome.valueOf(biomeName.toUpperCase());
+                                Biome biome = BiomeUtils.parse(biomeName);
                                 biomeDrops.computeIfAbsent(biome, k -> new ArrayList<>()).add(dropKey);
                             } catch (IllegalArgumentException e) {
                                 plugin.getLogger().warning("Invalid biome in drop " + dropKey + ": " + biomeName);
