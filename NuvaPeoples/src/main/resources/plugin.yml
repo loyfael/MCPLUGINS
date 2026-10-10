@@ -1,7 +1,7 @@
 name: NuvaPeoples
 version: 1.0.0
 main: loyfael.ClassePlugin
-api-version: 1.21
+api-version: '26.2'
 authors: [Loyfael]
 description: Plugin de classes/peuples Minecraft avec passifs spécifiques
 website: https://github.com/loyfael

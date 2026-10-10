@@ -1,10 +1,10 @@
 # TriumphGUI Kotlin Tutorial
 
-Tutoriel Kotlin minimal pour Triumph GUI sur Paper 26.1.2, Java 25 et Gradle 9.4.1.
+Tutoriel Kotlin minimal pour Triumph GUI sur Paper 26.2, Java 25 et Gradle 9.4.1.
 
 ## Versions
 
-- Paper API: 26.1.2.build.72-stable
+- Paper API: 26.2.build.129-stable
 - Java: 25
 - Kotlin: 2.4.0
 - Triumph GUI: 3.1.11

@@ -1,7 +1,7 @@
 name: LandsBlockLimiter
 version: ${version}
 main: loyfael.Main
-api-version: 1.21
+api-version: '26.2'
 description: Limite le nombre de blocs spécifiques par terrain et par joueur dans Lands
 author: Loyfael
 website: https://github.com/loyfael

@@ -1,7 +1,7 @@
 name: AetherPlayerShop
 main: loyfael.Main
 version: '${version}'
-api-version: '1.21'
+api-version: '26.2'
 author: loyfael
 description: Plugin avancé de boutiques joueurs avec MongoDB et menu central global
 website: https://github.com/loyfael/AetherPlayerShop

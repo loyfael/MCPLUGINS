@@ -1,7 +1,7 @@
 name: AntiVillagerLag
 version: '${version}'
 main: loyfael.antiVillagerLag.AntiVillagerLag
-api-version: '1.21'
+api-version: '26.2'
 authors: [ RebelMythik, CaveRaider ]
 description: Bonk Villagers
 

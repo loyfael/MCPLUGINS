@@ -1,7 +1,7 @@
 name: LiteFish
 version: '${version}'
 main: loyfael.litefish.LiteFish
-api-version: 1.21
+api-version: '26.2'
 authors: [Loyfael]
 description: 'Simplified Advanced Fishing Plugin with Nexo, Vault, and WorldGuard support'
 website: 'https://github.com/loyfael'

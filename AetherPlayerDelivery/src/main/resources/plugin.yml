@@ -2,7 +2,7 @@
 name: AetherPlayerDelivery
 version: ${version}
 main: loyfael.AetherPlayerDelivery
-api-version: '1.21'
+api-version: '26.2'
 folia-supported: false
 
 # === INFORMATIONS OPTIONNELLES ===

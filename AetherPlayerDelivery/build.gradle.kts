@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.1.2.build.72-stable")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.129-stable")
     compileOnly("me.clip:placeholderapi:2.11.5")
     compileOnly("net.milkbowl.vault:VaultAPI:1.7")
 

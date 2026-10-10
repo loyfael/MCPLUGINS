@@ -1,7 +1,7 @@
 name: LoyChatFillCommand
 version: 1.0.0
 main: loyfael.Main
-api-version: 1.21
+api-version: '26.2'
 description: Plugin pour pré-remplir la barre de chat d'un joueur
 author: loyfael
 

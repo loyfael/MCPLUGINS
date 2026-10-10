@@ -2,7 +2,7 @@
 name: MyPlugin
 version: ${version}
 main: loyfael.MyPlugin
-api-version: '1.21'
+api-version: '26.2'
 folia-supported: false
 
 # === INFORMATIONS OPTIONNELLES ===

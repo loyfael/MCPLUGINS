@@ -1,12 +1,12 @@
 # Kotlin PaperMC Plugin Boilerplate
 
-Boilerplate Kotlin pour plugins Paper migre sur Gradle 9.4.1, Java 25 et Paper 26.1.2.
+Boilerplate Kotlin pour plugins Paper migre sur Gradle 9.4.1, Java 25 et Paper 26.2.
 
 ## Versions
 
 - Java: 25
 - Kotlin: 2.4.0
-- Paper API: 26.1.2.build.72-stable
+- Paper API: 26.2.build.129-stable
 - Gradle Wrapper: 9.4.1
 - Shadow: 9.4.3
 - PlaceholderAPI: 2.11.5

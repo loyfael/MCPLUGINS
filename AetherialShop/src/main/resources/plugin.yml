@@ -1,7 +1,7 @@
 name: AetherialShop
 version: 1.0
 main: loyfael.Main
-api-version: 1.21
+api-version: '26.2'
 depend: [Vault]
 author: Loyfael
 description: Shop administratif temporaire avec rotation quotidienne

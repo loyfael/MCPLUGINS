@@ -8,7 +8,7 @@ plugins {
 
 group = "com.exemple"
 version = "1.0.0-SNAPSHOT"
-description = "TriumphGUI Kotlin tutorial for Paper 26.1.2"
+description = "TriumphGUI Kotlin tutorial for Paper 26.2"
 
 java {
     toolchain {
@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.1.2.build.72-stable")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.129-stable")
 
     implementation(kotlin("stdlib"))
     implementation("dev.triumphteam:triumph-gui:3.1.11")
