@@ -102,5 +102,7 @@ Les projets listes dans ce rapport compilent maintenant sous Gradle avec Java 25
 - Code audite contre les suppressions de Paper 26.2 / Adventure 5 (`BookMeta` qui n'etend plus `Book`,
   `MessageType`, `sendMessage(Identity, ...)`, `PaperComponents`, serializers de `UnsafeValues`,
   PDC sur les lits) : aucun usage trouve
-- Compilation non verifiee dans l'environnement de migration (depot `repo.papermc.io` inaccessible) :
-  lancer `./gradlew build` dans chaque projet pour confirmer
+- AetherialShop : ajout de la toolchain Java 25 (la compilation utilisait le JDK de Gradle et echouait)
+- Compilation verifiee : les 20 projets passent `./gradlew build` sur Paper `26.2.build.133-stable`
+- Avertissements restants (API marquee pour suppression, sans erreur) :
+  LoyFishing (`Biome.valueOf/values`, `OldEnum.name`) et AetherPlayerShop (`org.bukkit.conversations`)
