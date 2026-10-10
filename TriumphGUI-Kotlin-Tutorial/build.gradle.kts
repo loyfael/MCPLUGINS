@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.2.build.129-stable")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.133-stable")
 
     implementation(kotlin("stdlib"))
     implementation("dev.triumphteam:triumph-gui:3.1.11")

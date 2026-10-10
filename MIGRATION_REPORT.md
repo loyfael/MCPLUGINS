@@ -96,7 +96,7 @@ Chaque projet migre a ete valide par:
 Les projets listes dans ce rapport compilent maintenant sous Gradle avec Java 25 et Paper 26.1.2, et produisent un JAR final dans `build/libs/`.
 ## Mise a jour Minecraft 26.2
 
-- Paper API `26.1.2.build.72-stable` -> `26.2.build.129-stable` (AetherialShop: `26.2.build.+`)
+- Paper API `26.1.2.build.72-stable` -> `26.2.build.133-stable` (AetherialShop: `26.2.build.+`)
 - `api-version` des `plugin.yml` passe de `1.21` a `26.2` (les plugins ne se chargent plus sur un serveur < 26.2)
 - Java 25, Gradle 9.4.1, Shadow 9.4.3 et Kotlin 2.4.0 inchanges (deja compatibles)
 - Code audite contre les suppressions de Paper 26.2 / Adventure 5 (`BookMeta` qui n'etend plus `Book`,

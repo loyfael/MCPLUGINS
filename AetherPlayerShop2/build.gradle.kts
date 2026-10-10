@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.2.build.129-stable")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.133-stable")
     compileOnly("net.milkbowl.vault:VaultAPI:1.7")
 
     implementation(kotlin("stdlib"))

@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:26.2.build.129-stable'
+    compileOnly 'io.papermc.paper:paper-api:26.2.build.133-stable'
     compileOnly 'com.incredibleplugins:lands-api:7.27.1'
 }
 
